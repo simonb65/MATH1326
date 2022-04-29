@@ -1,0 +1,62 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file a4sugar.mos
+   ````````````````
+   Production of cane sugar
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Feb. 2002
+*******************************************************!)
+
+model "A-4 Cane sugar production"
+ uses "mmxprs"
+ 
+ declarations
+  NW = 11                          ! Number of wagon loads of sugar
+  NL = 3                           ! Number of production lines
+  WAGONS = 1..NW
+  SLOTS = 1..ceil(NW/NL)           ! Time slots for production
+  
+  LOSS: array(WAGONS) of real      ! Loss in kg/hour
+  LIFE: array(WAGONS) of real      ! Remaining time per lot 
+  DUR: integer                     ! Duration of the production
+
+  process: array(WAGONS,SLOTS) of mpvar  ! 1 if wagon processed in slot, 
+                                         ! 0 otherwise 
+ end-declarations
+ 
+ initializations from 'a4sugar.dat'
+  LOSS LIFE DUR
+ end-initializations
+
+! Objective function  
+ TotalLoss:= sum(w in WAGONS, s in SLOTS) s*DUR*LOSS(w)*process(w,s)
+
+! Assignment
+ forall(w in WAGONS) sum(s in SLOTS) process(w,s) = 1
+
+! Wagon loads per time slot
+ forall(s in SLOTS) sum(w in WAGONS) process(w,s) <= NL
+ 
+! Limit on raw product life
+ forall(w in WAGONS) sum(s in SLOTS) s*process(w,s) <= LIFE(w)/DUR
+
+ forall(w in WAGONS, s in SLOTS) process(w,s) is_binary
+
+! Solve the problem
+ minimize(TotalLoss)
+
+! Solution printing
+ writeln("Total loss: ", getobjval)
+ forall(s in SLOTS) do
+  write("Slot ", s, ": ")
+  forall(w in WAGONS) 
+   if(getsol(process(w,s))>0) then
+    write("wagon ", strfmt(w,2), strfmt(" (" + s*DUR*LOSS(w) + ")  ", 8))
+   end-if 
+  writeln
+ end-do
+ 
+end-model

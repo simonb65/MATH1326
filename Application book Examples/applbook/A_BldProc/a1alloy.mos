@@ -1,0 +1,76 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file a1alloy.mos
+   ````````````````
+   Production of alloys   
+
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Feb. 2002
+*******************************************************!)
+
+model "A-1 Production of Alloys"
+ uses "mmxprs"
+ 
+ declarations
+  COMP = 1..3                    ! Components (chemical elements)
+  RAW  = 1..7                    ! Raw materials (alloys)
+  
+  P: array(RAW,COMP) of real     ! Composition of raw materials (in percent)
+  PMIN,PMAX: array(COMP) of real ! Min. & max. requirements for components
+  AVAIL: array(RAW) of real      ! Raw material availabilities
+  COST: array(RAW) of real       ! Raw material costs per tonne
+  DEM: real                      ! Amount of steel to produce
+
+  use: array(RAW) of mpvar       ! Quantity of raw mat. used
+  produce: mpvar                 ! Quantity of steel produced  
+ end-declarations
+ 
+ initializations from 'a1alloy.dat'
+  P PMIN PMAX AVAIL COST DEM
+ end-initializations
+
+! Objective function  
+ Cost:= sum(r in RAW) COST(r)*use(r)
+
+! Quantity of steel produced = sum of raw material used
+ produce = sum(r in RAW) use(r)
+
+! Guarantee min. and max. percentages of every chemical element
+ forall(c in COMP) do
+  sum(r in RAW) P(r,c)*use(r) >= PMIN(c)*produce
+  sum(r in RAW) P(r,c)*use(r) <= PMAX(c)*produce
+ end-do
+ 
+! Use raw materials within their limit of availability
+ forall(r in RAW) use(r) <= AVAIL(r)
+
+! Satisfy the demand
+ produce >= DEM
+
+! Solve the problem
+ minimize(Cost)
+
+! Solution printing
+ declarations
+  NAMES: array(RAW) of string
+ end-declarations
+ 
+ initializations from 'a1alloy.dat'   ! Get the names of the alloys
+  NAMES
+ end-initializations
+
+ writeln("Total cost: ", getobjval)
+ writeln("Amount of steel produced: ", getsol(produce))
+ writeln("Alloys used:")
+ forall(r in RAW) 
+  if(getsol(use(r))>0) then
+   write(NAMES(r), ": ", getsol(use(r)),"  ")
+  end-if  
+ write("\nPercentages (C, Cu, Mn): ")   
+ forall(c in COMP) 
+  write( getsol(sum(r in RAW) P(r,c)*use(r))/getsol(produce), "%  ")
+ writeln
+
+end-model

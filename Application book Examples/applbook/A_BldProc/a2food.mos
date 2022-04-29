@@ -1,0 +1,73 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+    
+   file a2food.mos
+   ```````````````
+   Food production for farm animals
+
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Feb. 2002
+*******************************************************!)
+
+model "A-2 Animal Food Production"
+ uses "mmxprs"
+ 
+ declarations
+  FOOD = 1..2                    ! Food types
+  COMP = 1..3                    ! Nutritional components
+  RAW  = {"oat", "maize", "molasses"}   ! Raw materials
+  
+  P: array(RAW,COMP) of real     ! Composition of raw materials (in percent)
+  REQ: array(COMP) of real       ! Nutritional requirements
+  AVAIL: array(RAW) of real      ! Raw material availabilities
+  COST: array(RAW) of real       ! Raw material prices
+  PCOST: array(set of string) of real  ! Cost of processing operations
+  DEM: array(FOOD) of real       ! Demands for food types
+
+  use: array(RAW,FOOD) of mpvar  ! Quantity of raw mat. used for a food type
+  produce: array(FOOD) of mpvar  ! Quantity of food produced
+ end-declarations
+
+ initializations from 'a2food.dat'
+  P REQ PCOST DEM
+  [AVAIL, COST] as 'RAWMAT'
+ end-initializations
+ 
+! Objective function  
+ Cost:= sum(r in RAW,f in FOOD) COST(r)*use(r,f) +
+        sum(r in RAW,f in FOOD|r<>"molasses") PCOST("grinding")*use(r,f) +
+        sum(r in RAW,f in FOOD) PCOST("blending")*use(r,f) +
+        sum(r in RAW) PCOST("granulating")*use(r,1) +
+        sum(r in RAW) PCOST("sieving")*use(r,2)
+
+! Quantity of food produced corresponds to raw material used
+ forall(f in FOOD) sum(r in RAW) use(r,f) = produce(f)
+
+! Fulfill nutritional requirements
+ forall(f in FOOD,c in 1..2) 
+  sum(r in RAW) P(r,c)*use(r,f) >= REQ(c)*produce(f)
+ forall(f in FOOD) sum(r in RAW) P(r,3)*use(r,f) <= REQ(3)*produce(f)
+
+! Use raw materials within their limit of availability
+ forall(r in RAW) sum(f in FOOD) use(r,f) <= AVAIL(r)
+
+! Satisfy demands
+ forall(f in FOOD) produce(f) >= DEM(f)
+
+! Solve the problem
+ minimize(Cost)
+
+! Solution printing
+ writeln("Total cost: ", getobjval)
+ write("Food type"); forall(r in RAW) write(strfmt(r,9))
+ writeln("  protein  lipid   fiber")
+ forall(f in FOOD) do
+  write(strfmt(f,-9))
+  forall(r in RAW) write(strfmt(getsol(use(r,f)),9,2))     
+  forall(c in COMP) write("   ", 
+   strfmt(getsol(sum(r in RAW) P(r,c)*use(r,f))/getsol(produce(f)),3,2),"%")
+  writeln
+ end-do
+ 
+end-model

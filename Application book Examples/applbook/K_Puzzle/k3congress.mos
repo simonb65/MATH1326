@@ -1,0 +1,78 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file k3congress.mos
+   ```````````````````
+   Congress puzzle
+   
+   At an international congress taking place on 7-11 August
+   five researchers of different nationality are giving talks,
+   each on a different day. Find out the date and nationality
+   for every researcher from the following information:
+   a) Michael is not Japanese.
+   b) Eric is French and he talks before the 10th.
+   c) Arabinda talks on the 9th.
+   d) The Chinese who is not Hitoshi gives his talk on the 8th, 
+      before Michael.
+   e) Hitoshi does his talk after the Indian and before the American.
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "K-3 Congress"
+ uses "mmxprs"
+
+ declarations
+  DAYS = 7..11
+  NAMES = {"Arabinda","Eric","Hitoshi","Michael","Zhicheng"}
+  NAT = {"Japanese","French","Chinese","American","Indian"}
+    
+  talk: array(NAMES,NAT,DAYS) of mpvar ! (p,n,d) 1 if person p of nationality n
+                                       ! gives a talk on day d, 0 otherwise
+ end-declarations
+
+! One researcher per day and nationality
+ forall(p in NAMES) sum(n in NAT, d in DAYS) talk(p,n,d) = 1 
+ 
+! Every nationality exactly once
+ forall(n in NAT) sum(p in NAMES, d in DAYS) talk(p,n,d)  = 1 
+
+! One talk per day
+ forall(d in DAYS) sum(p in NAMES, n in NAT) talk(p,n,d) = 1
+ 
+! a: Michael is not Japanese
+ sum(d in DAYS) talk("Michael","Japanese",d) = 0
+
+! b: Eric is French and he talks before the 10th
+ sum(d in 7..9) talk("Eric","French",d) = 1
+
+! c: Arabinda talks on the 9th
+ sum(n in NAT) talk("Arabinda",n,9) = 1
+
+! d: The Chinese who is not Hitoshi gives his talk on the 8th, before Michael
+ sum(d in DAYS) (talk("Hitoshi","Chinese",d)+talk("Michael","Chinese",d)) = 0
+ sum(p in NAMES) talk(p,"Chinese",8) = 1
+ sum(n in NAT, d in 9..11) talk("Michael",n,d) = 1
+
+! e: Hitoshi does his talk after the Indian and before the American
+ sum(n in NAT) (talk("Hitoshi",n,7)+talk("Hitoshi",n,11)) = 0
+ sum(p in NAMES, d in 10..11) talk(p,"Indian",d) = 0
+ sum(p in NAMES, d in 7..8) talk(p,"American",d) = 0
+ sum(d in DAYS) (talk("Hitoshi","Indian",d)+talk("Hitoshi","American",d)) = 0
+ 
+ forall(p in NAMES, n in NAT, d in DAYS) talk(p,n,d) is_binary
+ 
+! Solve the problem: no objective
+ minimize(0)
+
+! Solution printing
+ forall(p in NAMES) do
+  write(p," (") 
+  dp:=round(getsol(sum(n in NAT, d in DAYS)d*talk(p,n,d)))
+  forall(n in NAT) write( if(getsol(talk(p,n,dp))>0, n, "") )
+  writeln(") : ", dp)
+ end-do
+
+end-model

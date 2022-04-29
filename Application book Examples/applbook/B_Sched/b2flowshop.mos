@@ -1,0 +1,87 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file b2flowshop.mos
+   ```````````````````
+   Flow shop production planning
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "B-2 Flow shop"
+ uses "mmxprs"
+ 
+ declarations   
+  NM = 3                              ! Number of machines
+  NJ = 6                              ! Number of jobs
+  MACH = 1..NM
+  RANKS = 1..NJ
+  JOBS = 1..NJ
+
+  DUR: array(MACH,JOBS) of integer    ! Durations of jobs on machines
+
+  rank: array(JOBS,RANKS) of mpvar    ! 1 if job j has rank k, 0 otherwise
+  empty: array(MACH,1..NJ-1) of mpvar ! Space between jobs of ranks k and k+1
+  wait: array(1..NM-1,RANKS) of mpvar ! Waiting time between machines m
+                                      ! and m+1 for job of rank k
+  start: array(MACH,RANKS) of mpvar   ! Start of job rank k on machine m 
+                                      ! (optional)
+ end-declarations
+
+ initializations from 'b2flowshop.dat'
+  DUR
+ end-initializations
+
+! Objective: total waiting time (= time before first job + times between 
+! jobs) on the last machine
+ TotWait:= sum(m in 1..NM-1,j in JOBS) (DUR(m,j)*rank(j,1)) +
+           sum(k in 1..NJ-1) empty(NM,k)
+
+! Every position gets a job
+ forall(k in RANKS) sum(j in JOBS) rank(j,k) = 1
+
+! Every job is assigned a rank
+ forall(j in JOBS) sum(k in RANKS) rank(j,k) = 1
+
+! Relations between the end of job rank k on machine m and start of job on 
+! machine m+1
+ forall(m in 1..NM-1,k in 1..NJ-1)
+  empty(m,k) + sum(j in JOBS) DUR(m,j)*rank(j,k+1) + wait(m,k+1) =
+   wait(m,k) + sum(j in JOBS) DUR(m+1,j)*rank(j,k) + empty(m+1,k)
+
+! Calculation of start times (to facilitate the interpretation of results)
+ forall(m in MACH, k in RANKS) 
+  start(m,k) = sum(u in 1..m-1,j in JOBS) DUR(u,j)*rank(j,1) +
+               sum(p in 1..k-1,j in JOBS) DUR(m,j)*rank(j,p) + 
+               sum(p in 1..k-1) empty(m,p)
+
+! First machine has no idle times
+ forall(k in 1..NJ-1) empty(1,k) = 0
+
+! First job has no waiting times
+ forall(m in 1..NM-1) wait(m,1) = 0
+
+ forall(j in JOBS, k in RANKS) rank(j,k) is_binary  
+
+(! Alternative formulations using SOS-1: 
+ forall(j in JOBS) sum(k in RANKS) k*rank(j,k) is_sos1 
+ forall(k in RANKS) sum(j in JOBS) j*rank(j,k) is_sos1 
+!)
+
+! Solve the problem
+ minimize(TotWait)
+
+! Solution printing
+ writeln("Total waiting time for last machine: ", getobjval)
+ write(strfmt("Item",-11))
+  forall(k in RANKS) write(strfmt(getsol(sum(j in JOBS) j*rank(j,k)),3))
+ writeln 
+ forall(m in MACH) do
+  write("Machine ", m, ": ")
+  forall(k in RANKS) write(strfmt(getsol(start(m,k)),3))
+  writeln
+ end-do 
+
+end-model 

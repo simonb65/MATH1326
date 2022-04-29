@@ -1,0 +1,171 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file d1wagon2.mos
+   `````````````````
+   Load balancing of train wagons
+   (second version, using heuristic solution as 
+    start solution for MIP)
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Sep. 2007
+*******************************************************!)
+
+model "D-1 Wagon load balancing (2)"
+ uses "mmxprs"
+
+ forward function solve_heur:real
+ forward procedure shell_sort(A:array(range) of integer, 
+                              I:array(range) of integer)
+ 
+ declarations   
+  BOXES = 1..16                      ! Set of boxes
+  WAGONS = 1..3                      ! Set of wagons
+
+  WEIGHT: array(BOXES) of integer    ! Box weights
+  WMAX: integer                      ! Weight limit per wagon
+
+  load: array(BOXES,WAGONS) of mpvar ! 1 if box loaded on wagon, 0 otherwise
+  maxweight: mpvar                   ! Weight of the heaviest wagon load
+  MaxWeight: linctr                  ! Objective function
+
+  HeurSol: array(BOXES) of integer   ! Heuristic solution
+  AllSol: array(mpvar) of real       ! Start solution for MIP
+ end-declarations
+
+ initializations from 'd1wagon.dat'
+  WEIGHT WMAX
+ end-initializations
+
+! Solve the problem heuristically and terminate the program if the
+! heuristic solution is good enough, otherwise, load heuristic solution
+! as start solution into the Optimizer
+ if solve_heur<=WMAX then
+  writeln("Heuristic solution fits capacity limits")
+  exit(0)
+ end-if
+
+! Every box into one wagon
+ forall(b in BOXES) sum(w in WAGONS) load(b,w) = 1
+ 
+! Limit the weight loaded into every wagon 
+ forall(w in WAGONS) sum(b in BOXES) WEIGHT(b)*load(b,w) <= maxweight
+ 
+! Lower bound on maximum weight
+ maxweight >= ceil((sum(b in BOXES) WEIGHT(b))/3)
+
+ forall(b in BOXES,w in WAGONS) load(b,w) is_binary
+
+! Alternative to lower bound on maxweight: adapt the optimizer cutoff value 
+! setparam("XPRS_MIPADDCUTOFF",-0.99999)
+
+! Uncomment the following line to see the optimizer log
+ setparam("XPRS_VERBOSE",true) 
+
+! Set the solution values for all discrete variables that are non-zero
+ forall(b in BOXES) AllSol(load(b,HeurSol(b))):= 1
+
+! Minimize the heaviest load
+ MaxWeight:= maxweight                  ! Objective must be a constraint
+                                        ! otherwise 'minimize' reloads problem
+ loadprob(MaxWeight)                    ! Load problem into the Optimizer
+ res:=loadmipsol(AllSol)                ! Load the heuristic solution
+ if(res<>0) then writeln("Loading MIP solution failed"); end-if
+
+ minimize(MaxWeight)                    ! Start optimization
+ 
+! Solution printing
+ writeln("Optimal solution:\n Max weight: ", getobjval)
+ forall(w in WAGONS) do
+  write(" ", w, ":")
+  forall(b in BOXES) write(if(getsol(load(b,w))=1, " "+b, ""))
+  writeln(" (total weight: ", getsol(sum(b in BOXES) WEIGHT(b)*load(b,w)), ")")
+ end-do
+
+!-----------------------------------------------------------------
+
+(! LPT (Longest processing time) heuristic: 
+   One at a time place the heaviest unassigned box onto the wagon with 
+   the least load
+!)
+   
+ function solve_heur:real
+  declarations
+   ORDERW: array(BOXES) of integer      ! Box indices in decreasing weight order
+   Load: array(WAGONS,range) of integer ! Boxes loaded onto the wagons 
+   CurWeight: array(WAGONS) of integer  ! Current weight of wagon loads 
+   CurNum: array(WAGONS) of integer     ! Current number of boxes per wagon
+  end-declarations
+
+ ! Copy the box indices into array ORDERW and sort them in decreasing 
+ ! order of box weights (the sorted indices are returned in array ORDERW) 
+  forall(b in BOXES) ORDERW(b):=b
+  shell_sort(WEIGHT,ORDERW)
+
+ ! Distribute the loads to the wagons using the LPT heuristic 
+  forall(b in BOXES) do
+   v:=1                                 ! Find wagon with the smallest load
+   forall(w in WAGONS) v:=if(CurWeight(v)<CurWeight(w), v, w)     
+   CurNum(v)+=1                         ! Increase the counter of boxes on v
+   Load(v,CurNum(v)):=ORDERW(b)         ! Add box to the wagon
+   CurWeight(v)+=WEIGHT(ORDERW(b))      ! Update current weight of the wagon
+  end-do
+ 
+  returned:= max(w in WAGONS) CurWeight(w)  ! Return the solution value
+
+ ! Solution printing
+  writeln("Heuristic solution:\n Max weight: ", returned)
+  forall(w in WAGONS) do
+   write(" ", w, ":")
+   forall(b in 1..CurNum(w)) write(" ", Load(w,b))
+   writeln(" (total weight: ", CurWeight(w), ")")
+  end-do
+
+ ! Save the heuristic solution
+  forall(w in WAGONS,b in 1..CurNum(w)) HeurSol(Load(w,b)):= w
+
+ end-function
+
+!-----------------------------------------------------------------
+
+(! Sort an array in decreasing order using a Shell sort method:
+   * First sort, by straight insertion, small groups of numbers. 
+   * Next, combine several small groups and sort them (possibly 
+     repeat this step). 
+   * Finally, sort the whole list of numbers.
+
+   The spacings between the numbers of groups sorted during each 
+   pass through the data are called the increments. A good choice
+   is the sequence which can be generated by the recurrence
+   i(1)=1, i(k+1)=3i(k)+1, k=1,2,...
+   
+   The implementation assumes that the indices of the array to sort
+   have the values 1,...,N. The array to be sorted (first argument)
+   remains unchanged, instead, we reorder the array of indices (second 
+   argument).
+!)   
+
+ procedure shell_sort(A:array(range) of integer, I:array(range) of integer)
+  N:=getsize(I)
+  inc:=1                                ! Determine the starting increment
+  repeat                         
+   inc:=3*inc+1
+  until (inc>N)  
+ 
+  repeat                                ! Loop over the partial sorts
+   inc:=inc div 3
+   forall(i in inc+1..N) do             ! Outer loop of straight insertion
+    v:=I(i)
+    j:=i
+    while (A(I(j-inc))<A(v)) do         ! Inner loop of straight insertion
+     I(j):=I(j-inc)
+     j -= inc
+     if j<=inc then break; end-if
+    end-do
+    I(j):= v     
+   end-do  
+  until (inc<=1)
+ end-procedure
+
+end-model

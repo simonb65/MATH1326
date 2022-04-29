@@ -1,0 +1,55 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file b6linebal.mos
+   ``````````````````
+   Assembly line balancing
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "B-6 Assembly line balancing"
+ uses "mmxprs"
+
+ declarations   
+  MACH=1..4                             ! Set of workstations
+  TASKS=1..12                           ! Set of tasks
+
+  DUR: array(TASKS) of integer          ! Durations of tasks
+  ARC: array(RA:range, 1..2) of integer ! Precedence relations between tasks
+
+  process: array(TASKS,MACH) of mpvar   ! 1 if task on machine, 0 otherwise
+  cycle: mpvar                          ! Duration of a production cycle
+ end-declarations
+
+ initializations from 'b6linebal.dat'
+  DUR ARC 
+ end-initializations
+
+! One workstation per task 
+ forall(i in TASKS) sum(m in MACH) process(i,m) = 1
+
+! Sequence of tasks
+ forall(a in RA) sum(m in MACH) m*process(ARC(a,1),m) <=
+                  sum(m in MACH) m*process(ARC(a,2),m)
+
+! Cycle time
+ forall(m in MACH) sum(i in TASKS) DUR(i)*process(i,m) <= cycle
+
+ forall(i in TASKS, m in MACH) process(i,m) is_binary
+
+! Minimize the duration of a production cycle
+ minimize(cycle)
+ 
+! Solution printing
+ writeln("Minimum cycle time: ", getobjval)
+ forall(m in MACH) do
+  write("Workstation ", m, ":")
+  forall(i in TASKS)
+   write(if(getsol(sum(k in MACH) k*process(i,k)) = m, " "+i, "")) 
+  writeln(" (duration: ", getsol(sum(i in TASKS) DUR(i)*process(i,m)),")")
+ end-do  
+ 
+end-model

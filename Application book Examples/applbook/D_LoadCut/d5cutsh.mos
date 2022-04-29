@@ -1,0 +1,52 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file d5cutsh.mos
+   ````````````````
+   Cutting of sheet metal 
+   (2-dimensional cutting patterns)
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "D-5 Sheet metal cutting"
+ uses "mmxprs"
+
+ declarations
+  PATTERNS = 1..16                       ! Set of cutting patterns
+  SIZES = 1..4                           ! Set of sheet sizes
+
+  DEM: array(SIZES) of integer           ! Demands for the different sizes
+  CUT: array(SIZES,PATTERNS) of integer  ! Cutting patterns
+  
+  use: array(PATTERNS) of mpvar          ! Use of cutting patterns
+ end-declarations
+ 
+ initializations from 'd5cutsh.dat'
+  DEM CUT
+ end-initializations
+
+! Objective: total number of sheets used
+ Sheets:= sum(p in PATTERNS) use(p)
+
+! Satisfy demands
+ forall(s in SIZES) sum(p in PATTERNS) CUT(s,p)*use(p) >= DEM(s)
+
+ forall(p in PATTERNS) use(p) is_integer
+
+! Solve the problem
+ minimize(Sheets)
+ 
+! Solution printing
+  writeln("Total number of large sheets: ", getobjval)
+  write("Cutting patterns used: ")
+  forall(p in PATTERNS)
+   write( if(getsol(use(p)) > 0 , " " + p + ":" + getsol(use(p)), "") )
+  write("\nExemplaries of sheets sizes cut: ")
+  forall(s in SIZES)
+   write(s, ":", getsol(sum(p in PATTERNS) CUT(s,p)*use(p)), " ")
+  writeln
+      
+end-model

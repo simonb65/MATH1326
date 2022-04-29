@@ -1,0 +1,81 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file h7qportf.mos
+   `````````````````
+   Mean-variance portfolio selection
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Aug. 2002
+*******************************************************!)
+
+model "H-7 QP Portfolio"
+ uses "mmxprs", "mmquad"
+
+ parameters
+  TARGET = 7.0                      ! Minimum target yield
+  MAXASSETS = 4                     ! Maximum number of assets in portfolio
+ end-parameters 
+
+ declarations
+  SECS = 1..4                       ! Set of securities
+  
+  RET: array(SECS) of real          ! Expected yield of securities
+  VAR: array(SECS,SECS) of real     ! Variance/covariance matrix of
+                                    ! estimated returns  
+
+  frac: array(SECS) of mpvar        ! Fraction of capital used per security
+ end-declarations
+
+ initializations from 'h7qportf.dat'
+  RET VAR
+ end-initializations
+
+! **** First problem: unlimited number of assets ****
+
+! Objective: mean variance
+ Variance:=  sum(s,t in SECS) VAR(s,t)*frac(s)*frac(t)
+
+! Spend all the capital
+ sum(s in SECS)  frac(s) = 1
+ 
+! Target yield
+ sum(s in SECS) RET(s)*frac(s) >=  TARGET
+
+! Solve the problem
+ minimize(Variance)
+ 
+! Solution printing
+ declarations
+  NAMES: array(SECS) of string
+ end-declarations
+ 
+ initializations from 'h7qportf.dat'   ! Get the names of the assets
+  NAMES
+ end-initializations
+
+ writeln("With a target of ", TARGET, " minimum variance is ", getobjval)
+ forall(s in SECS) writeln(NAMES(s), ": ", getsol(frac(s))*100, "%")  
+
+! **** Second problem: limit total number of assets ****
+ declarations
+  buy: array(SECS) of mpvar         ! 1 if asset is in portfolio, 0 otherwise
+ end-declarations
+
+! Limit the total number of assets
+ sum(s in SECS) buy(s) <= MAXASSETS
+
+ forall(s in SECS) do
+  buy(s) is_binary
+  frac(s) <= buy(s)
+ end-do
+   
+! Solve the problem
+ minimize(Variance)
+
+ writeln("With a target of ", TARGET," and at most ", MAXASSETS,
+          " assets, minimum variance is ", getobjval)
+ forall(s in SECS) writeln(NAMES(s), ": ", getsol(frac(s))*100, "%") 
+
+end-model

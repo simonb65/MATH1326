@@ -1,0 +1,69 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file h6expand.mos
+   `````````````````
+   Planning the expansion of a company
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "H-6 Expansion"
+ uses "mmxprs"
+
+ forward procedure print_sol
+
+ declarations
+  PROJECTS = 1..5                     ! Set of possible projects
+  TIME = 1..5                         ! Planning period
+  
+  COST: array(PROJECTS,TIME) of real  ! Annual costs of projects
+  CAP: array(TIME) of real            ! Annually available capital
+  RET: array(PROJECTS) of real        ! Estimated profits
+  DESCR: array(PROJECTS) of string    ! Description of projects
+   
+  choose: array(PROJECTS) of mpvar    ! 1 if project is chosen, 0 otherwise
+ end-declarations
+
+ initializations from 'h6expand.dat'
+  COST CAP RET DESCR
+ end-initializations
+
+! Objective: Total profit
+ Profit:= sum(p in PROJECTS) RET(p)*choose(p)
+ 
+! Limit on capital availability
+ forall(t in TIME) sum(p  in PROJECTS) COST(p,t)*choose(p) <= CAP(t)  
+
+ forall(p in PROJECTS) choose(p) is_binary 
+ 
+! Solve the problem
+ maximize(XPRS_LIN, Profit)
+ write("LP solution: ")
+ print_sol
+
+ maximize(Profit)
+ write("MIP solution: ")
+ print_sol
+ 
+! Force acceptance of project 1
+ choose(1)=1 
+
+ maximize(Profit)
+ write("Forcing project 1 (", DESCR(1), "): ")
+ print_sol
+ 
+!-----------------------------------------------------------------
+
+! Solution printing
+ procedure print_sol
+  writeln("Total profit: ", getobjval)
+  forall(p in PROJECTS) 
+   if(getsol(choose(p))>0) then
+    writeln(" ", DESCR(p), " (", getsol(choose(p)),")")
+   end-if
+ end-procedure
+ 
+end-model

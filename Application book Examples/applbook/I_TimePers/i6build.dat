@@ -1,0 +1,13 @@
+! Data file for `i6build.mos'
+
+REQ: [4 6 7 4 6 2]
+
+CARR:   100
+CLEAVE: 160
+COVER:  200
+CUNDER: 200
+
+NSTART: 3
+NFINAL: 3
+
+NAMES: ["Mar" "Apr" "May" "Jun" "Jul" "Aug"]

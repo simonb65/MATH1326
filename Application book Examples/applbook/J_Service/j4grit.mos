@@ -1,0 +1,111 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file j4grit.mos
+   ```````````````
+   Gritting roads in a village
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "J-4 Gritting circuit"
+ uses "mmxprs"
+
+ forward function find_unused(J: array(range) of integer):integer
+ forward function add_path(node:integer, J: array(range) of integer):integer
+
+ declarations
+  ISEC = 1..12                              ! Set of street intersections
+
+  LEN: dynamic array(ISEC,ISEC) of integer  ! Length of streets
+  
+  use: dynamic array(ISEC,ISEC) of mpvar    ! Frequency of use of streets
+ end-declarations
+
+ initializations from 'j4grit.dat'
+  LEN
+ end-initializations
+ 
+ forall(i,j in ISEC | exists(LEN(i,j))) create(use(i,j))
+
+! Objective: length of circuit
+ Length:= sum(i,j in ISEC | exists(LEN(i,j))) LEN(i,j)*use(i,j)
+ 
+! Balance traffic flow through intersections 
+ forall(i in ISEC) sum(j in ISEC) use(i,j) = sum(j in ISEC) use(j,i)
+ 
+! Grit every street
+ forall(i,j in ISEC | exists(LEN(i,j))) use(i,j) >= 1
+
+! Solve the problem
+ minimize(Length)
+ 
+! Solution printing
+ writeln("Total length: ", getobjval)
+
+ ct:=round(getsol(sum(i,j in ISEC) use(i,j)))
+
+ declarations
+  TOUR: array(1..ct+1) of integer
+  COUNT: array(ISEC,ISEC) of integer
+ end-declarations
+ 
+! Main loop of the Eulerian circuit algorithm 
+ forall(i,j in ISEC | exists(LEN(i,j))) COUNT(i,j):=round(getsol(use(i,j)))
+ TOUR(1):=1
+ ct-=add_path(1,TOUR)
+ while(ct>0)
+  ct-=add_path(find_unused(TOUR),TOUR)
+ writeln("Tour: ", TOUR)
+
+!-----------------------------------------------------------------
+
+! Find first node in list with free path(s)
+ function find_unused(J: array(range) of integer):integer
+  i:=1
+  returned:=1
+  while(J(i)>0 and i<getsize(J))
+   if (sum(j in ISEC) COUNT(J(i),j) > 0) then
+    returned:=J(i)
+    break
+   else
+    i+=1 
+   end-if 
+ end-function
+
+!-----------------------------------------------------------------
+
+! Add a subtour to the current tour
+ function add_path(node:integer, J: array(range) of integer):integer
+  declarations
+   NEWJ: array(1..getsize(J)) of integer
+  end-declarations
+
+ ! Insertion position
+  pos:=1
+  while(J(pos)<>node and pos<getsize(J)) pos+=1
+
+ ! Find a new path
+  cur:=node; newct:=0
+  while(sum(j in ISEC) COUNT(cur,j) > 0) do
+   forall(j in ISEC) if(COUNT(cur,j) > 0) then
+     COUNT(cur,j)-=1
+     newct+=1; NEWJ(newct):=j
+     cur:=j
+     break
+    end-if 
+  end-do
+
+ ! Add the new path to main journey 
+  i:=getsize(J)-newct
+  while(i>pos) do
+   J(i+newct):=J(i)
+   i-=1
+  end-do 
+  forall(j in 1..newct) J(pos+j):=NEWJ(j)
+  returned:=newct
+ end-function
+ 
+end-model

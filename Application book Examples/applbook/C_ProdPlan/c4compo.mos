@@ -1,0 +1,78 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file c4compo.mos
+   ````````````````
+   Planning the production of electronic components
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "C-4 Electronic components"
+ uses "mmxprs"
+
+ declarations   
+  NT = 6                                 ! Number of time periods (months)
+  MONTHS = 1..NT
+  PRODS = 1..4                           ! Set of components
+
+  DEM: array(PRODS,MONTHS) of integer    ! Demand of components per month
+  CPROD: array(PRODS) of integer         ! Production costs
+  CSTOCK: array(PRODS) of real           ! Storage costs
+  CADD,CRED: real                        ! Cost of additional/reduced prod.
+  ISTOCK,FSTOCK: array(PRODS) of integer ! Initial and final stock levels
+
+  produce: array(PRODS,MONTHS) of mpvar  ! Quantities produced per month
+  store: array(PRODS,MONTHS) of mpvar    ! Stock levels at end of every month
+  reduce: array(MONTHS) of mpvar         ! Reduction of production per month 
+  add: array(MONTHS) of mpvar            ! Increase of production per month 
+ end-declarations
+
+ initializations from 'c4compo.dat'
+  DEM CPROD CSTOCK CADD CRED ISTOCK FSTOCK
+ end-initializations
+
+! Objective: total cost of production, storage, and change of prod. level
+ Cost:= sum(p in PRODS, t in MONTHS) (CPROD(p)*produce(p,t) + 
+                                      CSTOCK(p)*store(p,t)) +
+        sum(t in 2..NT) (CRED*reduce(t) + CADD*add(t))
+
+! Stock balance constraints (satisfy demands)
+ forall(p in PRODS, t in MONTHS)
+  store(p,t) = if(t>1, store(p,t-1), ISTOCK(p)) + produce(p,t) - DEM(p,t)
+
+! Changes to the level of production 
+ forall(t in 2..NT) 
+  sum(p in PRODS) (produce(p,t) - produce(p,t-1)) = add(t) - reduce(t)
+
+! Guarantee final stock levels
+forall(p in PRODS) store(p,NT) >= FSTOCK(p)
+
+! Solve the problem
+ minimize(Cost)
+ 
+! Solution printing
+ declarations
+  PNAME: array(PRODS) of string          ! Product names
+ end-declarations 
+
+ initializations from 'c4compo.dat'
+  PNAME 
+ end-initializations
+
+ writeln("Total cost: ",getobjval)
+ write(strfmt("Month",13))
+ forall(t in MONTHS) write(strfmt(t,5))
+ forall(p in PRODS) do
+  write("\n", PNAME(p), ": Prod. ")
+  forall(t in MONTHS) write(strfmt(getsol(produce(p,t)),5))
+  write("\n", strfmt("Store ",14))
+  forall(t in MONTHS) write(strfmt("("+getsol(store(p,t))+")",5))
+ end-do
+ write("\nTotal         ")
+ forall(t in MONTHS) write(strfmt(sum(p in PRODS) getsol(produce(p,t)),5))
+ writeln
+
+end-model

@@ -1,0 +1,79 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file j3elect_calc.mos
+   ````````````````''''`
+   Include file for data pre-processing
+
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Apr. 2002
+*******************************************************!)
+
+ declarations
+  NUMD: integer                         ! Number of possible districts
+  RN: range                             ! Neighboring quarters
+  
+  NEIGHB: array(QUARTERS,RN) of integer ! Set of neighboring quarters
+  POP: array(QUARTERS) of integer       ! Number of electors (in 1000)
+  VOTES: array(QUARTERS) of real        ! Number of favorable votes (in 1000)
+  MINPOP,MAXPOP,MINSINGLE: integer      ! Limits on electors per district
+ end-declarations
+
+ initializations from 'j3elect.dat'
+  NEIGHB POP VOTES MINPOP MAXPOP MINSINGLE
+ end-initializations
+
+!**** Save a new entry in the list of districts ****
+ procedure save_distr(sQ: set of integer)
+  NUMD+=1
+  forall(q in sQ) DISTR(NUMD,q):=1 
+ end-procedure  
+
+!**** Add a neighboring quarter to the current set of quarters ****
+ procedure add_neighb(toadd:integer, sQ:set of integer)
+  declarations
+   nQ: set of integer
+  end-declarations
+   
+  nQ:=sQ+{toadd}
+  if(sum(q in nQ) POP(q) >= MINPOP) then      ! Large enough to form distr.
+   save_distr(nQ) 
+  end-if 
+  forall(p in RN | exists(NEIGHB(toadd,p)))   ! Try adding every neighbor
+   if(sum(q in nQ) POP(q)+POP(NEIGHB(toadd,p))<=MAXPOP) then
+    add_neighb(NEIGHB(toadd,p), nQ)
+   end-if   
+ end-procedure
+
+!**** Calculate the list of possible districts ****
+ procedure calculate_distr
+  NUMD:=0
+  forall(q in QUARTERS) do
+   if (POP(q) >= MINSINGLE and q<>10) then    ! Single quarter districts
+    save_distr({q})
+   end-if
+   forall(p in RN | exists(NEIGHB(q,p)))      ! Try adding every neighbor
+    if(POP(q)+POP(NEIGHB(q,p))<=MAXPOP) then
+     add_neighb(NEIGHB(q,p),{q})
+    end-if 
+  end-do
+  
+  forall(d in 1..NUMD) do                     ! Print the resulting list
+   write(d,":")
+   forall(q in QUARTERS) write(if(DISTR(d,q)>0, " "+q, ""))
+   writeln(" ", (sum(q in QUARTERS | DISTR(d,q)>0) VOTES(q)) *100 / 
+                (sum(q in QUARTERS | DISTR(d,q)>0) POP(q)), "%")
+  end-do 
+  writeln("Number of possible districts: ",NUMD)
+
+  forall(d in 1..NUMD)                        ! Calculate majorities
+   MAJ(d):= if(((sum(q in QUARTERS | DISTR(d,q)>0) VOTES(q)) / 
+                (sum(q in QUARTERS | DISTR(d,q)>0) POP(q))    >= 0.5), 1, 0)
+  finalize(RDIST)
+ end-procedure
+
+
+!**** Start the calculation of the list of possible districts ****
+ calculate_distr
+

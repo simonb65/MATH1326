@@ -1,0 +1,47 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file j2bigbro.mos
+   `````````````````
+   CCTV surveillance
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "J-2 CCTV surveillance"
+ uses "mmxprs"
+
+ declarations
+  NODES=1..49
+  STREET: dynamic array(NODES,NODES) of integer  ! 1 if a street connects 
+                                                 ! two nodes, 0 otherwise
+  
+  place: array(NODES) of mpvar     ! 1 if camera at node, 0 otherwise
+ end-declarations
+
+ initializations from 'j2bigbro.dat'
+  STREET
+ end-initializations
+
+ forall(n,m in NODES | exists(STREET(n,m)) and n<m ) 
+  STREET(m,n):= STREET(n,m)
+
+! Objective: number of cameras to install
+ Total:= sum(n in NODES) place(n)
+
+! Flow balances in nodes
+ forall(n,m in NODES | exists(STREET(n,m)) ) place(n)+place(m) >= 1
+
+ forall(n in NODES) place(n) is_binary
+
+! Solve the problem
+ minimize(Total)
+ 
+! Solution printing
+ writeln("Total number of cameras: ", getobjval)
+ forall(n in NODES) write( if(getsol(place(n))>0, " "+n, ""))
+ writeln
+ 
+end-model

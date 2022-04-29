@@ -1,0 +1,97 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file b4seq.mos
+   ``````````````
+   Sequencing jobs on a bottleneck machine
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "B-4 Sequencing"
+ uses "mmxprs"
+
+ forward procedure print_sol(obj:integer)
+ 
+ declarations   
+  NJ = 7                          ! Number of jobs
+  JOBS=1..NJ
+
+  REL: array(JOBS) of integer     ! Release dates of jobs
+  DUR: array(JOBS) of integer     ! Durations of jobs
+  DUE: array(JOBS) of integer     ! Due dates of jobs
+
+  rank: array(JOBS,JOBS) of mpvar ! =1 if job j at position k
+  start: array(JOBS) of mpvar     ! Start time of job at position k
+  comp: array(JOBS) of mpvar      ! Completion time of job at position k
+  late: array(JOBS) of mpvar      ! Lateness of job at position k
+  finish: mpvar                   ! Completion time of the entire schedule
+ end-declarations
+ 
+ initializations from 'b4seq.dat'
+  DUR REL DUE
+ end-initializations
+
+! One job per position
+  forall(k in JOBS) sum(j in JOBS) rank(j,k) = 1
+
+! One position per job 
+  forall(j in JOBS) sum(k in JOBS) rank(j,k) = 1
+
+! Sequence of jobs
+  forall(k in 1..NJ-1)
+   start(k+1) >= start(k) + sum(j in JOBS) DUR(j)*rank(j,k)
+
+! Start times
+  forall(k in JOBS) start(k) >= sum(j in JOBS) REL(j)*rank(j,k)
+
+! Completion times
+  forall(k in JOBS) comp(k) = start(k) + sum(j in JOBS) DUR(j)*rank(j,k)
+
+ forall(j,k in JOBS) rank(j,k) is_binary 
+ 
+! Objective function 1: minimize latest completion time
+ forall(k in JOBS) finish >= comp(k)
+ minimize(finish)
+ print_sol(1)
+
+! Objective function 2: minimize average completion time
+ minimize(sum(k in JOBS) comp(k))
+ print_sol(2)
+
+! Objective function 3: minimize total tardiness
+ forall(k in JOBS) late(k) >= comp(k) - sum(j in JOBS) DUE(j)*rank(j,k) 
+ minimize(sum(k in JOBS) late(k))
+ print_sol(3)
+
+!-----------------------------------------------------------------
+
+! Solution printing
+ procedure print_sol(obj:integer)
+  writeln("Objective ", obj, ": ", getobjval,
+          if(obj>1, "  completion time: " + getsol(finish), "") ,
+          if(obj<>2, "  average: " + getsol(sum(k in JOBS) comp(k)), ""),
+          if(obj<>3, "  lateness: " + getsol(sum(k in JOBS) late(k)), ""))
+  write("\t")
+  forall(k in JOBS) write(strfmt(getsol(sum(j in JOBS) j*rank(j,k)),4))
+  write("\nRel\t")
+  forall(k in JOBS) write(strfmt(getsol(sum(j in JOBS) REL(j)*rank(j,k)),4))
+  write("\nDur\t")
+  forall(k in JOBS) write(strfmt(getsol(sum(j in JOBS) DUR(j)*rank(j,k)),4))
+  write("\nStart\t")
+  forall(k in JOBS) write(strfmt(getsol(start(k)),4))
+  write("\nEnd\t")
+  forall(k in JOBS) write(strfmt(getsol(comp(k)),4))
+  write("\nDue\t")
+  forall(k in JOBS) write(strfmt(getsol(sum(j in JOBS) DUE(j)*rank(j,k)),4))
+  if(obj=3) then
+   write("\nLate\t")
+   forall(k in JOBS) write(strfmt(getsol(late(k)),4))
+  end-if
+  writeln
+ end-procedure
+ 
+end-model 
+ 

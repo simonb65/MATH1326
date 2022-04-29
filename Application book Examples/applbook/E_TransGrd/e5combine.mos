@@ -1,0 +1,64 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file e5combine.mos
+   ``````````````````
+   Combining different modes of transport
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "E-5 Combined transport"
+ uses "mmxprs"
+
+ declarations
+  NL = 4
+  LEGS = 1..NL                          ! Legs of the transport
+  MODES: set of string                  ! Modes of transport
+
+  CTRANS: array(MODES,LEGS) of integer  ! Transport cost
+  CCHG: array(MODES,MODES) of integer   ! Cost of changing mode of transport
+ end-declarations
+
+ initializations from 'e5combine.dat'
+  CTRANS CCHG
+ end-initializations
+
+ finalize(MODES)
+
+ declarations
+  use: array(MODES,LEGS) of mpvar        ! 1 if a mode is used, 0 otherwise 
+  change: array(MODES,MODES,1..NL-1) of mpvar  ! 1 if change from mode m to n
+                                               ! at end of leg, 0 otherwise
+ end-declarations
+
+! Objective: total cost
+ Cost:= sum(m in MODES, l in LEGS) CTRANS(m,l)*use(m,l) +
+         sum(m,n in MODES,l in 1..NL-1) CCHG(m,n)*change(m,n,l)
+
+! One mode of transport per leg        
+ forall(l in LEGS) sum(m in MODES) use(m,l) = 1
+ 
+! Change or maintain mode of transport between every pair of legs 
+ forall(l in 1..NL-1) sum(m,n in MODES) change(m,n,l) = 1
+
+! Relation between modes used and changes
+ forall(m,n in MODES,l in 1..NL-1) use(m,l) + use(n,l+1) >= 2*change(m,n,l)
+
+ forall(m in MODES, l in LEGS) use(m,l) is_binary
+ forall(m,n in MODES,l in 1..NL-1) change(m,n,l) is_binary
+ 
+! Solve the problem
+ minimize(Cost)
+ 
+! Solution printing
+ writeln("Total cost: ", getobjval)
+ forall(l in LEGS) do
+  write("  ",l, "-", l+1,": ")
+  forall(m in MODES) write(if(getsol(use(m,l))>0 , m, ""))
+ end-do 
+ writeln
+
+end-model

@@ -1,0 +1,89 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file i2nurse.mos
+   ````````````````
+   Work schedule for nurses
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "I-2 Scheduling nurses"
+ uses "mmxprs"
+
+ declarations
+  NT = 12                        ! Number of time periods
+  TIME = 0..NT-1
+  WORK: set of integer           ! Nurses started in other time periods
+                                 ! that are working during a period
+  
+  REQ: array(TIME) of integer    ! Required number of nurses per time period
+  
+  Period: array(TIME) of linctr  ! Constraints on personnel per period
+  start: array(TIME) of mpvar    ! Nurses starting work in a period
+ end-declarations
+
+ initializations from 'i2nurse.dat'
+  REQ
+ end-initializations
+
+ WORK:= {0, -1, -3, -4}
+
+! Objective: total personnel required
+ Total:= sum(t in TIME) start(t)
+
+! Nurses working per time period
+ forall(t in TIME) Period(t):= sum(i in WORK) start((t+i+NT) mod NT) >= REQ(t) 
+
+ forall(t in TIME) start(t) is_integer
+
+! Solve the problem
+ minimize(Total)
+ 
+! Solution printing
+ writeln("Total personnel: ", getobjval)
+ forall(t in TIME) 
+  writeln(strfmt(t*2,2), ":00-",strfmt((t+1)*2,2), ":00 : starting: ", 
+          getsol(start(t)),
+          " total: ", getsol(sum(i in WORK) start((t+i+NT) mod NT)))
+
+! **** Second problem: minimize overtime with given staff level ****
+
+ declarations
+  NUM: integer                   ! Available total staff
+  overt: array(TIME) of mpvar    ! Nurses working overtime
+ end-declarations
+
+ initializations from 'i2nurse.dat'
+  NUM
+ end-initializations
+
+! Objective: total overtime worked
+ TotalOvert:= sum(t in TIME) overt(t)
+
+! Nurses working per time period
+ forall(t in TIME) 
+  Period(t):= overt((t-5+NT) mod NT) + sum(i in WORK) start((t+i+NT) mod NT) >= 
+              REQ(t) 
+
+! Limit on total number of nurses  
+ Total <= NUM
+
+ forall(t in TIME) do
+  overt(t) is_integer
+  overt(t) <= start(t)
+ end-do 
+
+! Solve the problem
+ minimize(TotalOvert)
+ 
+! Solution printing
+ writeln("\nPersonnel working overtime: ", getobjval)
+ forall(t in TIME) 
+  writeln(strfmt(t*2,2), ":00-",strfmt((t+1)*2,2), ":00 : starting: ", 
+          getsol(start(t)), " total: ", getsol(Period(t)+REQ(t)),
+          " overtime: ", getsol(overt((t-5+NT) mod NT)))
+
+end-model

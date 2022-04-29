@@ -1,0 +1,82 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file i6build.mos
+   ````````````````
+   Personnel planning at a construction site
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "I-6 Construction site personnel"
+ uses "mmxprs"
+
+ declarations
+  FIRST = 3; LAST = 8
+  MONTHS = FIRST..LAST                 ! Set of time periods (months)
+  
+  CARR, CLEAVE: integer                ! Cost per arrival/departure
+  COVER, CUNDER: integer               ! Cost of over-/understaffing
+  NSTART, NFINAL: integer              ! No. of workers at begin/end of plan
+  REQ: array(MONTHS) of integer        ! Requirement of workers per month
+  
+  onsite: array(MONTHS) of mpvar       ! Workers on site
+  arrive,leave: array(MONTHS) of mpvar ! Workers arriving/leaving
+  over,under: array(MONTHS) of mpvar   ! Over-/understaffing
+ end-declarations
+
+ initializations from 'i6build.dat'
+  CARR CLEAVE COVER CUNDER NSTART NFINAL REQ
+ end-initializations
+ 
+! Objective: total cost
+ Cost:= sum(m in MONTHS) (CARR*arrive(m) + CLEAVE*leave(m) +
+                          COVER*over(m) + CUNDER*under(m))
+
+! Satisfy monthly need of workers
+ forall(m in MONTHS) onsite(m) - over(m) + under(m) = REQ(m) 
+
+! Balances
+ forall(m in MONTHS)
+  onsite(m) = if(m>FIRST, onsite(m-1) - leave(m-1), NSTART) + arrive(m)
+ NFINAL = onsite(LAST) - leave(LAST)
+  
+! Limits on departures, understaffing, arrivals; integrality constraints
+ forall(m in MONTHS) do
+  leave(m) <= 1/3*onsite(m)
+  under(m) <= 1/4*onsite(m)
+  arrive(m) <= 3
+  arrive(m) is_integer; leave(m) is_integer; onsite(m) is_integer
+  under(m) is_integer; over(m) is_integer  
+ end-do
+ 
+! Solve the problem
+ minimize(Cost)
+
+! Solution printing
+ declarations
+  NAMES: array(MONTHS) of string       ! Names of months
+ end-declarations
+ 
+ initializations from 'i6build.dat'
+  NAMES
+ end-initializations
+ 
+ writeln("Total cost: ", getobjval)
+ write("Month     ")
+ forall(m in MONTHS) write(NAMES(m)," ") 
+ write("\nOn site ")
+ forall(m in MONTHS) write(strfmt(getsol(onsite(m)),4)) 
+ write("\nArrive  ")
+ forall(m in MONTHS) write(strfmt(getsol(arrive(m)),4)) 
+ write("\nLeave   ")
+ forall(m in MONTHS) write(strfmt(getsol(leave(m)),4)) 
+ write("\nOverst. ")
+ forall(m in MONTHS) write(strfmt(getsol(over(m)),4)) 
+ write("\nUnderst.")
+ forall(m in MONTHS) write(strfmt(getsol(under(m)),4))
+ writeln
+ 
+end-model

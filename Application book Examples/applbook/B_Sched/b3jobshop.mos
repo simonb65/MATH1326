@@ -1,0 +1,59 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file b3jobshop.mos
+   ``````````````````
+   Job shop production planning.
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "B-3 Job shop"
+ uses "mmxprs"
+ 
+ declarations                          
+  JOBS=1..8                           ! Set of jobs (operations)
+
+  DUR: array(JOBS) of integer         ! Durations of jobs on machines
+  ARC: dynamic array(JOBS,JOBS) of integer   ! Precedence graph
+  DISJ: dynamic array(JOBS,JOBS) of integer  ! Disjunctions between jobs
+ 
+  start: array(JOBS) of mpvar         ! Start times of jobs
+  finish: mpvar                       ! Schedule completion time
+  y: array(range) of mpvar            ! Disjunction variables 
+ end-declarations
+
+ initializations from 'b3jobshop.dat'
+  DUR ARC DISJ
+ end-initializations
+ 
+ BIGM:= sum(j in JOBS) DUR(j)         ! Some (sufficiently) large value
+
+! Precedence constraints
+ forall(j in JOBS) finish >= start(j)+DUR(j) 
+ forall(i,j in JOBS | exists(ARC(i,j)) ) start(i)+DUR(i) <= start(j)
+
+! Disjunctions
+ d:=1
+ forall(i,j in JOBS | i<j and exists(DISJ(i,j)) ) do
+  create(y(d))
+  y(d) is_binary
+  start(i)+DUR(i) <= start(j)+BIGM*y(d)
+  start(j)+DUR(j) <= start(i)+BIGM*(1-y(d))
+  d+=1
+ end-do
+
+! Bound on latest completion time 
+ finish <= BIGM
+
+! Solve the problem: minimize latest completion time
+ minimize(finish)
+
+! Solution printing
+ writeln("Total completion time: ", getobjval)
+ forall(j in JOBS)
+  writeln(j, ": ", getsol(start(j)), "-", getsol(start(j))+DUR(j))
+
+end-model 

@@ -1,0 +1,57 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file b5paint.mos
+   ````````````````
+   Planning of paint production
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "B-5 Paint production"
+ uses "mmxprs"
+
+ declarations   
+  NJ = 5                             ! Number of paint batches (=jobs)
+  JOBS=1..NJ
+
+  DUR: array(JOBS) of integer        ! Durations of jobs
+  CLEAN: array(JOBS,JOBS) of integer ! Cleaning times between jobs
+
+  succ: array(JOBS,JOBS) of mpvar    ! =1 if batch i is followed by batch j,
+                                     ! =0 otherwise
+  y: array(JOBS) of mpvar            ! Variables for excluding subtours
+ end-declarations
+
+ initializations from 'b5paint.dat'
+  DUR CLEAN 
+ end-initializations
+ 
+! Objective: minimize the duration of a production cycle
+ CycleTime:= sum(i,j in JOBS | i<>j) (DUR(i)+CLEAN(i,j))*succ(i,j)
+
+! One successor and one predecessor per batch
+ forall(i in JOBS) sum(j in JOBS | i<>j) succ(i,j) = 1
+ forall(j in JOBS) sum(i in JOBS | i<>j) succ(i,j) = 1
+
+! Exclude subtours
+ forall(i in JOBS, j in 2..NJ | i<>j) y(j) >= y(i) + 1 - NJ * (1 - succ(i,j))
+
+ forall(i,j in JOBS | i<>j) succ(i,j) is_binary
+                                         
+! Solve the problem
+ minimize(CycleTime)
+ 
+! Solution printing
+ writeln("Minimum cycle time: ", getobjval)
+ writeln("Sequence of batches:\nBatch Duration Cleaning")
+ first:=1 
+ repeat
+  second:= integer(sum(j in JOBS | first<>j) j*getsol(succ(first,j)) )
+  writeln("  ", first, strfmt(DUR(first),8), strfmt(CLEAN(first,second),9))
+  first:=second
+ until (second=1)   
+
+end-model

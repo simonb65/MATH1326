@@ -1,0 +1,49 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file k6queens.mos
+   `````````````````
+   Placing N queens on an NxN chess board such that 
+   they do not attack each other.
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "K-6 Quens"
+ uses "mmxprs"
+
+ declarations
+  NQ = 8                              ! Number of rows and columns
+  POS = 1..NQ
+    
+  queen: array(POS,POS) of mpvar      ! 1 if queen at a position, 0 otherwise
+ end-declarations
+
+! Objective: total number of queens
+ Total:= sum(r,c in POS) queen(r,c)
+
+! Single queen per row and column
+ forall(r in POS) sum(c in POS) queen(r,c) = 1
+ forall(c in POS) sum(r in POS) queen(r,c) = 1
+
+! Diagonals 
+ forall(c in POS) sum(r in c..NQ) queen(r-c+1,r) <= 1
+ forall(r in 2..NQ) sum(c in r..NQ) queen(c,c-r+1) <= 1
+ forall(c in POS) sum(r in 1..c) queen(r,c-r+1) <= 1
+ forall(r in 2..NQ) sum(c in r..NQ) queen(c,NQ-c+r) <= 1
+
+ forall(r,c in POS) queen(r,c) is_binary
+ 
+! Solve the problem
+ minimize(Total)
+
+! Solution printing
+ writeln("Total number of queens: ", getobjval)
+ forall(r in POS) do
+  forall(c in POS) write( if(getsol(queen(r,c))>0, "Q ", ". ") )
+  writeln
+ end-do
+
+end-model

@@ -1,0 +1,9 @@
+! Data file for `e5combine.mos'
+
+CCHG: [("rail" "road") 5 ("rail" "air") 12
+       ("road" "rail") 8 ("road" "air") 10
+       ("air" "rail")  15 ("air" "road") 10 ]
+
+CTRANS: [("rail" 1) 30 25 40 60
+         ("road" 1) 25 40 45 50
+         ("air"  1) 40 20 50 45]

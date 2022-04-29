@@ -1,0 +1,72 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file c1bike.mos
+   ```````````````
+   Planning the production of bicycles
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "C-1 Bicycle production"
+ uses "mmxprs"
+
+ declarations   
+  TIMES = 1..12                  ! Range of time periods
+
+  DEM: array(TIMES) of integer   ! Demand per months
+  CNORM,COVER: integer           ! Prod. cost in normal / overtime hours
+  CSTOCK: integer                ! Storage cost per bicycle
+  CAP: integer                   ! Monthly capacity in normal working hours
+  ISTOCK: integer                ! Initial stock
+
+  pnorm:array(TIMES) of mpvar    ! No. of bicycles produced in normal hours
+  pover:array(TIMES) of mpvar    ! No. of bicycles produced in overtime hours
+  store:array(TIMES) of mpvar    ! No. of bicycles stored per month 
+ end-declarations
+
+ initializations from 'c1bike.dat'
+  DEM CNORM COVER CSTOCK CAP ISTOCK 
+ end-initializations
+
+! Objective: minimize production cost
+ Cost:= sum(t in TIMES) (CNORM*pnorm(t) + COVER*pover(t) + CSTOCK*store(t))
+
+! Satisfy the demand for every period
+ forall(t in TIMES) 
+  pnorm(t) + pover(t) + if(t>1, store(t-1), ISTOCK) = DEM(t) + store(t)
+
+! Capacity limits on normal and overtime working hours per month
+ forall(t in TIMES) do
+  pnorm(t) <= CAP
+  pover(t) <= 0.5*CAP
+ end-do
+
+! Solve the problem
+ minimize(Cost)
+ 
+! Solution printing
+ declarations
+  MONTHS: array(TIMES) of string  ! Names of months
+ end-declarations 
+
+ initializations from 'c1bike.dat'
+  MONTHS 
+ end-initializations
+ 
+ writeln("Total cost: ", getobjval)
+ write("       ")
+ forall(t in TIMES) write(strfmt(MONTHS(t),4))
+ write("\nDemand ")
+ forall(t in TIMES) write(strfmt(DEM(t)/1000,4))
+ write("\nNormal ")
+ forall(t in TIMES) write(strfmt(getsol(pnorm(t))/1000,4))
+ write("\nAdd.   ")
+ forall(t in TIMES) write(strfmt(getsol(pover(t))/1000,4))
+ write("\nStore  ")
+ forall(t in TIMES) write(strfmt(getsol(store(t))/1000,4))
+ writeln
+
+end-model

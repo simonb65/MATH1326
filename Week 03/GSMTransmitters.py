@@ -1,3 +1,5 @@
+import numpy as np
+
 # Import PuLP modeler functions
 from pulp import *
 
@@ -24,46 +26,52 @@ cover_set = {
                 (7,12), (7,13), (7,14), (7,15)
              }
 
-# Creates the 'prob' variable to contain the problem data
-prob = LpProblem("GSMTransmitters", LpMaximize)
 
-# A dictionary is created to contain the build binary variables
-build = LpVariable.dicts("Build", Sites, cat="Binary")
+for budget in np.arange(8.0, 12.5, 0.5):
+    print("---------------------------------------------------------------------------")
+    print("Budget = ", budget)
 
-# A dictionary is created to contain the covered binary variables
-covered = LpVariable.dicts("Covered", Communities, cat="Binary")
+    # Creates the 'prob' variable to contain the problem data
+    prob = LpProblem("GSMTransmitters", LpMaximize)
 
-# The objective function is added to 'prob' first
-prob += (
-    lpSum([covered[c] * population[c] for c in Communities]),
-    "CoveredPopulation",
-)
+    # A dictionary is created to contain the build binary variables
+    build = LpVariable.dicts("Build", Sites, cat="Binary")
 
-# Add constraint - Covered only if build on a site that can cover the community
-for c in Communities:
+    # A dictionary is created to contain the covered binary variables
+    covered = LpVariable.dicts("Covered", Communities, cat="Binary")
+
+    # The objective function is added to 'prob' first
     prob += (
-        lpSum([build[s] for s in Sites if (int(s),int(c)) in cover_set]) >= covered[c], "Cover%s" % c,
+        lpSum([covered[c] * population[c] for c in Communities]),
+        "CoveredPopulation",
     )
 
-# Add constraint - Budget for building
-prob += (
-        lpSum([cost[b]*build[b] for b in Sites]) <= 10, "Budget",
-)
+    # Add constraint - Covered only if build on a site that can cover the community
+    for c in Communities:
+        prob += (
+            lpSum([build[s] for s in Sites if (int(s),int(c)) in cover_set]) >= covered[c], "Cover%s" % c,
+        )
 
-# The problem data is written to an .lp file
-prob.writeLP("GSMTransmitters.lp")
+    # Add constraint - Budget for building
+    prob += (
+            lpSum([cost[b]*build[b] for b in Sites]) <= budget, "Budget",
+    )
 
-# The problem is solved using PuLP's choice of Solver
-prob.solve()
+    # The problem data is written to an .lp file
+    # prob.writeLP("GSMTransmitters.lp")
 
-# The status of the solution is printed to the screen
-print("Status:", LpStatus[prob.status])
+    # The problem is solved using PuLP's choice of Solver
+    prob.solve()
 
-# The optimised objective function value is printed to the screen
-print("Covered population is = ", value(prob.objective))
+    # The status of the solution is printed to the screen
+    print("Status:", LpStatus[prob.status])
 
-for s in Sites: 
-    print("Build ", s, " = ", value(build[s]))
+    # The optimised objective function value is printed to the screen
+    print("Covered population is = ", value(prob.objective))
 
-for c in Communities:
-    print("Covered ", c, " = ", value(covered[c]))
+    for s in Sites: 
+        if value(build[s]) == 1:
+            print("Build ", s, " = ", )
+
+    for c in Communities:
+        print("Covered ", c, " = ", value(covered[c]))

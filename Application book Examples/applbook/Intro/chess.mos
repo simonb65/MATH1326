@@ -1,0 +1,30 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file chess.mos
+   ``````````````
+   Production of chess boards   
+
+   (c) 2008 Fair Isaac Corporation
+       author: R.C. Daniel, Jul. 2002
+*******************************************************!)
+
+model Chess
+ uses "mmxprs"                    ! We shall use Xpress-Optimizer
+ 
+ declarations
+  xs, xl: mpvar                   ! Decision variables: produced quantities
+ end-declarations
+
+ Profit:=  5*xs + 20*xl           ! Objective function
+ Boxwood:= 1*xs + 3*xl <=  200    ! kg of boxwood
+ Lathe:=   3*xs + 2*xl <=  160    ! Lathehours
+ 
+ maximize(Profit)                 ! Solve the problem
+
+ writeln("LP Solution:")          ! Solution printing
+ writeln(" Objective: ", getobjval)
+ writeln("Make ", getsol(xs), " small sets")
+ writeln("Make ", getsol(xl), " large sets")
+end-model

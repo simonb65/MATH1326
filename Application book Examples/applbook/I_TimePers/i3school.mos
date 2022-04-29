@@ -1,0 +1,100 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file i3school.mos
+   `````````````````
+   Determine a timetable for 2 classes
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "I-3 School timetable"
+ uses "mmxprs"
+
+ declarations
+  TEACHERS: set of string         ! Set of teachers
+  CLASS = 1..2                    ! Set of classes
+  NP = 4                          ! Number of time periods for courses
+  ND = 5                          ! Days per week
+  SLOTS=1..NP*ND                  ! Set of time slots for the entire week
+  
+  COURSE: array(TEACHERS,CLASS) of integer ! Lessons per teacher and class
+ end-declarations
+
+ initializations from 'i3school.dat'
+  COURSE
+ end-initializations
+
+ finalize(TEACHERS)
+
+ declarations
+  teach: array(TEACHERS,CLASS,SLOTS) of mpvar 
+                                  ! teach(t,c,l) = 1 if teacher t gives a
+                                  ! lesson to class c during time period l
+ end-declarations
+
+! Objective: number of "holes" in the class timetables
+ Hole:= 
+  sum(t in TEACHERS, c in CLASS, d in 0..ND-1) (teach(t,c,d*NP+1) + 
+      teach(t,c,(d+1)*NP))
+
+! Plan all courses
+ forall(t in TEACHERS, c in CLASS) sum(l in SLOTS) teach(t,c,l) = COURSE(t,c)
+
+! For every class, one course at a time
+ forall(c in CLASS, l in SLOTS) sum(t in TEACHERS) teach(t,c,l) <= 1
+
+! Teacher teaches one course at a time
+ forall(t in TEACHERS, l in SLOTS) sum(c in CLASS) teach(t,c,l) <= 1
+
+! Every subject only once per day
+ forall(t in TEACHERS, c in CLASS, d in 0..ND-1) 
+  sum(l in d*NP+1..(d+1)*NP) teach(t,c,l) <= 1
+ 
+! Sport Thursday afternoon (slot 15)
+ teach("Mr Muscle",1,15) = 1
+ teach("Mrs Biceps",2,15) = 1
+ 
+! No course during first period of Monday morning
+ forall(t in TEACHERS, c in CLASS) teach(t,c,1) = 0
+
+! No course by Mr Effofecks Monday morning 
+ forall(l in 1..2) teach("Mr Effofecks",2,l) = 0
+ 
+! No Biology on Wednesday
+ forall(c in CLASS, l in 2*NP+1..3*NP) teach("Mrs Insulin",c,l) = 0 
+
+ forall(t in TEACHERS, c in CLASS, l in SLOTS) teach(t,c,l) is_binary
+ 
+! Solve the problem
+ minimize(Hole)
+ 
+! Solution printing
+ declarations
+  DAYS=1..ND
+  NAMES: array(DAYS) of string
+ end-declarations
+ 
+ initializations from 'i3school.dat'
+  NAMES
+ end-initializations
+
+ writeln("Courses at begin or end of day: ", getobjval)
+ forall(c in CLASS) do
+  writeln("Class ",c)
+  forall(d in DAYS) do
+   write(NAMES(d), ":  ")
+   forall(l in (d-1)*NP+1..d*NP)
+    if (getsol(sum(t in TEACHERS) teach(t,c,l))>0) then
+     forall(t in TEACHERS)
+      write( if(getsol(teach(t,c,l))>0, strfmt(t,-14), ""))
+    else
+     write(strfmt("",14))
+    end-if     
+   writeln 
+  end-do
+ end-do 
+
+end-model

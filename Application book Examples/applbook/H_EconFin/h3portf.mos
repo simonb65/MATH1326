@@ -1,0 +1,61 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file h3portf.mos
+   ````````````````
+   Composition of an investment portfolio
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "H-3 Portfolio"
+ uses "mmxprs"
+
+ parameters
+  MAXTECH = 0.3                     ! Maximum investment into tech. values
+  MINEU = 0.5                       ! Minimum investment into European shares
+  VMIN = 5000                       ! Minimum amount for a single value
+  VMAX = 40000                      ! Maximum amount for a single value
+ end-parameters 
+
+ declarations
+  SHARES = 1..6                     ! Set of shares
+  
+  RET: array(SHARES) of real        ! Estimated return in investment
+  CAPITAL: integer                  ! Capital to invest
+  EU: set of integer                ! European values among the shares
+  TECHNOLOGY: set of integer        ! Technology values among shares
+  
+  buy: array(SHARES) of mpvar       ! Amount of values taken into portfolio
+ end-declarations
+
+ initializations from 'h3portf.dat'
+  RET CAPITAL EU TECHNOLOGY
+ end-initializations
+
+! Objective: total return
+ Return:= sum(s in SHARES) RET(s)/100*buy(s)
+
+! Requirements concerning portfolio composition
+ sum(s in TECHNOLOGY) buy(s) <= MAXTECH*CAPITAL
+ sum(s in EU) buy(s) >= MINEU*CAPITAL
+ 
+! Total capital to invest
+ sum(s in SHARES) buy(s) = CAPITAL
+ 
+ forall(s in SHARES) do
+  VMIN <= buy(s); 
+!  buy(s) is_semcont(VMIN)
+  buy(s) <= VMAX
+ end-do   
+
+! Solve the problem
+ maximize(Return)
+ 
+! Solution printing
+ writeln("Total return: ", getobjval)
+ forall(s in SHARES) writeln(s, ": ", getsol(buy(s)))  
+ 
+end-model

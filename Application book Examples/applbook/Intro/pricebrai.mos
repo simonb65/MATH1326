@@ -1,0 +1,59 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file pricebrai.mos
+   ``````````````````
+   Modeling price breaks:
+   All item discount pricing   
+
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Sep. 2006
+*******************************************************!)
+
+model "All item discount"
+ uses "mmxprs"
+ 
+ declarations
+  NB = 3                                ! Number of price bands
+  BREAKS = 1..NB
+  COST: array(BREAKS) of real           ! Cost per unit
+  x: array(BREAKS) of mpvar             ! Number of items bought at a price
+  b: array(BREAKS) of mpvar             ! Indicators of price bands
+  B: array(0..NB) of real               ! Break points of cost function
+ end-declarations
+ 
+ DEM:= 150                              ! Demand
+ B:: [0, 50, 120, 200]
+ COST:: [ 1, 0.7, 0.5]
+ 
+ forall(i in BREAKS) b(i) is_binary
+
+(! Alternatively
+ sum(i in BREAKS) B(i)*b(i) is_sos1
+!) 
+
+! Objective: total price
+ TotalCost:= sum(i in BREAKS) COST(i)*x(i)  
+
+! Meet the demand
+ sum(i in BREAKS) x(i) = DEM 
+
+! Lower and upper bounds on quantities
+ forall(i in BREAKS) do
+  B(i-1)*b(i) <= x(i);  x(i) <= B(i)*b(i)
+ end-do
+
+! The quantity bought lies in exactly one interval
+ sum(i in BREAKS) b(i) = 1
+
+! Solve the problem
+ minimize(TotalCost)
+
+! Solution printing
+ writeln("Objective: ", getobjval, 
+         " (price per unit: ", getobjval/DEM, ")")
+ forall(i in BREAKS) 
+  writeln("x(", i, "): ", getsol(x(i)), " (price per unit: ", COST(i), ")")
+
+end-model

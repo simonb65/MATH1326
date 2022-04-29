@@ -1,0 +1,13 @@
+! Data file for `f5tour2.mos'
+
+CITIES: ["Bordeaux" "Lille" "Lyon" "Marseille" "Nantes" "Paris" "Toulouse"]
+
+DIST: [
+! "Bordeaux" "Lille" "Lyon" "Marseille" "Nantes" "Paris" "Toulouse"
+("Bordeaux" "Bordeaux")    0 786 549 657 331 559 250
+("Lille" "Bordeaux")     786   0 668 979 593 224 905
+("Lyon" "Bordeaux")      549 668   0 316 607 472 467
+("Marseille" "Bordeaux") 657 979 316   0 890 769 400
+("Nantes" "Bordeaux")    331 593 607 890   0 386 559
+("Paris" "Bordeaux")     559 224 472 769 386   0 681
+("Toulouse" "Bordeaux")  250 905 467 400 559 681   0]

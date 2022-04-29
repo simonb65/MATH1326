@@ -1,0 +1,63 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file h2publ.mos
+   ```````````````
+   Planning a publicity campaign for a new product
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "H-2 Publicity"
+ uses "mmxprs"
+
+ declarations
+  MEDIA = 1..6                        ! Set of media types
+  
+  REACH: array(MEDIA) of integer      ! Number of people reached
+  COST: array(MEDIA) of integer       ! Unitary cost
+  MAXUSE: array(MEDIA) of integer     ! Maximum use
+  SCORE: array(MEDIA) of integer      ! Quality rating (best=highest value)
+  BUDGET: integer                     ! Available publicity budget
+  TARGET: integer                     ! Number of people to be reached
+   
+  use: array(MEDIA) of mpvar          ! Use made of different media
+ end-declarations
+
+ initializations from 'h2publ.dat'
+  REACH COST MAXUSE SCORE BUDGET TARGET
+ end-initializations
+
+! Objective: quality of perception of the campaign
+ Perceive:= sum(m in MEDIA) SCORE(m)*use(m)
+
+! Budgetary limit
+ sum(m in MEDIA) COST(m)*use(m) <= BUDGET
+ 
+! Outreach of campaign
+ sum(m in MEDIA) REACH(m)*use(m) >= TARGET  
+
+ forall(m in MEDIA) do
+  use(m) is_integer
+  use(m) <= MAXUSE(m)
+ end-do 
+ 
+! Solve the problem
+ maximize(Perceive)
+ 
+! Solution printing
+ declarations
+  NAMES: array(MEDIA) of string
+ end-declarations
+ 
+ initializations from 'h2publ.dat'
+  NAMES
+ end-initializations
+
+ writeln("Perception: ", getobjval, " units (", 
+         getsol(sum(m in MEDIA) REACH(m)*use(m)), " people)")
+ forall(m in MEDIA) writeln(NAMES(m), ": ", getsol(use(m)))
+
+end-model

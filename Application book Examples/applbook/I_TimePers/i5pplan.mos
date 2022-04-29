@@ -1,0 +1,91 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file i5pplan.mos
+   ````````````````
+   Production planning with personnel assignment
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "I-5 Production planning with personnel"
+ uses "mmxprs"
+
+ forward procedure print_sol
+
+ declarations
+  PRODS = 1..4                        ! Set of products
+  LINES = 1..5                        ! Set of production lines
+  
+  PROFIT: array(PRODS) of integer     ! Profit per product
+  DUR: array(PRODS,LINES) of real     ! Duration of production per line
+  CAP: array(LINES) of integer        ! Working hours available per line
+  
+  Load: array(LINES) of linctr        ! Workload constraints
+  produce: array(PRODS) of mpvar      ! Quantity produced
+ end-declarations
+
+ initializations from 'i5pplan.dat'
+  PROFIT DUR CAP
+ end-initializations
+
+! Objective: Total profit
+ Profit:= sum(p in PRODS) PROFIT(p)*produce(p)
+ 
+! Capacity constraints on lines
+ forall(l in LINES) Load(l):=sum(p in PRODS) DUR(p,l)*produce(p) <= CAP(l)
+
+! Solve the problem
+ maximize(Profit)
+ print_sol 
+
+! **** Allow transfer of working hours between lines ****
+
+ declarations
+  TRANSF: dynamic array(LINES,LINES) of integer ! 1 if transfer is allowed, 
+                                                ! 0 otherwise
+  TMAX: array(LINES) of integer         ! Maximum no. of hours to transfer
+
+  hours: array(LINES) of mpvar          ! Initial working hours per line
+  transfer: dynamic array(LINES,LINES) of mpvar ! Hours transferred
+ end-declarations
+
+ initializations from 'i5pplan.dat'
+  TRANSF TMAX
+ end-initializations
+
+ forall(k,l in LINES | exists(TRANSF(k,l))) create(transfer(k,l))
+
+! Re-define capacity constraints on lines
+ forall(l in LINES) Load(l):=sum(p in PRODS) DUR(p,l)*produce(p) <= hours(l)
+
+! Balance constraints
+ forall(l in LINES)
+  hours(l)  = CAP(l) + sum(k in LINES) transfer(k,l) -
+                      sum(k in LINES) transfer(l,k) 
+
+! Limit on transfer
+ forall(l in LINES) sum(k in LINES) transfer(l,k) <= TMAX(l)
+
+! Solve the problem
+ maximize(Profit)
+ writeln("Solution with transfer of working hours:")
+ print_sol
+ forall(l,k in LINES | exists(TRANSF(l,k))) 
+  write(if(getsol(transfer(l,k))>0, 
+           " " + l + "->" + k + ": " + getsol(transfer(l,k)) + "\n", ""))
+
+!-----------------------------------------------------------------
+
+! Solution printing
+ procedure print_sol
+  writeln("Total profit: ", getobjval)
+  forall(p in PRODS)
+   writeln("Product ", p, ": ", getsol(produce(p)))
+  forall(l  in LINES)
+   writeln("Line ", l, ": ", getsol(sum(p in PRODS) DUR(p,l)*produce(p))) 
+ end-procedure
+ 
+end-model

@@ -1,0 +1,58 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file j6hospit.mos
+   `````````````````
+   Compare the efficiency of hospitals (DEA method)
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "J-6 Hospital efficiency"
+ uses "mmxprs"
+
+ declarations
+  HOSP = 1..4                           ! Set of hospitals
+  SERV: set of string                   ! Service indicators
+  RES: set of string                    ! Resource indicators
+
+  INDSERV: array(SERV,HOSP) of real     ! Service indicator values
+  INDRES: array(RES,HOSP) of real       ! Resource indicator values
+ end-declarations
+
+ initializations from 'j6hospit.dat'
+  INDSERV INDRES
+ end-initializations
+
+ finalize(SERV); finalize(RES)
+
+ declarations
+  eff: mpvar                            ! Efficiency value
+  coef: array(HOSP) of mpvar            ! Coefficients for DEA method
+  fserv: array(SERV) of mpvar           ! Service indicator of fict. hospital
+  fres: array(RES) of mpvar             ! Resource indicator of fict. hospit.
+  LimServ: array(SERV) of linctr        ! Hospital-specific service constr.
+  LimRes: array(RES) of linctr          ! Hospital-specific resource constr.
+ end-declarations
+
+! DEA coefficients
+ sum(h in HOSP) coef(h) = 1
+ 
+! Relations between service and resource indicators
+ forall(s in SERV) fserv(s) = sum(h in HOSP) INDSERV(s,h)*coef(h)
+ forall(r in RES) fres(r) = sum(h in HOSP) INDRES(r,h)*coef(h)
+
+! Solve the problem for every hospital 
+ forall(h in HOSP) do
+ ! Limits on services and resources for the hospital currently looked at
+  forall(s in SERV) LimServ(s):= fserv(s) >= INDSERV(s,h)  
+  forall(r in RES) LimRes(r):= fres(r) <= INDRES(r,h)*eff  
+ 
+ ! Minimize efficiency index
+  minimize(eff)
+  writeln("Evaluation of hospital ", h, ": ", getobjval)
+ end-do
+
+end-model

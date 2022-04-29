@@ -1,0 +1,77 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file g3routing.mos
+   ``````````````````
+   Routing telephone calls in a private network
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Apr. 2002
+*******************************************************!)
+
+model "G-3 Routing telephone calls"
+ uses "mmxprs"
+
+ declarations
+  CALLS: set of string                  ! Set of demands
+  ARCS: set of string                   ! Set of arcs 
+  PATHS: range                          ! Set of paths (routes) for demands
+
+  CAP: array(ARCS) of integer           ! Capacity of arcs
+  DEM: array(CALLS) of integer          ! Demands between pairs of cities
+  CINDEX: array(PATHS) of string        ! Call (demand) index per path index 
+ end-declarations
+
+ initializations from 'g3routing.dat'
+  CAP DEM CINDEX
+ end-initializations
+
+ finalize(CALLS); finalize(ARCS); finalize(PATHS)
+ NARC:=getsize(ARCS)
+
+ declarations
+  ROUTE: array(PATHS,1..NARC) of string ! List of arcs composing the routes
+  flow: array(PATHS) of mpvar           ! Flow on paths
+ end-declarations
+
+ initializations from 'g3routing.dat'
+  ROUTE
+ end-initializations
+
+! Objective: total flow on the arcs
+ TotFlow:= sum(p in PATHS) flow(p)
+
+! Flow within demand limits
+ forall(d in CALLS) sum(p in PATHS | CINDEX(p) = d) flow(p) <= DEM(d) 
+
+! Arc capacities
+ forall(a in ARCS) 
+  sum(p in PATHS, b in 1..NARC | ROUTE(p,b)=a) flow(p) <= CAP(a)
+
+ forall(p in PATHS) flow(p) is_integer
+
+! Solve the problem
+ maximize(TotFlow)
+ 
+! Solution printing
+ writeln("Total flow: ", getobjval)
+
+ forall(d in CALLS) do
+  writeln(d, " (demand: ", DEM(d), ", routed calls: ",
+    getsol(sum(p in PATHS | CINDEX(p) = d) flow(p)), ")")
+  forall(p in PATHS | CINDEX(p) = d)
+   if(getsol(flow(p))>0) then 
+    write("  ", getsol(flow(p)), ":")
+    forall(b in 1..NARC) write(" ", ROUTE(p,b))
+    writeln
+   end-if 
+ end-do 
+
+ writeln("Unused capacity:")
+ forall(a in ARCS) do 
+  U:=CAP(a) - getsol(sum(p in PATHS, b in 1..NARC | ROUTE(p,b)=a) flow(p))
+  write(if(U>0,"  " + a + ": " + U + "\n", ""))
+ end-do
+
+end-model

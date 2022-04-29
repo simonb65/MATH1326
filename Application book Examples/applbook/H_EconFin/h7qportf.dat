@@ -1,0 +1,11 @@
+! Data file for `h7qportf.mos'
+
+RET: [8 9 12 7]
+
+VAR: [ ! hardware  software  show-biz  T-bills
+           4         3         -1        0     ! hardware
+           3         6          1        0     ! software
+          -1         1         10        0     ! show-biz
+           0         0          0        0 ]   ! T-bills
+
+NAMES: ["hardware" "software" "show-biz" "T-bills"]

@@ -1,0 +1,57 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file g6transmit.mos
+   ```````````````````
+   Placing mobile phone transmitters
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Apr. 2002
+*******************************************************!)
+
+model "G-6 Transmitter placement"
+ uses "mmxprs"
+
+ declarations
+  COMMS = 1..15                         ! Set of communities
+  PLACES = 1..7                         ! Set of possible transm. locations
+
+  COST: array(PLACES) of real           ! Cost of constructing transmitters
+  COVER: array(PLACES,COMMS) of integer ! Coverage by transmitter locations
+  POP: array(COMMS) of integer          ! Number of inhabitants (in 1000)
+  BUDGET: integer                       ! Budget limit
+   
+  build: array(PLACES) of mpvar         ! 1 if transmitter built, 0 otherwise
+  covered: array(COMMS) of mpvar        ! 1 if community covered, 0 otherwise 
+ end-declarations
+
+ initializations from 'g6transmit.dat'
+  COST COVER POP BUDGET
+ end-initializations
+
+! Objective: total population covered
+ Coverage:= sum(c in COMMS) POP(c)*covered(c)
+
+! Towns covered
+ forall(c in COMMS) sum(p in PLACES) COVER(p,c)*build(p) >= covered(c) 
+
+! Budget limit
+ sum(p in PLACES) COST(p)*build(p) <= BUDGET
+
+ forall(p in PLACES) build(p) is_binary
+ forall(c in COMMS) covered(c) is_binary
+
+! Solve the problem
+ maximize(Coverage)
+ 
+! Solution printing
+ writeln("Total coverage: ", getobjval, " total cost: ", 
+         getsol(sum(p in PLACES) COST(p)*build(p)))
+ write("Build transmitters:")
+ forall(p in PLACES) write(if(getsol(build(p))>0, " "+p, ""))
+ write("\nCommunities covered:")
+ forall(c in COMMS) write(if(getsol(covered(c))>0, " "+c, ""))
+ writeln
+
+end-model

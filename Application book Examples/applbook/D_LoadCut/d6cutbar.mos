@@ -1,0 +1,57 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file d6cutbar.mos
+   `````````````````
+   Cutting of steel bars into school desk legs 
+   (1-dimensional cutting patterns)
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "D-6 Cutting steel bars"
+ uses "mmxprs"
+
+ declarations
+  PAT1 = 1..6; PAT2 = 7..12              ! Sets of cutting patterns
+  PATTERNS = PAT1 + PAT2                 ! Set of all cutting patterns
+  SIZES: set of integer                  ! Desk heights
+
+  DEM: array(SIZES) of integer           ! Demands for the different heights
+  CUT: array(PATTERNS,SIZES) of integer  ! Cutting patterns
+  LEN: array(range) of integer           ! Lengths of original steel bars
+  
+  use: array(PATTERNS) of mpvar          ! Use of cutting patterns
+ end-declarations
+ 
+ initializations from 'd6cutbar.dat'
+  DEM CUT LEN
+ end-initializations
+
+! Objective: total loss
+ Loss:= sum(p in PAT1) LEN(1)*use(p) + sum(p in PAT2) LEN(2)*use(p) - 
+         sum(s in SIZES) 4*DEM(s)*s
+
+! Satisfy demands
+ forall(s in SIZES) sum(p in PATTERNS) CUT(p,s)*use(p) >= 4*DEM(s)
+
+ forall(p in PATTERNS) use(p) is_integer
+
+! Solve the problem
+ minimize(Loss)
+ 
+! Solution printing
+  writeln("Loss: ", getobjval, "cm")
+  write("Short bars: ", getsol(sum(p in PAT1) use(p)))
+  writeln(", long bars: ", getsol(sum(p in PAT2) use(p)))
+  write("Cutting patterns used:")
+  forall(p in PATTERNS)
+   write( if(getsol(use(p)) > 0 , " " + p + ":" + getsol(use(p)), "") )
+  write("\nNumbers of legs cut: ")
+  forall(s in SIZES)
+   write(s, ":", getsol(sum(p in PATTERNS) CUT(p,s)*use(p)), " ")
+  writeln
+      
+end-model

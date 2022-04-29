@@ -1,0 +1,83 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file a6electr.mos
+   `````````````````
+   Production of electricity
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "A-6 Electricity production"
+ uses "mmxprs"
+ 
+ declarations
+  NT = 7
+  TIME = 1..NT                       ! Time periods
+  TYPES = 1..4                       ! Power generator types  
+
+  LEN, DEM: array(TIME) of integer   ! Length and demand of time periods 
+  PMIN,PMAX: array(TYPES) of integer ! Min. & max output of a generator type
+  CSTART: array(TYPES) of integer    ! Start-up cost of a generator
+  CMIN: array(TYPES) of integer      ! Hourly cost of gen. at min. output
+  CADD: array(TYPES) of real         ! Cost/hour/MW of prod. above min. level
+  AVAIL: array(TYPES) of integer     ! Number of generators per type
+
+  start: array(TYPES,TIME) of mpvar  ! No. of gen.s started in a period
+  work: array(TYPES,TIME) of mpvar   ! No. of gen.s working during a period
+  padd: array(TYPES,TIME) of mpvar   ! Production above min. output level
+ end-declarations
+ 
+ initializations from 'a6electr.dat'
+  LEN DEM PMIN PMAX CSTART CMIN CADD AVAIL
+ end-initializations 
+ 
+! Objective function: total daily cost 
+ Cost:= sum(p in TYPES, t in TIME) (CSTART(p)*start(p,t) +
+          LEN(t)*(CMIN(p)*work(p,t) + CADD(p)*padd(p,t))) 
+                                   
+! Number of generators started per period and per type
+ forall(p in TYPES, t in TIME) 
+  start(p,t) >= work(p,t) - if(t>1, work(p,t-1), work(p,NT))
+
+! Limit on power production above minimum level
+ forall(p in TYPES, t in TIME) padd(p,t) <= (PMAX(p)-PMIN(p))*work(p,t)
+
+! Satisfy demands
+ forall(t in TIME) sum(p in TYPES) (PMIN(p)*work(p,t) + padd(p,t)) >= DEM(t)
+
+! Security reserve of 20%
+ forall(t in TIME) sum(p in TYPES) PMAX(p)*work(p,t) >= 1.20*DEM(t)
+
+! Limit number of available generators; numbers of generators are integer
+ forall(p in TYPES, t in TIME) do
+  work(p,t) <= AVAIL(p)
+  work(p,t) is_integer
+ end-do
+
+! Solve the problem  
+ minimize(Cost)
+
+! Solution printing
+ writeln("Daily cost: ", getobjval)
+
+ write(strfmt("Time period ",-20))
+ ct:=0
+ forall(t in TIME) do
+  write(strfmt(ct,5), "-", strfmt(ct+LEN(t),2), "")
+  ct+=LEN(t)
+ end-do 
+
+ forall(p in TYPES) do
+  write("\nType ", p, strfmt(" No. working ",-14)); 
+  forall(t in TIME) write(strfmt(getsol(work(p,t)),8))
+  write("\n", strfmt("Total output ",20)); 
+  forall(t in TIME) write(strfmt(getsol((PMIN(p)*work(p,t) + padd(p,t))),8))
+  write("\n", strfmt("of which add.",20)); 
+  forall(t in TIME) write(strfmt(getsol(padd(p,t)),8))
+ end-do
+ writeln
+
+end-model

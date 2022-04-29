@@ -1,0 +1,46 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file f1connect.mos
+   ``````````````````
+   Planning flight connections at a hub
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "F-1 Flight connections"
+ uses "mmxprs"
+
+ declarations
+  PLANES = 1..6                         ! Set of airplanes
+  
+  PASS: array(PLANES,PLANES) of integer ! Passengers with flight connections
+  
+  cont: array(PLANES,PLANES) of mpvar   ! 1 if flight i continues to j
+ end-declarations
+
+ initializations from 'f1connect.dat'
+  PASS
+ end-initializations
+
+! Objective: number of passengers on connecting flights
+ Transfer:= sum(i,j in PLANES) PASS(i,j)*cont(i,j)
+
+! One incoming and one outgoing flight per plane
+ forall(i in PLANES) sum(j in PLANES) cont(i,j) = 1
+ forall(j in PLANES) sum(i in PLANES) cont(i,j) = 1
+
+ forall(i,j in PLANES) cont(i,j) is_binary
+
+! Solve the problem: maximize the number of passengers staying on board
+ maximize(Transfer)
+ 
+! Solution printing
+ writeln("Passengers staying on board: ", getobjval)
+ forall(i in PLANES)
+ writeln(i, " -> ", getsol(sum(j in PLANES) j*cont(i,j)), " (",
+         getsol(sum(j in PLANES) PASS(i,j)*cont(i,j)), ")")
+ 
+end-model

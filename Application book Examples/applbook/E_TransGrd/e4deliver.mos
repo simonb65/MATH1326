@@ -1,0 +1,93 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file e4deliver.mos
+   ``````````````````
+   Heating oil delivery (Traveling Salesman Problem)
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "E-4 Oil delivery"
+ uses "mmxprs"
+
+ declarations
+  NS = 7
+  SITES = 1..NS                       ! Set of locations, 1=refinery
+  CLIENTS = 2..NS
+
+  DEM: array(SITES) of integer        ! Demands
+  DIST: array(SITES,SITES) of integer ! Distances between locations
+  CAP: integer                        ! Lorry capacity
+
+  prec: array(SITES,SITES) of mpvar   ! 1 if i immediately precedes j, 
+                                      ! 0 otherwise 
+  quant: array(CLIENTS) of mpvar      ! Quantity delivered up to i
+ end-declarations
+
+ initializations from 'e4deliver.dat'
+  DEM DIST CAP
+ end-initializations
+
+! Objective: total distance driven
+ Length:= sum(i,j in SITES | i<>j) DIST(i,j)*prec(i,j)
+
+! Enter and leave every city only once (except the depot)
+ forall(j in CLIENTS) sum(i in SITES| i<>j) prec(i,j) = 1
+ forall(i in CLIENTS) sum(j in SITES| i<>j) prec(i,j) = 1
+
+! If i is the first client of a tour, then quant(i)=DEM(i)
+ forall(i in CLIENTS) quant(i) <= CAP + (DEM(i)-CAP)*prec(1,i)
+
+! If j comes just after i in a tour, then quant(j) is greater than the 
+! quantity delivered during the tour up to i plus the quantity to be 
+! delivered at j (to avoid loops and keep capacity limit of the tanker)
+ forall(i,j in CLIENTS| i<>j) quant(j) >= quant(i) + DEM(j) - CAP +
+                           CAP*prec(i,j) + (CAP-DEM(j)-DEM(i))*prec(j,i)
+
+! Additional constraints:
+! If i is not the first client of a tour, quant(i) is larger than the sum 
+! of the quantities to deliver to i and to his predecessor on the tour
+(!
+ declarations
+  modcut: array(CLIENTS) of linctr
+ end-declarations
+
+ forall(i in CLIENTS) do
+  modcut(i):= quant(i) >= DEM(i) + sum(j in SITES| i<>j) DEM(j)*prec(j,i)
+  setmodcut(modcut(i))
+ end-do
+!)
+
+ forall(i in CLIENTS) do
+  quant(i) <= CAP
+  quant(i) >= DEM(i)
+ end-do
+ 
+ forall(i,j in SITES | i<>j) prec(i,j) is_binary
+
+! Uncomment the following line to see the Optimizer log
+! setparam("XPRS_VERBOSE",true)
+
+! Solve the problem
+ minimize(Length)
+
+! Solution printing
+ writeln("Total distance: ", getobjval)
+ forall(i in CLIENTS)
+  if(getsol(prec(1,i))>0) then
+   ct:=DEM(i)
+   writeln(1, " -> ", i)
+   p:=i
+   while(p<>1) do
+    n:= integer(round(sum(j in SITES) j*getsol(prec(p,j))))
+    writeln(p, " -> ", n)
+    ct+=DEM(n)
+    p:=n
+   end-do
+   writeln("Quantity delivered: ", ct)
+  end-if
+
+end-model

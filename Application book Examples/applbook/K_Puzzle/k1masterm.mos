@@ -1,0 +1,69 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file k1mastm.mos
+   ````````````````
+   Playing Mastermind
+
+   Given information:
+   Round  Pos.1   Pos.2   Pos.3   Pos.4   Judgement
+    1     red     yellow  white   green   1 color well positioned, 
+                                          1 color on wrong position  
+    2     blue    green   white   blue    1 color well positioned
+    3     yellow  black   white   black   1 color well positioned, 
+                                          1 color on wrong position
+    4     blue    yellow  red     black   all colors on wrong position
+    
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "K-1 Mastermind"
+ uses "mmxprs"
+
+ declarations
+  POS = 1..4                          ! Positions in a row
+  COLORS = {"White","Blue","Yellow","Black","Red","Green"}
+    
+  place: array(POS,COLORS) of mpvar   ! 1 if color at the position, 0 otherwise
+ end-declarations
+
+! Assign one color per position
+ forall(p in POS) sum(c in COLORS) place(p,c) = 1 
+
+! Round 1: 1 color well positioned, 1 color on wrong position
+  place(1,"Red") + place(2,"Yellow") + place(3,"White") + place(4,"Green") = 1
+  sum(p in POS | p<>1) place(p,"Red") + 
+    sum(p in POS | p<>2) place(p,"Yellow") +
+    sum(p in POS | p<>3) place(p,"White") + 
+    sum(p in POS | p<>4) place(p,"Green") = 1
+ 
+! Round 2: 1 color well positioned
+  place(1,"Blue") + place(2,"Green") + place(3,"White") + place(4,"Blue") = 1
+  sum(p in POS | p<>1 and p<>4) place(p,"Blue") + 
+    sum(p in POS | p<>2) place(p,"Green") +
+    sum(p in POS | p<>3) place(p,"White") = 0
+
+! Round 3: 1 color well positioned, 1 color on wrong position
+  place(1,"Yellow") + place(2,"Black") + place(3,"White") + place(4,"Black") = 1
+  sum(p in POS | p<>1) place(p,"Yellow") + 
+    sum(p in POS | p<>2 and p<>4) place(p,"Black") +
+    sum(p in POS | p<>3) place(p,"White") = 1
+ 
+! Round 4: 4 colors on wrong position
+  place(1,"Blue") + place(2,"Yellow") + place(3,"Red") + place(4,"Black") = 0
+  sum(p in POS | p<>1) place(p,"Blue") + 
+    sum(p in POS | p<>2) place(p,"Yellow") +
+    sum(p in POS | p<>3) place(p,"Red") + 
+    sum(p in POS | p<>4) place(p,"Black") = 4
+ 
+ forall(p in POS, c in COLORS) place(p,c) is_binary
+ 
+! Solve the problem: no objective
+ minimize(0)
+
+! Solution printing
+ forall(c in COLORS) writeln(c,": ", getsol(sum(p in POS)p*place(p,c)) )
+
+end-model

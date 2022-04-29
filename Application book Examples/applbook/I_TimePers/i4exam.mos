@@ -1,0 +1,56 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file i4exam.mos
+   ```````````````
+   Scheduling exams
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "I-4 Scheduling exams"
+ uses "mmxprs"
+
+ declarations
+  EXAM = {"DA","NA","C++","SE","PM","J","GMA","LP","MP","S","DSE"}
+                                      ! Set of exams
+  TIME = 1..8                         ! Set of time slots
+  
+  INCOMP: array(EXAM,EXAM) of integer ! Incompatibility between exams
+  
+  plan: array(EXAM,TIME) of mpvar     ! 1 if exam in a time slot, 0 otherwise
+ end-declarations
+
+ initializations from 'i4exam.dat'
+  INCOMP
+ end-initializations
+
+! Schedule all exams
+ forall(e in EXAM) sum(t in TIME) plan(e,t) = 1
+ 
+! Respect incompatibilities
+ forall(d,e in EXAM, t in TIME | d<e and INCOMP(d,e)=1) 
+  plan(e,t) + plan(d,t) <= 1    
+
+ forall(e in EXAM, t in TIME) plan(e,t) is_binary
+
+! Breaking symmetries
+(!
+ plan("DA",1)=1
+ plan("NA",2)=1
+ plan("PM",3)=1
+ plan("GMA",4)=1
+ plan("S",5)=1
+ plan("DSE",6)=1
+!) 
+
+! Solve the problem (no objective)
+ minimize(0)
+ 
+! Solution printing
+ forall(e in EXAM) 
+  writeln(strfmt(e+":",4) ," slot ", getsol(sum(t in TIME) t*plan(e,t)))
+
+end-model

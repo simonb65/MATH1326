@@ -1,0 +1,85 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file b1stadium.mos
+   ``````````````````
+   Construction of a stadium
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "B-1 Stadium construction"
+ uses "mmxprs"
+ 
+ forward procedure print_sol
+ 
+ declarations   
+  N = 19                              ! Number of tasks in the project 
+                                      ! (last = fictitious end task)
+  TASKS=1..N
+  ARC: array(range,range) of real     ! Matrix of the adjacency graph 
+  DUR: array(TASKS) of real           ! Duration of tasks
+  start: array(TASKS) of mpvar        ! Start times of tasks
+  obj1: real                          ! Solution of first problem
+ end-declarations
+
+ initializations from 'b1stadium.dat'
+  ARC DUR
+ end-initializations
+ 
+! Precedence relations between tasks
+ forall(i,j in TASKS | exists(ARC(i,j)))  
+  Prec(i,j):= start(j) - start(i) >= DUR(i)
+
+! Solve the first problem: minimize the total duration
+ minimize(start(N))
+ obj1:=getobjval
+ 
+! Solution printing
+ print_sol
+
+! **** Extend the problem ****
+ declarations
+  BONUS: integer                      ! Bonus per week finished earlier
+  MAXW: array(TASKS) of real          ! Max. reduction of tasks (in weeks)
+  COST: array(TASKS) of real          ! Cost of reducing tasks by a week 
+  save: array(TASKS) of mpvar         ! Number of weeks finished early
+ end-declarations 
+
+ initializations from 'b1stadium.dat'
+  MAXW BONUS COST
+ end-initializations
+
+! Second objective function
+ Profit:= BONUS*save(N) - sum(i in 1..N-1) COST(i)*save(i)
+
+! Redefine precedence relations between tasks
+ forall(i,j in TASKS | exists(ARC(i,j)))  
+  Prec(i,j):= start(j) - start(i) + save(i) >= DUR(i)
+
+! Total duration
+ start(N) + save(N) = obj1
+
+! Limit on number of weeks that may be saved
+ forall(i in 1..N-1) save(i) <= MAXW(i)
+
+! Solve the second problem: maximize the total profit
+ maximize(Profit) 
+ 
+! Solution printing
+ writeln("Total profit: ", getsol(Profit))
+ print_sol
+
+!-----------------------------------------------------------------
+
+ procedure print_sol
+  writeln("Total duration: ", getsol(start(N)), " weeks")
+  forall(i in 1..N-1)
+   write(strfmt(i,2), ": ", strfmt(getsol(start(i)),-3),
+    if(i mod 9 = 0,"\n",""))
+  writeln
+ end-procedure
+
+end-model  

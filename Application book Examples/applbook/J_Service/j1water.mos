@@ -1,0 +1,52 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file j1water.mos
+   ````````````````
+   Water conveyance/water supply management
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "J-1 Water supply"
+ uses "mmxprs"
+
+ declarations
+  ARCS: range                       ! Set of arcs
+  NODES=1..12
+  
+  PIPE: array(ARCS,1..2) of integer ! Definition of arcs (= pipes)
+  CAP: array(ARCS) of integer       ! Capacity of arcs
+  SOURCE,SINK: integer              ! Number of source and sink nodes
+ end-declarations
+
+ initializations from 'j1water.dat'
+  PIPE CAP SOURCE SINK
+ end-initializations
+
+ finalize(ARCS)
+
+ declarations
+  flow: array(ARCS) of mpvar       ! Flow on arcs
+ end-declarations
+
+! Objective: total flow
+ TotalFlow:= sum(a in ARCS | PIPE(a,2)=SINK) flow(a)
+
+! Flow balances in nodes
+ forall(n in NODES | n<>SOURCE and n<>SINK) 
+  sum(a in ARCS | PIPE(a,1)=n) flow(a) = sum(a in ARCS | PIPE(a,2)=n) flow(a)
+
+! Capacity limits
+ forall(a in ARCS) flow(a) <= CAP(a)
+
+! Solve the problem
+ maximize(TotalFlow)
+ 
+! Solution printing
+ writeln("Total flow: ", getobjval)
+ forall(a in ARCS) writeln(PIPE(a,1), " -> ", PIPE(a,2), ": ", getsol(flow(a)))
+ 
+end-model

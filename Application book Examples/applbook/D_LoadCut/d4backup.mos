@@ -1,0 +1,60 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file d4backup.mos
+   `````````````````
+   Bin packing: backup of files onto floppy disks
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "D-4 Bin packing"
+ uses "mmxprs"
+
+ declarations
+  ND: integer                        ! Number of floppy disks
+  FILES = 1..16                      ! Set of files
+  DISKS: range                       ! Set of disks
+
+  CAP:  integer                      ! Floppy disk size
+  SIZE: array(FILES) of integer      ! Size of files to be saved
+ end-declarations
+ 
+ initializations from 'd4backup.dat'
+  CAP SIZE
+ end-initializations
+
+! Provide a sufficiently large number of disks
+ ND:= ceil((sum(f in FILES) SIZE(f))/CAP)
+ DISKS:= 1..ND
+
+ declarations  
+  save: array(FILES,DISKS) of mpvar  ! 1 if file saved on disk, 0 otherwise
+  diskuse: mpvar                     ! Number of disks used
+ end-declarations
+
+! Limit the number of disks used
+ forall(f in FILES) diskuse >= sum(d in DISKS) d*save(f,d)
+
+! Every file onto a single disk
+ forall(f in FILES) sum(d in DISKS) save(f,d) = 1
+
+! Capacity limit of disks
+ forall(d in DISKS) sum(f in FILES) SIZE(f)*save(f,d) <= CAP
+
+ forall(d in DISKS,f in FILES) save(f,d) is_binary
+
+! Minimize the total number of disks used
+ minimize(diskuse)
+ 
+! Solution printing
+  writeln("Number of disks used: ", getobjval)
+  forall(d in 1..integer(getobjval)) do
+   write(d, ":")
+   forall(f in FILES) write( if(getsol(save(f,d))>0 , " "+SIZE(f), ""))
+   writeln("  space used: ", getsol(sum(f in FILES) SIZE(f)*save(f,d)))
+  end-do
+      
+end-model

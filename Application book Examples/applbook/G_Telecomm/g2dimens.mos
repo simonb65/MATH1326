@@ -1,0 +1,65 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file g2dimens.mos
+   `````````````````
+   Diminsioning of a mobile phone network
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Apr. 2002
+*******************************************************!)
+
+model "G-2 Mobile network dimensioning"
+ uses "mmxprs"
+
+ declarations
+  HUBS = 1..4
+  MTSO = 5                              ! Node number of MTSO
+  NODES = HUBS+{MTSO}                   ! Set of nodes (simple hubs + MTSO)
+  CELLS = 1..10                         ! Cells to connect 
+
+  CAP: integer                          ! Capacity of ring segments
+  COST: array(CELLS,NODES) of integer   ! Connection cost
+  TRAF: array(CELLS) of integer         ! Traffic from every cell
+  CNCT: array(CELLS) of integer         ! Connections of a cell to the ring 
+  
+  connect: array(CELLS,NODES) of mpvar  ! 1 if cell connected to node, 
+                                        ! 0 otherwise
+ end-declarations
+
+ initializations from 'g2dimens.dat'
+  CAP COST TRAF CNCT
+ end-initializations
+
+! Check ring capacity
+ if not (sum(c in CELLS) TRAF(c)*(1-1/CNCT(c)) <= 2*CAP) then
+  writeln("Ring capacity not sufficient")
+  exit(0)
+ end-if 
+
+! Objective: total cost
+ TotCost:= sum(c in CELLS, n in NODES) COST(c,n)*connect(c,n)
+
+! Number of connections per cell
+ forall(c in CELLS) sum(n in NODES) connect(c,n) = CNCT(c) 
+
+! Ring capacity
+ sum(c in CELLS, n in HUBS) (TRAF(c)/CNCT(c))*connect(c,n) <= 2*CAP
+
+ forall(c in CELLS, n in NODES) connect(c,n) is_binary
+
+! Solve the problem
+ minimize(TotCost)
+ 
+! Solution printing
+ writeln("Total cost: ", getobjval, " (total traffic in the ring: ",
+   getsol(sum(c in CELLS, n in HUBS) (TRAF(c)/CNCT(c))*connect(c,n)), ")")
+
+ forall(c in CELLS) do
+  write(c, " ->")
+  forall(n in NODES) write(if(getsol(connect(c,n))>0, " " + n, ""))
+  writeln
+ end-do 
+
+end-model

@@ -1,0 +1,85 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file b3jobshop2.mos
+   ``````````````````
+   Job shop production planning, 
+   second, generic formulation.
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "B-3 Job shop (2)"
+ uses "mmxprs"
+ 
+ declarations   
+  JOBS: range                         ! Set of jobs (wall paper types)
+  MACH: range                         ! Set of machines (colors)
+
+  DUR: array(MACH,JOBS) of integer    ! Durations per machine and paper
+  NUMT: array(JOBS) of integer        ! Number of tasks per job
+  SEQ: array(JOBS,MACH) of integer    ! Machine sequence per job
+  NUMD: array(MACH) of integer        ! No. of jobs (disjunctions) per machine
+  DISJ: array(MACH,JOBS) of integer   ! List of jobs per machine
+ 
+  start: array(MACH,JOBS) of mpvar    ! Start times of tasks
+  finish: mpvar                       ! Schedule completion time
+  y: array(range) of mpvar            ! Disjunction variables 
+ end-declarations
+
+ initializations from 'b3jobshop2.dat'
+  DUR NUMT SEQ NUMD DISJ
+ end-initializations
+
+ forall(m in MACH, j in JOBS | DUR(m,j)>0 ) create(start(m,j))
+ 
+ BIGM:=sum(m in MACH, j in JOBS) DUR(m,j)  ! Some (sufficiently) large value
+
+! Precedence constraints
+ forall(j in JOBS) finish >= start(SEQ(j,NUMT(j)),j) + DUR(SEQ(j,NUMT(j)),j)
+ forall(j in JOBS, m in 1..NUMT(j)-1) 
+  start(SEQ(j,m),j)+DUR(SEQ(j,m),j) <= start(SEQ(j,m+1),j)
+
+! Disjunctions
+ d:=1
+ forall(m in MACH, i,j in 1..NUMD(m) | i<j) do
+  create(y(d))
+  y(d) is_binary
+  start(m,DISJ(m,i))+DUR(m,DISJ(m,i)) <= start(m,DISJ(m,j))+BIGM*y(d)
+  start(m,DISJ(m,j))+DUR(m,DISJ(m,j)) <= start(m,DISJ(m,i))+BIGM*(1-y(d))
+  d+=1
+ end-do
+
+! Bound on latest completion time 
+ finish <= BIGM
+
+! Solve the problem: minimize latest completion time
+ minimize(finish)
+
+! Solution printing
+ declarations
+  COLOR: array(MACH) of string         ! Colors printed by the machines
+ end-declarations
+
+ initializations from 'b3jobshop2.dat'
+  COLOR
+ end-initializations
+
+ writeln("Total completion time: ", getobjval)
+ write("     ")
+ forall(j in JOBS) write(strfmt(j,6))
+ writeln
+ forall(m in MACH) do
+  write(strfmt(COLOR(m),-7))
+  forall(j in JOBS)
+   if(DUR(m,j)>0) then
+    write(strfmt(getsol(start(m,j)),3), "-", getsol(start(m,j))+DUR(m,j))
+   else
+    write(strfmt(" ",6))
+   end-if 
+  writeln
+ end-do
+
+end-model 

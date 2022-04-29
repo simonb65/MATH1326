@@ -1,0 +1,57 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file c6assign.mos
+   `````````````````
+   Machine assignment for production batches
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "C-6 Machine assignment"
+ uses "mmxprs"
+
+ declarations   
+  MACH = 1..5                        ! Set of machines
+  PRODS = 1..10                      ! Set of production batches
+
+  CAP: array(MACH) of integer        ! Machine capacities
+  DUR: array(MACH,PRODS) of integer  ! Production durations
+  COST: array(MACH,PRODS) of integer ! Production costs
+
+  use: array(MACH,PRODS) of mpvar    ! 1 if machine assigned to batch, 
+                                     ! 0 otherwise
+ end-declarations
+
+ initializations from 'c6assign.dat'
+  DUR CAP COST
+ end-initializations
+
+! Objective: total production cost
+ Cost:= sum(m in MACH, p in PRODS) COST(m,p)*use(m,p)
+
+! Assign a single machine to every batch
+ forall(p in PRODS) sum(m in MACH) use(m,p) = 1
+
+! Limits on machine capacities
+ forall(m in MACH) sum(p in PRODS) DUR(m,p)*use(m,p) <= CAP(m)
+
+ forall(m in MACH, p in PRODS) use(m,p) is_binary
+
+! Solve the problem
+ minimize(Cost)
+ 
+! Solution printing
+ writeln("Total cost: ",getobjval)
+ forall(m in MACH) do
+  write("Machine ", m, ": ")
+  forall(p in PRODS) 
+   if (getsol(use(m,p))=1) then
+    write(p, " ")
+   end-if
+  writeln(" (total duration: ", getsol(sum(p in PRODS) DUR(m,p)*use(m,p)), ")")
+ end-do
+
+end-model

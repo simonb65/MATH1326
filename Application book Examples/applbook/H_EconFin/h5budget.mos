@@ -1,0 +1,57 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file h5budget.mos
+   `````````````````
+   Planning the family budget
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "H-5 Family budget"
+ uses "mmxprs"
+
+ declarations
+  MONTHS = 1..12                      ! Time period
+  ITEMS: set of string                ! Set of shops
+  
+  INCOME, ALLOW: integer              ! Monthly income and allowance
+  HMIN: integer                       ! Min. amount required for hobbies
+  EXPENSE: array(ITEMS) of integer    ! Expenses
+  FREQ: array(ITEMS) of integer       ! Frequency (periodicity) of expenses
+
+  hobby: array(MONTHS) of mpvar       ! Money to spend for leisure/hobbies
+  save: array(MONTHS) of mpvar        ! Savings
+ end-declarations
+
+ initializations from 'h5budget.dat'
+  INCOME ALLOW HMIN
+  [EXPENSE, FREQ] as 'PAYMENT'
+ end-initializations
+
+! Objective: money for hobby
+ Leisure:= sum(m in MONTHS) hobby(m)
+ 
+! Monthly balances
+ forall(m in MONTHS)
+  sum(i in ITEMS | m mod FREQ(i) = 0) EXPENSE(i) + hobby(m) +
+                  save(m) <= INCOME + ALLOW + if(m>1, save(m-1), 0) 
+
+ forall(m in MONTHS) hobby(m) >= HMIN
+
+! Solve the problem
+ maximize(Leisure)
+ 
+! Solution printing
+ writeln("Money for hobby: ", getobjval)
+ write("Month   ")
+ forall(m in MONTHS) write(" ", strfmt(m,3))
+ write("\nHobby:  ")
+ forall(m in MONTHS) write(" ", getsol(hobby(m)))
+ write("\nSavings:")
+ forall(m in MONTHS) write(" ", strfmt(getsol(save(m)),3))
+ writeln
+ 
+end-model

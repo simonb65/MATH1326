@@ -1,0 +1,74 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file k2marath.mos
+   ````````````````
+   Marathon puzzle
+   
+   Dominique, Ignace, Naren, Olivier, Philippe, and Pascal
+   have arrived as the first six at the Paris marathon.
+   Reconstruct their arrival order from the following
+   information:
+   a) Olivier has not arrived last
+   b) Dominique, Pascal and Ignace have arrived before Naren 
+      and Olivier
+   c) Dominique who was third last year has improved this year.
+   d) Philippe is among the first four.
+   e) Ignace has arrived neither in second nor third position.
+   f) Pascal has beaten Naren by three positions.
+   g) Neither Ignace nor Dominique are on the fourth position.
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "K-2 Marathon"
+ uses "mmxprs"
+
+ declarations
+  POS = 1..6                          ! Arrival positions
+  RUNNERS = {"Dominique","Ignace","Naren","Olivier","Philippe","Pascal"}
+    
+  arrive: array(RUNNERS,POS) of mpvar ! 1 if runner is p-th, 0 otherwise
+ end-declarations
+
+! One runner per position
+ forall(p in POS) sum(r in RUNNERS) arrive(r,p) = 1 
+ 
+! One position per runner
+ forall(r in RUNNERS) sum(p in POS) arrive(r,p) = 1 
+ 
+! a: Olivier not last
+ arrive("Olivier",6) = 0
+
+! b: Dominique, Pascal and Ignace before Naren and Olivier
+ sum(p in 5..6) (arrive("Dominique",p)+arrive("Pascal",p)+arrive("Ignace",p)) =
+   0
+ sum(p in 1..3) (arrive("Naren",p)+arrive("Olivier",p)) = 0
+ 
+! c: Dominique better than third
+ arrive("Dominique",1)+arrive("Dominique",2) = 1
+ 
+! d: Philippe is among the first four 
+ sum(p in 1..4) arrive("Philippe",p) = 1
+
+! e: Ignace neither second nor third
+ arrive("Ignace",2)+arrive("Ignace",3) = 0
+
+! f: Pascal three places earlier than Naren
+ sum(p in 4..6) arrive("Pascal",p) = 0
+ sum(p in 1..3) arrive("Naren",p) = 0
+
+! g: Neither Ignace nor Dominique on fourth position
+ arrive("Ignace",4)+arrive("Dominique",4) = 0
+ 
+ forall(p in POS, r in RUNNERS) arrive(r,p) is_binary
+ 
+! Solve the problem: no objective
+ minimize(0)
+
+! Solution printing
+ forall(r in RUNNERS) writeln(r,": ", getsol(sum(p in POS)p*arrive(r,p)) )
+
+end-model

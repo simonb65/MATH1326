@@ -1,0 +1,61 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file j3elect.mos
+   ````````````````
+   Grouping quarters to election districts
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Apr. 2002
+*******************************************************!)
+
+model "J-3 Rigging elections"
+ uses "mmxprs"
+
+ parameters
+  REQD = 6                            ! Required number of districts 
+ end-parameters
+
+ declarations
+  QUARTERS = 1..14                    ! Number of quarters
+  RDIST: range                        ! Set of election districts
+  
+  MAJ: array(RDIST) of integer        ! 1 if majority of votes, 0 otherwise
+  DISTR: array(RDIST,QUARTERS) of integer  ! 1 if quarter is in district, 
+                                           ! 0 otherwise
+ end-declarations
+
+ include "j3elect_calc.mos"
+
+ declarations
+  choose: array(RDIST) of mpvar      ! 1 if district chosen, 0 otherwise
+ end-declarations
+
+! Objective: number of votes
+ Votes:= sum(d in RDIST) MAJ(d)*choose(d)
+
+! Partitioning
+ forall(q in QUARTERS) sum(d in RDIST) DISTR(d,q)*choose(d) = 1
+ 
+! Desired number of districts 
+ sum(d in RDIST) choose(d) = REQD
+
+ forall(d in RDIST) choose(d) is_binary
+
+! Solve the problem
+ maximize(Votes)
+ 
+! Solution printing
+ if(getprobstat<>XPRS_OPT) then
+  writeln("Problem is infeasible")
+ else 
+  writeln("Total number of votes: ", getobjval)
+  forall(r in RDIST) if getsol(choose(r))>0 then
+   write(r, ": ")
+   forall(q in QUARTERS) write(if(DISTR(r,q)>0, " "+q, ""))
+   writeln(" (", MAJ(r), ")") 
+  end-if
+ end-if
+  
+end-model

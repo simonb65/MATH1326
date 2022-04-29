@@ -1,0 +1,83 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file c2glass.mos
+   ````````````````
+   Planning the production of glasses
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "C-2 Glass production"
+ uses "mmxprs"
+
+ declarations   
+  NT = 12                              ! Number of weeks in planning period
+  WEEKS = 1..NT 
+  PRODS = 1.. 6                        ! Set of products
+
+  CAPW,CAPM: integer                   ! Capacity of workers and machines
+  CAPS: integer                        ! Storage capacity
+  DEM: array(PRODS,WEEKS) of integer   ! Demand per product and per week
+  CPROD: array(PRODS) of integer       ! Production cost per product
+  CSTOCK: array(PRODS) of integer      ! Storage cost per product
+  ISTOCK: array(PRODS) of integer      ! Initial stock levels
+  FSTOCK: array(PRODS) of integer      ! Min. final stock levels
+  TIMEW,TIMEM: array(PRODS) of integer ! Worker and machine time per unit
+  SPACE: array(PRODS) of integer       ! Storage space required by products
+  
+  produce: array(PRODS,WEEKS) of mpvar ! Production of products per week
+  store: array(PRODS,WEEKS) of mpvar   ! Amount stored at end of week 
+ end-declarations
+
+ initializations from 'c2glass.dat'
+  CAPW CAPM CAPS DEM CSTOCK CPROD ISTOCK FSTOCK TIMEW TIMEM SPACE
+ end-initializations
+
+! Objective: sum of production and storage costs
+ Cost:= 
+  sum(p in PRODS, t in WEEKS) (CPROD(p)*produce(p,t) + CSTOCK(p)*store(p,t))
+
+! Stock balances
+ forall(p in PRODS, t in WEEKS)
+  store(p,t) = if(t>1, store(p,t-1), ISTOCK(p)) + produce(p,t) - DEM(p,t)
+
+! Final stock levels
+ forall(p in PRODS) store(p,NT) >= FSTOCK(p)
+
+! Capacity constraints 
+ forall(t in WEEKS) do
+  sum(p in PRODS) TIMEW(p)*produce(p,t) <= CAPW     ! Workers
+  sum(p in PRODS) TIMEM(p)*produce(p,t) <= CAPM     ! Machines
+  sum(p in PRODS) SPACE(p)*store(p,t)   <= CAPS     ! Storage
+ end-do
+
+! Solve the problem
+ minimize(Cost)
+ 
+! Solution printing
+ writeln("Total cost: ",getobjval)
+ writeln("Production plan:")
+ write("     Week")
+ forall(t in WEEKS) write(strfmt(t,7))
+ writeln
+ forall(p in PRODS) do
+  write(p,": Prod. ")
+  forall(t in WEEKS) write(strfmt(getsol(produce(p,t)),7))
+  writeln
+  write("   Store ")
+  forall(t in WEEKS) write(strfmt("("+getsol(store(p,t))+")",7))
+  writeln
+ end-do
+
+ writeln("\nCapacities used:")
+ writeln("Week",strfmt("Workers",8),strfmt("Machines",9),strfmt("Space",7))
+ forall(t in WEEKS) 
+  writeln(strfmt(t,2),
+   strfmt(getsol(sum(p in PRODS) TIMEW(p)*produce(p,t)),8),
+   strfmt(getsol(sum(p in PRODS) TIMEM(p)*produce(p,t)),10,2),
+   strfmt(getsol(sum(p in PRODS) SPACE(p)*store(p,t)),9,2) ) 
+	   
+end-model

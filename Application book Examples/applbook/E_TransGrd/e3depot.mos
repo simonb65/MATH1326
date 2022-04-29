@@ -1,0 +1,73 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file e3depot.mos
+   ````````````````
+   Depot location
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "E-3 Depot location"
+ uses "mmxprs"
+
+ declarations
+  DEPOTS = 1..12                       ! Set of depots
+  CUST = 1..12                         ! Set of customers
+
+  COST: array(DEPOTS,CUST) of integer  ! Delivery cost
+  CFIX: array(DEPOTS) of integer       ! Fix cost of depot construction
+  CAP: array(DEPOTS) of integer        ! Depot capacity
+  DEM: array(CUST) of integer          ! Demand by customers
+
+  fflow: array(DEPOTS,CUST) of mpvar   ! Perc. of demand supplied from depot
+  build: array(DEPOTS) of mpvar        ! 1 if depot built, 0 otherwise
+ end-declarations
+
+ initializations from 'e3depot.dat'
+  COST CFIX CAP DEM
+ end-initializations
+
+! Objective: total cost
+ TotCost:= sum(d in DEPOTS, c in CUST) COST(d,c)*fflow(d,c) +
+            sum(d in DEPOTS) CFIX(d)*build(d)
+
+! Satisfy demands
+ forall(c in CUST) sum(d in DEPOTS) fflow(d,c) = 1
+   
+! Capacity limits at depots
+ forall(d in DEPOTS) sum(c in CUST) DEM(c)*fflow(d,c) <= CAP(d)*build(d)
+
+! Additional constraints:
+! If there is any delivery from depot d, then this depot must be built
+(!
+ declarations
+  modcut: array(DEPOTS,CUST) of linctr
+ end-declarations
+
+ forall(d in DEPOTS, c in CUST) do
+  modcut(d,c):= DEM(c) * fflow(d,c) <= CAP(d) * build(d)
+  setmodcut(modcut(d,c))
+ end-do
+!)
+
+ forall(d in DEPOTS) build(d) is_binary
+ forall(d in DEPOTS, c in CUST) fflow(d,c) <= 1
+
+! Uncomment the following line to see the Optimizer log
+! setparam("XPRS_VERBOSE",true)
+
+! Solve the problem
+ minimize(TotCost)
+ 
+! Solution printing
+ writeln("Total cost: ", getobjval)
+ forall(d in DEPOTS, c in CUST)
+  if(getsol(fflow(d,c))>0) then
+   writeln(strfmt(d,2), " -> ", strfmt(c,2), ": ", 
+           strfmt(getsol(fflow(d,c))*DEM(c),3) )
+  end-if
+
+end-model

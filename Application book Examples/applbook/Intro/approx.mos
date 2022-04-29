@@ -1,0 +1,59 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file approx.mos
+   ```````````````
+   Function approximation with SOS2   
+
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Sep. 2006
+*******************************************************!)
+
+model "Approximation"
+ uses "mmxprs"
+
+ declarations
+  NB = 5
+  BREAKS = 1..NB
+  R,F: array(BREAKS) of real           ! Coordinates of break points
+  x,f: mpvar                           ! Decision variables
+  y: array(BREAKS) of mpvar            ! Weight variables
+ end-declarations
+
+ R:: [1, 2.2, 3.4, 4.8, 6.5]
+ F:: [2, 3.2, 1.4, 2.5, 0.8]
+ 
+ RefRow:= sum(i in BREAKS) R(i)*y(i) 
+ x = RefRow
+ f = sum(i in BREAKS) F(i)*y(i)
+ 
+! Convexity constraint
+ sum(i in BREAKS) y(i) = 1
+
+! SOS2 definition
+ RefRow is_sos2
+
+! Alternative SOS definition (to be used for 0-valued RefRow coefficients):
+! makesos2(union(i in BREAKS) {y(i)}, RefRow)
+
+(! Alternative formulation using binaries instead of SOS2:
+ declarations
+  b: array(1..NB-1) of mpvar
+ end-declarations
+
+ sum(i in 1..NB-1) b(i) = 1
+ forall(i in 1..NB-1) b(i) is_binary
+ forall(i in BREAKS) y(i) <= if(i>1, b(i-1), 0) + if(i<NB, b(i), 0)
+!)
+
+! Bounds 
+ 1<=x; x<=6.5
+
+! Solve the problem
+ minimize(f)
+ 
+ writeln("Objective value: ", getobjval)
+ writeln("x: ", getsol(x))
+  
+end-model 

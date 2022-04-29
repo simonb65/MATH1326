@@ -1,0 +1,70 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file k5nephew.mos
+   `````````````````
+   Distributing wine barrels among nephews
+   
+   A farmer wishes to distribute his 45 wine barrels among
+   his 5 nephews. 9 barrels are full, 9 filled to 3/4, 
+   9 half-full, 9 filled to a quarter, and 9 are empty.
+   Each nephew is to receive the same number of barrels
+   and the same volume of wine. Furthermore, each nephew
+   must receive at least one barrel of every type and 
+   no two of the nephews must be allocated exactly the
+   same number of barrels of every fill type. 
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "K-5 Nephew"
+ uses "mmxprs"
+
+ declarations
+  NN = 5; NT = 5
+  NEPHEWS = 1..NN                     ! Nephews
+  TYPES = 1..NT                       ! Contents types of wine barrels
+  BARRELS = 45
+    
+  COEF: array(TYPES) of integer       ! Factors for "alldifferent" constraint
+  FILL: array(TYPES) of real          ! Fill level of barrels
+
+  give: array(NEPHEWS,TYPES) of mpvar ! Barrels of type t for every nephew
+  p: array(NEPHEWS) of mpvar          ! 'Pattern': value of the product
+                                      !            c*give(n,t)
+ end-declarations
+
+ FILL:: [1, 0.75, 0.5, 0.25, 0]
+ COEF:: [10000, 1000, 100, 10, 1]
+
+! Barrels per nephew
+ forall(n in NEPHEWS) sum(t in TYPES) give(n,t) = BARRELS/NN
+ forall(t in TYPES) sum(n in NEPHEWS) give(n,t) = BARRELS/NN
+
+! Equilibrated contents
+ forall(n in NEPHEWS) 
+  sum(t in TYPES) FILL(t)*give(n,t) = BARRELS/NN * (sum(t in TYPES) FILL(t))/NT
+
+! Every nephew receives a different number of barrels of any given type
+! (that is, a different pattern for every nephew)
+ forall(n in NEPHEWS) sum(t in TYPES) COEF(t)*give(n,t) = p(n)
+ forall(n in 2..NN) p(n) - p(n-1) >= 1
+
+ forall(n in NEPHEWS,t in TYPES) do
+  give(n,t) is_integer
+  1 <= give(n,t); give(n,t) <= NN
+ end-do
+
+! Solve the problem: no objective
+ minimize(0)
+
+! Solution printing
+ forall(n in NEPHEWS) do
+  write(n,": ")
+  forall(t in TYPES) write( getsol(give(n,t)), " " )
+  writeln
+ end-do
+
+end-model

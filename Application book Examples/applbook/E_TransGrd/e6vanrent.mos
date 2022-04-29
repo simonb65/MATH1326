@@ -1,0 +1,67 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file e6vanrent.mos
+   ``````````````````
+   Fleet planning for van rental
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "E-6 Van rental"
+ uses "mmxprs"
+
+ declarations
+  NM = 6
+  MONTHS = 1..NM                      ! Months
+  CONTR = 3..5                        ! Contract types
+
+  REQ: array(MONTHS) of integer       ! Monthly requirements
+  COST: array(CONTR) of integer       ! Cost of contract types
+  NINIT: integer                      ! Vans rented at beginning of plan
+
+  rent: array(CONTR,MONTHS) of mpvar  ! New rentals every month
+ end-declarations
+
+ initializations from 'e6vanrent.dat'
+  REQ COST NINIT
+ end-initializations
+
+! Objective: total cost
+ Cost:= sum(c in CONTR, m in MONTHS) COST(c)*rent(c,m)
+
+! Fulfill the monthly requirements
+ forall(m in MONTHS) 
+  if(m<=2, NINIT, 0) + 
+   sum(c in CONTR, n in maxlist(1,m-c+1)..minlist(m,NM-c+1)) rent(c,n) >= 
+    REQ(m)
+
+! Solve the problem
+ minimize(Cost)
+ 
+! Solution printing
+ declarations
+  NAMES: array(MONTHS) of string
+ end-declarations
+
+ initializations from 'e6vanrent.dat'
+  NAMES
+ end-initializations
+ 
+ writeln("Total cost: ", getobjval)
+ write("new rents  ")
+ forall(m in MONTHS) write(NAMES(m), "  ")
+ writeln
+ forall(c in CONTR) do
+  write(c, " months ")
+  forall(m in MONTHS) write(strfmt(getsol(rent(c,m)),5))
+  writeln
+ end-do
+ write("Total    ")
+ forall(m in MONTHS) write(strfmt(getsol(if(m<=2, NINIT, 0) + 
+   sum(c in CONTR, n in maxlist(1,m-c+1)..minlist(m,NM-c+1)) rent(c,n)), 5))
+ writeln   
+
+end-model

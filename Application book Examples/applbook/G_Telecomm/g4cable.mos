@@ -1,0 +1,57 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file g4cable.mos
+   ````````````````
+   Connecting terminals through cables
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Apr. 2002
+*******************************************************!)
+
+model "G-4 Cabled network"
+ uses "mmxprs"
+
+ declarations
+  NTERM = 6
+  TERMINALS = 1..NTERM                  ! Set of terminals to connect
+
+  DIST: array(TERMINALS,TERMINALS) of integer  ! Distance between terminals
+
+  connect: array(TERMINALS,TERMINALS) of mpvar ! 1 if direct connection
+                                        ! between terminals, 0 otherwise
+  level: array(TERMINALS) of mpvar      ! level value of nodes
+ end-declarations
+
+ initializations from 'g4cable.dat'
+  DIST
+ end-initializations
+
+! Objective: length of cable used
+ Length:= sum(s,t in TERMINALS | s<>t) DIST(s,t)*connect(s,t)
+
+! Number of connections
+ sum(s,t in TERMINALS | s<>t) connect(s,t) = NTERM - 1 
+
+! Avoid subcycle
+ forall(s,t in TERMINALS | s<>t) 
+  level(t) >= level(s) + 1 - NTERM + NTERM*connect(s,t)
+
+! Direct all connections towards the root (node 1)
+ forall(s in 2..NTERM) sum(t in TERMINALS | s<>t) connect(s,t) = 1
+
+ forall(s,t in TERMINALS | s<>t) connect(s,t) is_binary
+
+! Solve the problem
+ minimize(Length)
+ 
+! Solution printing
+ writeln("Cable length: ", getobjval)
+
+ write("Connections:")
+ forall(s,t in TERMINALS | s<>t)
+  write(if(getsol(connect(s,t))>0, " " + s + "-" + t, "")) 
+ writeln
+  
+end-model

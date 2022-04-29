@@ -1,0 +1,10 @@
+! Data file for `e6vanrent.mos'
+
+REQ: [430 410 440 390 425 450]
+
+COST: [1700 2200 2600]
+
+NINIT: 200
+
+NAMES: ["Jan" "Feb" "Mar" "Apr" "May" "Jun"]
+

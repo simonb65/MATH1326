@@ -1,0 +1,1899 @@
+
+Log started (V20.1.0.0) Fri Mar 18 18:42:13 2022
+
+
+Problem 'DepotLocation.lp' read.
+Read time = 0.02 sec. (0.01 ticks)
+Version identifier: 20.1.0.0 | 2020-11-10 | 9bedb6d68
+Tried aggregator 1 time.
+MIP Presolve eliminated 144 rows and 0 columns.
+Reduced MIP has 24 rows, 156 columns, and 300 nonzeros.
+Reduced MIP has 12 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.17 ticks)
+Found incumbent of value 3078070.555556 after 0.00 sec. (0.45 ticks)
+Probing time = 0.00 sec. (0.01 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+Reduced MIP has 24 rows, 156 columns, and 300 nonzeros.
+Reduced MIP has 12 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (0.17 ticks)
+Probing time = 0.00 sec. (0.01 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 8 threads.
+Root relaxation solution time = 0.00 sec. (0.17 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                      3078070.5556        0.0000           100.00%
+*     0+    0                        28892.4211        0.0000           100.00%
+      0     0    15992.2222     1    28892.4211    15992.2222       46   44.65%
+*     0+    0                        18228.3333    15992.2222            12.27%
+*     0     0      integral     0    18103.0417       Cuts: 9       62    0.00%
+      0     0        cutoff          18103.0417    18103.0417       62    0.00%
+Elapsed time = 0.05 sec. (1.45 ticks, tree = 0.01 MB, solutions = 4)
+
+Cover cuts applied:  1
+Implied bound cuts applied:  1
+Gomory fractional cuts applied:  1
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (1.46 ticks)
+Parallel b&c, 8 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (1.46 ticks)
+
+Solution pool: 4 solutions saved.
+
+MIP - Integer optimal solution:  Objective =  1.8103041667e+04
+Solution time =    0.08 sec.  Iterations = 62  Nodes = 0
+Deterministic time = 1.46 ticks  (18.77 ticks/sec)
+
+Version identifier: 20.1.0.0 | 2020-11-10 | 9bedb6d68
+
+Root node processing (before b&c):
+  Real time             =    0.00 sec. (0.00 ticks)
+Parallel b&c, 8 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.00 sec. (0.00 ticks)
+
+Solution pool: 4 solutions saved.
+
+MIP - Integer optimal solution:  Objective =  1.8103041667e+04
+Solution time =    0.05 sec.  Iterations = 62  Nodes = 0
+Deterministic time = 0.00 ticks  (0.09 ticks/sec)
+
+Minimize
+ DeliveryandFixedCosts: 3500 Build_1 + 10000 Build_10 + 9000 Build_11
+                        + 3500 Build_12 + 9000 Build_2 + 10000 Build_3
+                        + 4000 Build_4 + 3000 Build_5 + 9000 Build_6
+                        + 9000 Build_7 + 3000 Build_8 + 4000 Build_9
+                        + 160 FracFlow_10_1 + 1000000 FracFlow_10_10
+                        + 1000000 FracFlow_10_11 + 1000000 FracFlow_10_12
+                        + 125 FracFlow_10_2 + 100 FracFlow_10_3
+                        + 100 FracFlow_10_4 + 80 FracFlow_10_5
+                        + 150 FracFlow_10_6 + 190 FracFlow_10_7
+                        + 150 FracFlow_10_8 + 130 FracFlow_10_9
+                        + 190 FracFlow_11_1 + 1000000 FracFlow_11_10
+                        + 1000000 FracFlow_11_11 + 1000000 FracFlow_11_12
+                        + 150 FracFlow_11_2 + 130 FracFlow_11_3
+                        + 1000000 FracFlow_11_4 + 1000000 FracFlow_11_5
+                        + 1000000 FracFlow_11_6 + 200 FracFlow_11_7
+                        + 180 FracFlow_11_8 + 150 FracFlow_11_9
+                        + 200 FracFlow_12_1 + 50 FracFlow_12_10
+                        + 60 FracFlow_12_11 + 100 FracFlow_12_12
+                        + 180 FracFlow_12_2 + 150 FracFlow_12_3
+                        + 1000000 FracFlow_12_4 + 1000000 FracFlow_12_5
+                        + 1000000 FracFlow_12_6 + 100 FracFlow_12_7
+                        + 80 FracFlow_12_8 + 50 FracFlow_12_9
+                        + 100 FracFlow_1_1 + 70 FracFlow_1_10
+                        + 65 FracFlow_1_11 + 110 FracFlow_1_12
+                        + 80 FracFlow_1_2 + 50 FracFlow_1_3 + 50 FracFlow_1_4
+                        + 60 FracFlow_1_5 + 100 FracFlow_1_6 + 120 FracFlow_1_7
+                        + 90 FracFlow_1_8 + 60 FracFlow_1_9 + 120 FracFlow_2_1
+                        + 80 FracFlow_2_10 + 75 FracFlow_2_11
+                        + 130 FracFlow_2_12 + 90 FracFlow_2_2 + 60 FracFlow_2_3
+                        + 70 FracFlow_2_4 + 65 FracFlow_2_5 + 110 FracFlow_2_6
+                        + 140 FracFlow_2_7 + 110 FracFlow_2_8 + 80 FracFlow_2_9
+                        + 140 FracFlow_3_1 + 100 FracFlow_3_10
+                        + 80 FracFlow_3_11 + 150 FracFlow_3_12
+                        + 110 FracFlow_3_2 + 80 FracFlow_3_3 + 80 FracFlow_3_4
+                        + 75 FracFlow_3_5 + 130 FracFlow_3_6 + 160 FracFlow_3_7
+                        + 125 FracFlow_3_8 + 100 FracFlow_3_9
+                        + 160 FracFlow_4_1 + 1000000 FracFlow_4_10
+                        + 1000000 FracFlow_4_11 + 1000000 FracFlow_4_12
+                        + 125 FracFlow_4_2 + 100 FracFlow_4_3
+                        + 100 FracFlow_4_4 + 80 FracFlow_4_5 + 150 FracFlow_4_6
+                        + 190 FracFlow_4_7 + 150 FracFlow_4_8
+                        + 130 FracFlow_4_9 + 190 FracFlow_5_1
+                        + 1000000 FracFlow_5_10 + 1000000 FracFlow_5_11
+                        + 1000000 FracFlow_5_12 + 150 FracFlow_5_2
+                        + 130 FracFlow_5_3 + 1000000 FracFlow_5_4
+                        + 1000000 FracFlow_5_5 + 1000000 FracFlow_5_6
+                        + 200 FracFlow_5_7 + 180 FracFlow_5_8
+                        + 150 FracFlow_5_9 + 200 FracFlow_6_1
+                        + 50 FracFlow_6_10 + 60 FracFlow_6_11
+                        + 100 FracFlow_6_12 + 180 FracFlow_6_2
+                        + 150 FracFlow_6_3 + 1000000 FracFlow_6_4
+                        + 1000000 FracFlow_6_5 + 1000000 FracFlow_6_6
+                        + 100 FracFlow_6_7 + 80 FracFlow_6_8 + 50 FracFlow_6_9
+                        + 100 FracFlow_7_1 + 70 FracFlow_7_10
+                        + 65 FracFlow_7_11 + 110 FracFlow_7_12
+                        + 80 FracFlow_7_2 + 50 FracFlow_7_3 + 50 FracFlow_7_4
+                        + 60 FracFlow_7_5 + 100 FracFlow_7_6 + 120 FracFlow_7_7
+                        + 90 FracFlow_7_8 + 60 FracFlow_7_9 + 120 FracFlow_8_1
+                        + 80 FracFlow_8_10 + 75 FracFlow_8_11
+                        + 130 FracFlow_8_12 + 90 FracFlow_8_2 + 60 FracFlow_8_3
+                        + 70 FracFlow_8_4 + 65 FracFlow_8_5 + 110 FracFlow_8_6
+                        + 140 FracFlow_8_7 + 110 FracFlow_8_8 + 80 FracFlow_8_9
+                        + 140 FracFlow_9_1 + 100 FracFlow_9_10
+                        + 80 FracFlow_9_11 + 150 FracFlow_9_12
+                        + 110 FracFlow_9_2 + 80 FracFlow_9_3 + 80 FracFlow_9_4
+                        + 75 FracFlow_9_5 + 130 FracFlow_9_6 + 160 FracFlow_9_7
+                        + 125 FracFlow_9_8 + 100 FracFlow_9_9
+Subject To
+ CapacityIfBuilt1:    - 300 Build_1 + 120 FracFlow_1_1 + 150 FracFlow_1_10
+                      + 95 FracFlow_1_11 + 120 FracFlow_1_12 + 80 FracFlow_1_2
+                      + 75 FracFlow_1_3 + 100 FracFlow_1_4 + 110 FracFlow_1_5
+                      + 100 FracFlow_1_6 + 90 FracFlow_1_7 + 60 FracFlow_1_8
+                      + 30 FracFlow_1_9 <= 0
+ CapacityIfBuilt10:   - 250 Build_10 + 120 FracFlow_10_1 + 150 FracFlow_10_10
+                      + 95 FracFlow_10_11 + 120 FracFlow_10_12
+                      + 80 FracFlow_10_2 + 75 FracFlow_10_3 + 100 FracFlow_10_4
+                      + 110 FracFlow_10_5 + 100 FracFlow_10_6
+                      + 90 FracFlow_10_7 + 60 FracFlow_10_8 + 30 FracFlow_10_9
+                      <= 0
+ CapacityIfBuilt11:   - 230 Build_11 + 120 FracFlow_11_1 + 150 FracFlow_11_10
+                      + 95 FracFlow_11_11 + 120 FracFlow_11_12
+                      + 80 FracFlow_11_2 + 75 FracFlow_11_3 + 100 FracFlow_11_4
+                      + 110 FracFlow_11_5 + 100 FracFlow_11_6
+                      + 90 FracFlow_11_7 + 60 FracFlow_11_8 + 30 FracFlow_11_9
+                      <= 0
+ CapacityIfBuilt12:   - 180 Build_12 + 120 FracFlow_12_1 + 150 FracFlow_12_10
+                      + 95 FracFlow_12_11 + 120 FracFlow_12_12
+                      + 80 FracFlow_12_2 + 75 FracFlow_12_3 + 100 FracFlow_12_4
+                      + 110 FracFlow_12_5 + 100 FracFlow_12_6
+                      + 90 FracFlow_12_7 + 60 FracFlow_12_8 + 30 FracFlow_12_9
+                      <= 0
+ CapacityIfBuilt2:    - 250 Build_2 + 120 FracFlow_2_1 + 150 FracFlow_2_10
+                      + 95 FracFlow_2_11 + 120 FracFlow_2_12 + 80 FracFlow_2_2
+                      + 75 FracFlow_2_3 + 100 FracFlow_2_4 + 110 FracFlow_2_5
+                      + 100 FracFlow_2_6 + 90 FracFlow_2_7 + 60 FracFlow_2_8
+                      + 30 FracFlow_2_9 <= 0
+ CapacityIfBuilt3:    - 100 Build_3 + 120 FracFlow_3_1 + 150 FracFlow_3_10
+                      + 95 FracFlow_3_11 + 120 FracFlow_3_12 + 80 FracFlow_3_2
+                      + 75 FracFlow_3_3 + 100 FracFlow_3_4 + 110 FracFlow_3_5
+                      + 100 FracFlow_3_6 + 90 FracFlow_3_7 + 60 FracFlow_3_8
+                      + 30 FracFlow_3_9 <= 0
+ CapacityIfBuilt4:    - 180 Build_4 + 120 FracFlow_4_1 + 150 FracFlow_4_10
+                      + 95 FracFlow_4_11 + 120 FracFlow_4_12 + 80 FracFlow_4_2
+                      + 75 FracFlow_4_3 + 100 FracFlow_4_4 + 110 FracFlow_4_5
+                      + 100 FracFlow_4_6 + 90 FracFlow_4_7 + 60 FracFlow_4_8
+                      + 30 FracFlow_4_9 <= 0
+ CapacityIfBuilt5:    - 275 Build_5 + 120 FracFlow_5_1 + 150 FracFlow_5_10
+                      + 95 FracFlow_5_11 + 120 FracFlow_5_12 + 80 FracFlow_5_2
+                      + 75 FracFlow_5_3 + 100 FracFlow_5_4 + 110 FracFlow_5_5
+                      + 100 FracFlow_5_6 + 90 FracFlow_5_7 + 60 FracFlow_5_8
+                      + 30 FracFlow_5_9 <= 0
+ CapacityIfBuilt6:    - 300 Build_6 + 120 FracFlow_6_1 + 150 FracFlow_6_10
+                      + 95 FracFlow_6_11 + 120 FracFlow_6_12 + 80 FracFlow_6_2
+                      + 75 FracFlow_6_3 + 100 FracFlow_6_4 + 110 FracFlow_6_5
+                      + 100 FracFlow_6_6 + 90 FracFlow_6_7 + 60 FracFlow_6_8
+                      + 30 FracFlow_6_9 <= 0
+ CapacityIfBuilt7:    - 200 Build_7 + 120 FracFlow_7_1 + 150 FracFlow_7_10
+                      + 95 FracFlow_7_11 + 120 FracFlow_7_12 + 80 FracFlow_7_2
+                      + 75 FracFlow_7_3 + 100 FracFlow_7_4 + 110 FracFlow_7_5
+                      + 100 FracFlow_7_6 + 90 FracFlow_7_7 + 60 FracFlow_7_8
+                      + 30 FracFlow_7_9 <= 0
+ CapacityIfBuilt8:    - 220 Build_8 + 120 FracFlow_8_1 + 150 FracFlow_8_10
+                      + 95 FracFlow_8_11 + 120 FracFlow_8_12 + 80 FracFlow_8_2
+                      + 75 FracFlow_8_3 + 100 FracFlow_8_4 + 110 FracFlow_8_5
+                      + 100 FracFlow_8_6 + 90 FracFlow_8_7 + 60 FracFlow_8_8
+                      + 30 FracFlow_8_9 <= 0
+ CapacityIfBuilt9:    - 270 Build_9 + 120 FracFlow_9_1 + 150 FracFlow_9_10
+                      + 95 FracFlow_9_11 + 120 FracFlow_9_12 + 80 FracFlow_9_2
+                      + 75 FracFlow_9_3 + 100 FracFlow_9_4 + 110 FracFlow_9_5
+                      + 100 FracFlow_9_6 + 90 FracFlow_9_7 + 60 FracFlow_9_8
+                      + 30 FracFlow_9_9 <= 0
+ CustomerDemandMet1:  FracFlow_10_1 + FracFlow_11_1 + FracFlow_12_1
+                      + FracFlow_1_1 + FracFlow_2_1 + FracFlow_3_1
+                      + FracFlow_4_1 + FracFlow_5_1 + FracFlow_6_1
+                      + FracFlow_7_1 + FracFlow_8_1 + FracFlow_9_1  = 1
+ CustomerDemandMet10: FracFlow_10_10 + FracFlow_11_10 + FracFlow_12_10
+                      + FracFlow_1_10 + FracFlow_2_10 + FracFlow_3_10
+                      + FracFlow_4_10 + FracFlow_5_10 + FracFlow_6_10
+                      + FracFlow_7_10 + FracFlow_8_10 + FracFlow_9_10  = 1
+ CustomerDemandMet11: FracFlow_10_11 + FracFlow_11_11 + FracFlow_12_11
+                      + FracFlow_1_11 + FracFlow_2_11 + FracFlow_3_11
+                      + FracFlow_4_11 + FracFlow_5_11 + FracFlow_6_11
+                      + FracFlow_7_11 + FracFlow_8_11 + FracFlow_9_11  = 1
+ CustomerDemandMet12: FracFlow_10_12 + FracFlow_11_12 + FracFlow_12_12
+                      + FracFlow_1_12 + FracFlow_2_12 + FracFlow_3_12
+                      + FracFlow_4_12 + FracFlow_5_12 + FracFlow_6_12
+                      + FracFlow_7_12 + FracFlow_8_12 + FracFlow_9_12  = 1
+ CustomerDemandMet2:  FracFlow_10_2 + FracFlow_11_2 + FracFlow_12_2
+                      + FracFlow_1_2 + FracFlow_2_2 + FracFlow_3_2
+                      + FracFlow_4_2 + FracFlow_5_2 + FracFlow_6_2
+                      + FracFlow_7_2 + FracFlow_8_2 + FracFlow_9_2  = 1
+ CustomerDemandMet3:  FracFlow_10_3 + FracFlow_11_3 + FracFlow_12_3
+                      + FracFlow_1_3 + FracFlow_2_3 + FracFlow_3_3
+                      + FracFlow_4_3 + FracFlow_5_3 + FracFlow_6_3
+                      + FracFlow_7_3 + FracFlow_8_3 + FracFlow_9_3  = 1
+ CustomerDemandMet4:  FracFlow_10_4 + FracFlow_11_4 + FracFlow_12_4
+                      + FracFlow_1_4 + FracFlow_2_4 + FracFlow_3_4
+                      + FracFlow_4_4 + FracFlow_5_4 + FracFlow_6_4
+                      + FracFlow_7_4 + FracFlow_8_4 + FracFlow_9_4  = 1
+ CustomerDemandMet5:  FracFlow_10_5 + FracFlow_11_5 + FracFlow_12_5
+                      + FracFlow_1_5 + FracFlow_2_5 + FracFlow_3_5
+                      + FracFlow_4_5 + FracFlow_5_5 + FracFlow_6_5
+                      + FracFlow_7_5 + FracFlow_8_5 + FracFlow_9_5  = 1
+ CustomerDemandMet6:  FracFlow_10_6 + FracFlow_11_6 + FracFlow_12_6
+                      + FracFlow_1_6 + FracFlow_2_6 + FracFlow_3_6
+                      + FracFlow_4_6 + FracFlow_5_6 + FracFlow_6_6
+                      + FracFlow_7_6 + FracFlow_8_6 + FracFlow_9_6  = 1
+ CustomerDemandMet7:  FracFlow_10_7 + FracFlow_11_7 + FracFlow_12_7
+                      + FracFlow_1_7 + FracFlow_2_7 + FracFlow_3_7
+                      + FracFlow_4_7 + FracFlow_5_7 + FracFlow_6_7
+                      + FracFlow_7_7 + FracFlow_8_7 + FracFlow_9_7  = 1
+ CustomerDemandMet8:  FracFlow_10_8 + FracFlow_11_8 + FracFlow_12_8
+                      + FracFlow_1_8 + FracFlow_2_8 + FracFlow_3_8
+                      + FracFlow_4_8 + FracFlow_5_8 + FracFlow_6_8
+                      + FracFlow_7_8 + FracFlow_8_8 + FracFlow_9_8  = 1
+ CustomerDemandMet9:  FracFlow_10_9 + FracFlow_11_9 + FracFlow_12_9
+                      + FracFlow_1_9 + FracFlow_2_9 + FracFlow_3_9
+                      + FracFlow_4_9 + FracFlow_5_9 + FracFlow_6_9
+                      + FracFlow_7_9 + FracFlow_8_9 + FracFlow_9_9  = 1
+ _C1:                 FracFlow_1_1 <= 1
+ _C10:                FracFlow_1_10 <= 1
+ _C100:               FracFlow_9_4 <= 1
+ _C101:               FracFlow_9_5 <= 1
+ _C102:               FracFlow_9_6 <= 1
+ _C103:               FracFlow_9_7 <= 1
+ _C104:               FracFlow_9_8 <= 1
+ _C105:               FracFlow_9_9 <= 1
+ _C106:               FracFlow_9_10 <= 1
+ _C107:               FracFlow_9_11 <= 1
+ _C108:               FracFlow_9_12 <= 1
+ _C109:               FracFlow_10_1 <= 1
+ _C11:                FracFlow_1_11 <= 1
+ _C110:               FracFlow_10_2 <= 1
+ _C111:               FracFlow_10_3 <= 1
+ _C112:               FracFlow_10_4 <= 1
+ _C113:               FracFlow_10_5 <= 1
+ _C114:               FracFlow_10_6 <= 1
+ _C115:               FracFlow_10_7 <= 1
+ _C116:               FracFlow_10_8 <= 1
+ _C117:               FracFlow_10_9 <= 1
+ _C118:               FracFlow_10_10 <= 1
+ _C119:               FracFlow_10_11 <= 1
+ _C12:                FracFlow_1_12 <= 1
+ _C120:               FracFlow_10_12 <= 1
+ _C121:               FracFlow_11_1 <= 1
+ _C122:               FracFlow_11_2 <= 1
+ _C123:               FracFlow_11_3 <= 1
+ _C124:               FracFlow_11_4 <= 1
+ _C125:               FracFlow_11_5 <= 1
+ _C126:               FracFlow_11_6 <= 1
+ _C127:               FracFlow_11_7 <= 1
+ _C128:               FracFlow_11_8 <= 1
+ _C129:               FracFlow_11_9 <= 1
+ _C13:                FracFlow_2_1 <= 1
+ _C130:               FracFlow_11_10 <= 1
+ _C131:               FracFlow_11_11 <= 1
+ _C132:               FracFlow_11_12 <= 1
+ _C133:               FracFlow_12_1 <= 1
+ _C134:               FracFlow_12_2 <= 1
+ _C135:               FracFlow_12_3 <= 1
+ _C136:               FracFlow_12_4 <= 1
+ _C137:               FracFlow_12_5 <= 1
+ _C138:               FracFlow_12_6 <= 1
+ _C139:               FracFlow_12_7 <= 1
+ _C14:                FracFlow_2_2 <= 1
+ _C140:               FracFlow_12_8 <= 1
+ _C141:               FracFlow_12_9 <= 1
+ _C142:               FracFlow_12_10 <= 1
+ _C143:               FracFlow_12_11 <= 1
+ _C144:               FracFlow_12_12 <= 1
+ _C15:                FracFlow_2_3 <= 1
+ _C16:                FracFlow_2_4 <= 1
+ _C17:                FracFlow_2_5 <= 1
+ _C18:                FracFlow_2_6 <= 1
+ _C19:                FracFlow_2_7 <= 1
+ _C2:                 FracFlow_1_2 <= 1
+ _C20:                FracFlow_2_8 <= 1
+ _C21:                FracFlow_2_9 <= 1
+ _C22:                FracFlow_2_10 <= 1
+ _C23:                FracFlow_2_11 <= 1
+ _C24:                FracFlow_2_12 <= 1
+ _C25:                FracFlow_3_1 <= 1
+ _C26:                FracFlow_3_2 <= 1
+ _C27:                FracFlow_3_3 <= 1
+ _C28:                FracFlow_3_4 <= 1
+ _C29:                FracFlow_3_5 <= 1
+ _C3:                 FracFlow_1_3 <= 1
+ _C30:                FracFlow_3_6 <= 1
+ _C31:                FracFlow_3_7 <= 1
+ _C32:                FracFlow_3_8 <= 1
+ _C33:                FracFlow_3_9 <= 1
+ _C34:                FracFlow_3_10 <= 1
+ _C35:                FracFlow_3_11 <= 1
+ _C36:                FracFlow_3_12 <= 1
+ _C37:                FracFlow_4_1 <= 1
+ _C38:                FracFlow_4_2 <= 1
+ _C39:                FracFlow_4_3 <= 1
+ _C4:                 FracFlow_1_4 <= 1
+ _C40:                FracFlow_4_4 <= 1
+ _C41:                FracFlow_4_5 <= 1
+ _C42:                FracFlow_4_6 <= 1
+ _C43:                FracFlow_4_7 <= 1
+ _C44:                FracFlow_4_8 <= 1
+ _C45:                FracFlow_4_9 <= 1
+ _C46:                FracFlow_4_10 <= 1
+ _C47:                FracFlow_4_11 <= 1
+ _C48:                FracFlow_4_12 <= 1
+ _C49:                FracFlow_5_1 <= 1
+ _C5:                 FracFlow_1_5 <= 1
+ _C50:                FracFlow_5_2 <= 1
+ _C51:                FracFlow_5_3 <= 1
+ _C52:                FracFlow_5_4 <= 1
+ _C53:                FracFlow_5_5 <= 1
+ _C54:                FracFlow_5_6 <= 1
+ _C55:                FracFlow_5_7 <= 1
+ _C56:                FracFlow_5_8 <= 1
+ _C57:                FracFlow_5_9 <= 1
+ _C58:                FracFlow_5_10 <= 1
+ _C59:                FracFlow_5_11 <= 1
+ _C6:                 FracFlow_1_6 <= 1
+ _C60:                FracFlow_5_12 <= 1
+ _C61:                FracFlow_6_1 <= 1
+ _C62:                FracFlow_6_2 <= 1
+ _C63:                FracFlow_6_3 <= 1
+ _C64:                FracFlow_6_4 <= 1
+ _C65:                FracFlow_6_5 <= 1
+ _C66:                FracFlow_6_6 <= 1
+ _C67:                FracFlow_6_7 <= 1
+ _C68:                FracFlow_6_8 <= 1
+ _C69:                FracFlow_6_9 <= 1
+ _C7:                 FracFlow_1_7 <= 1
+ _C70:                FracFlow_6_10 <= 1
+ _C71:                FracFlow_6_11 <= 1
+ _C72:                FracFlow_6_12 <= 1
+ _C73:                FracFlow_7_1 <= 1
+ _C74:                FracFlow_7_2 <= 1
+ _C75:                FracFlow_7_3 <= 1
+ _C76:                FracFlow_7_4 <= 1
+ _C77:                FracFlow_7_5 <= 1
+ _C78:                FracFlow_7_6 <= 1
+ _C79:                FracFlow_7_7 <= 1
+ _C8:                 FracFlow_1_8 <= 1
+ _C80:                FracFlow_7_8 <= 1
+ _C81:                FracFlow_7_9 <= 1
+ _C82:                FracFlow_7_10 <= 1
+ _C83:                FracFlow_7_11 <= 1
+ _C84:                FracFlow_7_12 <= 1
+ _C85:                FracFlow_8_1 <= 1
+ _C86:                FracFlow_8_2 <= 1
+ _C87:                FracFlow_8_3 <= 1
+ _C88:                FracFlow_8_4 <= 1
+ _C89:                FracFlow_8_5 <= 1
+ _C9:                 FracFlow_1_9 <= 1
+ _C90:                FracFlow_8_6 <= 1
+ _C91:                FracFlow_8_7 <= 1
+ _C92:                FracFlow_8_8 <= 1
+ _C93:                FracFlow_8_9 <= 1
+ _C94:                FracFlow_8_10 <= 1
+ _C95:                FracFlow_8_11 <= 1
+ _C96:                FracFlow_8_12 <= 1
+ _C97:                FracFlow_9_1 <= 1
+ _C98:                FracFlow_9_2 <= 1
+ _C99:                FracFlow_9_3 <= 1
+Bounds
+ 0 <= Build_1 <= 1
+ 0 <= Build_10 <= 1
+ 0 <= Build_11 <= 1
+ 0 <= Build_12 <= 1
+ 0 <= Build_2 <= 1
+ 0 <= Build_3 <= 1
+ 0 <= Build_4 <= 1
+ 0 <= Build_5 <= 1
+ 0 <= Build_6 <= 1
+ 0 <= Build_7 <= 1
+ 0 <= Build_8 <= 1
+ 0 <= Build_9 <= 1
+ All other variables are >= 0.
+Binaries
+ Build_1  Build_10  Build_11  Build_12  Build_2  Build_3  Build_4  Build_5 
+ Build_6  Build_7  Build_8  Build_9 
+Minimize
+ DeliveryandFixedCosts: 3500 Build_1 + 10000 Build_10 + 9000 Build_11
+                        + 3500 Build_12 + 9000 Build_2 + 10000 Build_3
+                        + 4000 Build_4 + 3000 Build_5 + 9000 Build_6
+                        + 9000 Build_7 + 3000 Build_8 + 4000 Build_9
+                        + 160 FracFlow_10_1 + 1000000 FracFlow_10_10
+                        + 1000000 FracFlow_10_11 + 1000000 FracFlow_10_12
+                        + 125 FracFlow_10_2 + 100 FracFlow_10_3
+                        + 100 FracFlow_10_4 + 80 FracFlow_10_5
+                        + 150 FracFlow_10_6 + 190 FracFlow_10_7
+                        + 150 FracFlow_10_8 + 130 FracFlow_10_9
+                        + 190 FracFlow_11_1 + 1000000 FracFlow_11_10
+                        + 1000000 FracFlow_11_11 + 1000000 FracFlow_11_12
+                        + 150 FracFlow_11_2 + 130 FracFlow_11_3
+                        + 1000000 FracFlow_11_4 + 1000000 FracFlow_11_5
+                        + 1000000 FracFlow_11_6 + 200 FracFlow_11_7
+                        + 180 FracFlow_11_8 + 150 FracFlow_11_9
+                        + 200 FracFlow_12_1 + 50 FracFlow_12_10
+                        + 60 FracFlow_12_11 + 100 FracFlow_12_12
+                        + 180 FracFlow_12_2 + 150 FracFlow_12_3
+                        + 1000000 FracFlow_12_4 + 1000000 FracFlow_12_5
+                        + 1000000 FracFlow_12_6 + 100 FracFlow_12_7
+                        + 80 FracFlow_12_8 + 50 FracFlow_12_9
+                        + 100 FracFlow_1_1 + 70 FracFlow_1_10
+                        + 65 FracFlow_1_11 + 110 FracFlow_1_12
+                        + 80 FracFlow_1_2 + 50 FracFlow_1_3 + 50 FracFlow_1_4
+                        + 60 FracFlow_1_5 + 100 FracFlow_1_6 + 120 FracFlow_1_7
+                        + 90 FracFlow_1_8 + 60 FracFlow_1_9 + 120 FracFlow_2_1
+                        + 80 FracFlow_2_10 + 75 FracFlow_2_11
+                        + 130 FracFlow_2_12 + 90 FracFlow_2_2 + 60 FracFlow_2_3
+                        + 70 FracFlow_2_4 + 65 FracFlow_2_5 + 110 FracFlow_2_6
+                        + 140 FracFlow_2_7 + 110 FracFlow_2_8 + 80 FracFlow_2_9
+                        + 140 FracFlow_3_1 + 100 FracFlow_3_10
+                        + 80 FracFlow_3_11 + 150 FracFlow_3_12
+                        + 110 FracFlow_3_2 + 80 FracFlow_3_3 + 80 FracFlow_3_4
+                        + 75 FracFlow_3_5 + 130 FracFlow_3_6 + 160 FracFlow_3_7
+                        + 125 FracFlow_3_8 + 100 FracFlow_3_9
+                        + 160 FracFlow_4_1 + 1000000 FracFlow_4_10
+                        + 1000000 FracFlow_4_11 + 1000000 FracFlow_4_12
+                        + 125 FracFlow_4_2 + 100 FracFlow_4_3
+                        + 100 FracFlow_4_4 + 80 FracFlow_4_5 + 150 FracFlow_4_6
+                        + 190 FracFlow_4_7 + 150 FracFlow_4_8
+                        + 130 FracFlow_4_9 + 190 FracFlow_5_1
+                        + 1000000 FracFlow_5_10 + 1000000 FracFlow_5_11
+                        + 1000000 FracFlow_5_12 + 150 FracFlow_5_2
+                        + 130 FracFlow_5_3 + 1000000 FracFlow_5_4
+                        + 1000000 FracFlow_5_5 + 1000000 FracFlow_5_6
+                        + 200 FracFlow_5_7 + 180 FracFlow_5_8
+                        + 150 FracFlow_5_9 + 200 FracFlow_6_1
+                        + 50 FracFlow_6_10 + 60 FracFlow_6_11
+                        + 100 FracFlow_6_12 + 180 FracFlow_6_2
+                        + 150 FracFlow_6_3 + 1000000 FracFlow_6_4
+                        + 1000000 FracFlow_6_5 + 1000000 FracFlow_6_6
+                        + 100 FracFlow_6_7 + 80 FracFlow_6_8 + 50 FracFlow_6_9
+                        + 100 FracFlow_7_1 + 70 FracFlow_7_10
+                        + 65 FracFlow_7_11 + 110 FracFlow_7_12
+                        + 80 FracFlow_7_2 + 50 FracFlow_7_3 + 50 FracFlow_7_4
+                        + 60 FracFlow_7_5 + 100 FracFlow_7_6 + 120 FracFlow_7_7
+                        + 90 FracFlow_7_8 + 60 FracFlow_7_9 + 120 FracFlow_8_1
+                        + 80 FracFlow_8_10 + 75 FracFlow_8_11
+                        + 130 FracFlow_8_12 + 90 FracFlow_8_2 + 60 FracFlow_8_3
+                        + 70 FracFlow_8_4 + 65 FracFlow_8_5 + 110 FracFlow_8_6
+                        + 140 FracFlow_8_7 + 110 FracFlow_8_8 + 80 FracFlow_8_9
+                        + 140 FracFlow_9_1 + 100 FracFlow_9_10
+                        + 80 FracFlow_9_11 + 150 FracFlow_9_12
+                        + 110 FracFlow_9_2 + 80 FracFlow_9_3 + 80 FracFlow_9_4
+                        + 75 FracFlow_9_5 + 130 FracFlow_9_6 + 160 FracFlow_9_7
+                        + 125 FracFlow_9_8 + 100 FracFlow_9_9
+Subject To
+ CapacityIfBuilt1:    - 300 Build_1 + 120 FracFlow_1_1 + 150 FracFlow_1_10
+                      + 95 FracFlow_1_11 + 120 FracFlow_1_12 + 80 FracFlow_1_2
+                      + 75 FracFlow_1_3 + 100 FracFlow_1_4 + 110 FracFlow_1_5
+                      + 100 FracFlow_1_6 + 90 FracFlow_1_7 + 60 FracFlow_1_8
+                      + 30 FracFlow_1_9 <= 0
+ CapacityIfBuilt10:   - 250 Build_10 + 120 FracFlow_10_1 + 150 FracFlow_10_10
+                      + 95 FracFlow_10_11 + 120 FracFlow_10_12
+                      + 80 FracFlow_10_2 + 75 FracFlow_10_3 + 100 FracFlow_10_4
+                      + 110 FracFlow_10_5 + 100 FracFlow_10_6
+                      + 90 FracFlow_10_7 + 60 FracFlow_10_8 + 30 FracFlow_10_9
+                      <= 0
+ CapacityIfBuilt11:   - 230 Build_11 + 120 FracFlow_11_1 + 150 FracFlow_11_10
+                      + 95 FracFlow_11_11 + 120 FracFlow_11_12
+                      + 80 FracFlow_11_2 + 75 FracFlow_11_3 + 100 FracFlow_11_4
+                      + 110 FracFlow_11_5 + 100 FracFlow_11_6
+                      + 90 FracFlow_11_7 + 60 FracFlow_11_8 + 30 FracFlow_11_9
+                      <= 0
+ CapacityIfBuilt12:   - 180 Build_12 + 120 FracFlow_12_1 + 150 FracFlow_12_10
+                      + 95 FracFlow_12_11 + 120 FracFlow_12_12
+                      + 80 FracFlow_12_2 + 75 FracFlow_12_3 + 100 FracFlow_12_4
+                      + 110 FracFlow_12_5 + 100 FracFlow_12_6
+                      + 90 FracFlow_12_7 + 60 FracFlow_12_8 + 30 FracFlow_12_9
+                      <= 0
+ CapacityIfBuilt2:    - 250 Build_2 + 120 FracFlow_2_1 + 150 FracFlow_2_10
+                      + 95 FracFlow_2_11 + 120 FracFlow_2_12 + 80 FracFlow_2_2
+                      + 75 FracFlow_2_3 + 100 FracFlow_2_4 + 110 FracFlow_2_5
+                      + 100 FracFlow_2_6 + 90 FracFlow_2_7 + 60 FracFlow_2_8
+                      + 30 FracFlow_2_9 <= 0
+ CapacityIfBuilt3:    - 100 Build_3 + 120 FracFlow_3_1 + 150 FracFlow_3_10
+                      + 95 FracFlow_3_11 + 120 FracFlow_3_12 + 80 FracFlow_3_2
+                      + 75 FracFlow_3_3 + 100 FracFlow_3_4 + 110 FracFlow_3_5
+                      + 100 FracFlow_3_6 + 90 FracFlow_3_7 + 60 FracFlow_3_8
+                      + 30 FracFlow_3_9 <= 0
+ CapacityIfBuilt4:    - 180 Build_4 + 120 FracFlow_4_1 + 150 FracFlow_4_10
+                      + 95 FracFlow_4_11 + 120 FracFlow_4_12 + 80 FracFlow_4_2
+                      + 75 FracFlow_4_3 + 100 FracFlow_4_4 + 110 FracFlow_4_5
+                      + 100 FracFlow_4_6 + 90 FracFlow_4_7 + 60 FracFlow_4_8
+                      + 30 FracFlow_4_9 <= 0
+ CapacityIfBuilt5:    - 275 Build_5 + 120 FracFlow_5_1 + 150 FracFlow_5_10
+                      + 95 FracFlow_5_11 + 120 FracFlow_5_12 + 80 FracFlow_5_2
+                      + 75 FracFlow_5_3 + 100 FracFlow_5_4 + 110 FracFlow_5_5
+                      + 100 FracFlow_5_6 + 90 FracFlow_5_7 + 60 FracFlow_5_8
+                      + 30 FracFlow_5_9 <= 0
+ CapacityIfBuilt6:    - 300 Build_6 + 120 FracFlow_6_1 + 150 FracFlow_6_10
+                      + 95 FracFlow_6_11 + 120 FracFlow_6_12 + 80 FracFlow_6_2
+                      + 75 FracFlow_6_3 + 100 FracFlow_6_4 + 110 FracFlow_6_5
+                      + 100 FracFlow_6_6 + 90 FracFlow_6_7 + 60 FracFlow_6_8
+                      + 30 FracFlow_6_9 <= 0
+ CapacityIfBuilt7:    - 200 Build_7 + 120 FracFlow_7_1 + 150 FracFlow_7_10
+                      + 95 FracFlow_7_11 + 120 FracFlow_7_12 + 80 FracFlow_7_2
+                      + 75 FracFlow_7_3 + 100 FracFlow_7_4 + 110 FracFlow_7_5
+                      + 100 FracFlow_7_6 + 90 FracFlow_7_7 + 60 FracFlow_7_8
+                      + 30 FracFlow_7_9 <= 0
+ CapacityIfBuilt8:    - 220 Build_8 + 120 FracFlow_8_1 + 150 FracFlow_8_10
+                      + 95 FracFlow_8_11 + 120 FracFlow_8_12 + 80 FracFlow_8_2
+                      + 75 FracFlow_8_3 + 100 FracFlow_8_4 + 110 FracFlow_8_5
+                      + 100 FracFlow_8_6 + 90 FracFlow_8_7 + 60 FracFlow_8_8
+                      + 30 FracFlow_8_9 <= 0
+ CapacityIfBuilt9:    - 270 Build_9 + 120 FracFlow_9_1 + 150 FracFlow_9_10
+                      + 95 FracFlow_9_11 + 120 FracFlow_9_12 + 80 FracFlow_9_2
+                      + 75 FracFlow_9_3 + 100 FracFlow_9_4 + 110 FracFlow_9_5
+                      + 100 FracFlow_9_6 + 90 FracFlow_9_7 + 60 FracFlow_9_8
+                      + 30 FracFlow_9_9 <= 0
+ CustomerDemandMet1:  FracFlow_10_1 + FracFlow_11_1 + FracFlow_12_1
+                      + FracFlow_1_1 + FracFlow_2_1 + FracFlow_3_1
+                      + FracFlow_4_1 + FracFlow_5_1 + FracFlow_6_1
+                      + FracFlow_7_1 + FracFlow_8_1 + FracFlow_9_1  = 1
+ CustomerDemandMet10: FracFlow_10_10 + FracFlow_11_10 + FracFlow_12_10
+                      + FracFlow_1_10 + FracFlow_2_10 + FracFlow_3_10
+                      + FracFlow_4_10 + FracFlow_5_10 + FracFlow_6_10
+                      + FracFlow_7_10 + FracFlow_8_10 + FracFlow_9_10  = 1
+ CustomerDemandMet11: FracFlow_10_11 + FracFlow_11_11 + FracFlow_12_11
+                      + FracFlow_1_11 + FracFlow_2_11 + FracFlow_3_11
+                      + FracFlow_4_11 + FracFlow_5_11 + FracFlow_6_11
+                      + FracFlow_7_11 + FracFlow_8_11 + FracFlow_9_11  = 1
+ CustomerDemandMet12: FracFlow_10_12 + FracFlow_11_12 + FracFlow_12_12
+                      + FracFlow_1_12 + FracFlow_2_12 + FracFlow_3_12
+                      + FracFlow_4_12 + FracFlow_5_12 + FracFlow_6_12
+                      + FracFlow_7_12 + FracFlow_8_12 + FracFlow_9_12  = 1
+ CustomerDemandMet2:  FracFlow_10_2 + FracFlow_11_2 + FracFlow_12_2
+                      + FracFlow_1_2 + FracFlow_2_2 + FracFlow_3_2
+                      + FracFlow_4_2 + FracFlow_5_2 + FracFlow_6_2
+                      + FracFlow_7_2 + FracFlow_8_2 + FracFlow_9_2  = 1
+ CustomerDemandMet3:  FracFlow_10_3 + FracFlow_11_3 + FracFlow_12_3
+                      + FracFlow_1_3 + FracFlow_2_3 + FracFlow_3_3
+                      + FracFlow_4_3 + FracFlow_5_3 + FracFlow_6_3
+                      + FracFlow_7_3 + FracFlow_8_3 + FracFlow_9_3  = 1
+ CustomerDemandMet4:  FracFlow_10_4 + FracFlow_11_4 + FracFlow_12_4
+                      + FracFlow_1_4 + FracFlow_2_4 + FracFlow_3_4
+                      + FracFlow_4_4 + FracFlow_5_4 + FracFlow_6_4
+                      + FracFlow_7_4 + FracFlow_8_4 + FracFlow_9_4  = 1
+ CustomerDemandMet5:  FracFlow_10_5 + FracFlow_11_5 + FracFlow_12_5
+                      + FracFlow_1_5 + FracFlow_2_5 + FracFlow_3_5
+                      + FracFlow_4_5 + FracFlow_5_5 + FracFlow_6_5
+                      + FracFlow_7_5 + FracFlow_8_5 + FracFlow_9_5  = 1
+ CustomerDemandMet6:  FracFlow_10_6 + FracFlow_11_6 + FracFlow_12_6
+                      + FracFlow_1_6 + FracFlow_2_6 + FracFlow_3_6
+                      + FracFlow_4_6 + FracFlow_5_6 + FracFlow_6_6
+                      + FracFlow_7_6 + FracFlow_8_6 + FracFlow_9_6  = 1
+ CustomerDemandMet7:  FracFlow_10_7 + FracFlow_11_7 + FracFlow_12_7
+                      + FracFlow_1_7 + FracFlow_2_7 + FracFlow_3_7
+                      + FracFlow_4_7 + FracFlow_5_7 + FracFlow_6_7
+                      + FracFlow_7_7 + FracFlow_8_7 + FracFlow_9_7  = 1
+ CustomerDemandMet8:  FracFlow_10_8 + FracFlow_11_8 + FracFlow_12_8
+                      + FracFlow_1_8 + FracFlow_2_8 + FracFlow_3_8
+                      + FracFlow_4_8 + FracFlow_5_8 + FracFlow_6_8
+                      + FracFlow_7_8 + FracFlow_8_8 + FracFlow_9_8  = 1
+ CustomerDemandMet9:  FracFlow_10_9 + FracFlow_11_9 + FracFlow_12_9
+                      + FracFlow_1_9 + FracFlow_2_9 + FracFlow_3_9
+                      + FracFlow_4_9 + FracFlow_5_9 + FracFlow_6_9
+                      + FracFlow_7_9 + FracFlow_8_9 + FracFlow_9_9  = 1
+ _C1:                 FracFlow_1_1 <= 1
+ _C10:                FracFlow_1_10 <= 1
+ _C100:               FracFlow_9_4 <= 1
+ _C101:               FracFlow_9_5 <= 1
+ _C102:               FracFlow_9_6 <= 1
+ _C103:               FracFlow_9_7 <= 1
+ _C104:               FracFlow_9_8 <= 1
+ _C105:               FracFlow_9_9 <= 1
+ _C106:               FracFlow_9_10 <= 1
+ _C107:               FracFlow_9_11 <= 1
+ _C108:               FracFlow_9_12 <= 1
+ _C109:               FracFlow_10_1 <= 1
+ _C11:                FracFlow_1_11 <= 1
+ _C110:               FracFlow_10_2 <= 1
+ _C111:               FracFlow_10_3 <= 1
+ _C112:               FracFlow_10_4 <= 1
+ _C113:               FracFlow_10_5 <= 1
+ _C114:               FracFlow_10_6 <= 1
+ _C115:               FracFlow_10_7 <= 1
+ _C116:               FracFlow_10_8 <= 1
+ _C117:               FracFlow_10_9 <= 1
+ _C118:               FracFlow_10_10 <= 1
+ _C119:               FracFlow_10_11 <= 1
+ _C12:                FracFlow_1_12 <= 1
+ _C120:               FracFlow_10_12 <= 1
+ _C121:               FracFlow_11_1 <= 1
+ _C122:               FracFlow_11_2 <= 1
+ _C123:               FracFlow_11_3 <= 1
+ _C124:               FracFlow_11_4 <= 1
+ _C125:               FracFlow_11_5 <= 1
+ _C126:               FracFlow_11_6 <= 1
+ _C127:               FracFlow_11_7 <= 1
+ _C128:               FracFlow_11_8 <= 1
+ _C129:               FracFlow_11_9 <= 1
+ _C13:                FracFlow_2_1 <= 1
+ _C130:               FracFlow_11_10 <= 1
+ _C131:               FracFlow_11_11 <= 1
+ _C132:               FracFlow_11_12 <= 1
+ _C133:               FracFlow_12_1 <= 1
+ _C134:               FracFlow_12_2 <= 1
+ _C135:               FracFlow_12_3 <= 1
+ _C136:               FracFlow_12_4 <= 1
+ _C137:               FracFlow_12_5 <= 1
+ _C138:               FracFlow_12_6 <= 1
+ _C139:               FracFlow_12_7 <= 1
+ _C14:                FracFlow_2_2 <= 1
+ _C140:               FracFlow_12_8 <= 1
+ _C141:               FracFlow_12_9 <= 1
+ _C142:               FracFlow_12_10 <= 1
+ _C143:               FracFlow_12_11 <= 1
+ _C144:               FracFlow_12_12 <= 1
+ _C15:                FracFlow_2_3 <= 1
+ _C16:                FracFlow_2_4 <= 1
+ _C17:                FracFlow_2_5 <= 1
+ _C18:                FracFlow_2_6 <= 1
+ _C19:                FracFlow_2_7 <= 1
+ _C2:                 FracFlow_1_2 <= 1
+ _C20:                FracFlow_2_8 <= 1
+ _C21:                FracFlow_2_9 <= 1
+ _C22:                FracFlow_2_10 <= 1
+ _C23:                FracFlow_2_11 <= 1
+ _C24:                FracFlow_2_12 <= 1
+ _C25:                FracFlow_3_1 <= 1
+ _C26:                FracFlow_3_2 <= 1
+ _C27:                FracFlow_3_3 <= 1
+ _C28:                FracFlow_3_4 <= 1
+ _C29:                FracFlow_3_5 <= 1
+ _C3:                 FracFlow_1_3 <= 1
+ _C30:                FracFlow_3_6 <= 1
+ _C31:                FracFlow_3_7 <= 1
+ _C32:                FracFlow_3_8 <= 1
+ _C33:                FracFlow_3_9 <= 1
+ _C34:                FracFlow_3_10 <= 1
+ _C35:                FracFlow_3_11 <= 1
+ _C36:                FracFlow_3_12 <= 1
+ _C37:                FracFlow_4_1 <= 1
+ _C38:                FracFlow_4_2 <= 1
+ _C39:                FracFlow_4_3 <= 1
+ _C4:                 FracFlow_1_4 <= 1
+ _C40:                FracFlow_4_4 <= 1
+ _C41:                FracFlow_4_5 <= 1
+ _C42:                FracFlow_4_6 <= 1
+ _C43:                FracFlow_4_7 <= 1
+ _C44:                FracFlow_4_8 <= 1
+ _C45:                FracFlow_4_9 <= 1
+ _C46:                FracFlow_4_10 <= 1
+ _C47:                FracFlow_4_11 <= 1
+ _C48:                FracFlow_4_12 <= 1
+ _C49:                FracFlow_5_1 <= 1
+ _C5:                 FracFlow_1_5 <= 1
+ _C50:                FracFlow_5_2 <= 1
+ _C51:                FracFlow_5_3 <= 1
+ _C52:                FracFlow_5_4 <= 1
+ _C53:                FracFlow_5_5 <= 1
+ _C54:                FracFlow_5_6 <= 1
+ _C55:                FracFlow_5_7 <= 1
+ _C56:                FracFlow_5_8 <= 1
+ _C57:                FracFlow_5_9 <= 1
+ _C58:                FracFlow_5_10 <= 1
+ _C59:                FracFlow_5_11 <= 1
+ _C6:                 FracFlow_1_6 <= 1
+ _C60:                FracFlow_5_12 <= 1
+ _C61:                FracFlow_6_1 <= 1
+ _C62:                FracFlow_6_2 <= 1
+ _C63:                FracFlow_6_3 <= 1
+ _C64:                FracFlow_6_4 <= 1
+ _C65:                FracFlow_6_5 <= 1
+ _C66:                FracFlow_6_6 <= 1
+ _C67:                FracFlow_6_7 <= 1
+ _C68:                FracFlow_6_8 <= 1
+ _C69:                FracFlow_6_9 <= 1
+ _C7:                 FracFlow_1_7 <= 1
+ _C70:                FracFlow_6_10 <= 1
+ _C71:                FracFlow_6_11 <= 1
+ _C72:                FracFlow_6_12 <= 1
+ _C73:                FracFlow_7_1 <= 1
+ _C74:                FracFlow_7_2 <= 1
+ _C75:                FracFlow_7_3 <= 1
+ _C76:                FracFlow_7_4 <= 1
+ _C77:                FracFlow_7_5 <= 1
+ _C78:                FracFlow_7_6 <= 1
+ _C79:                FracFlow_7_7 <= 1
+ _C8:                 FracFlow_1_8 <= 1
+ _C80:                FracFlow_7_8 <= 1
+ _C81:                FracFlow_7_9 <= 1
+ _C82:                FracFlow_7_10 <= 1
+ _C83:                FracFlow_7_11 <= 1
+ _C84:                FracFlow_7_12 <= 1
+ _C85:                FracFlow_8_1 <= 1
+ _C86:                FracFlow_8_2 <= 1
+ _C87:                FracFlow_8_3 <= 1
+ _C88:                FracFlow_8_4 <= 1
+ _C89:                FracFlow_8_5 <= 1
+ _C9:                 FracFlow_1_9 <= 1
+ _C90:                FracFlow_8_6 <= 1
+ _C91:                FracFlow_8_7 <= 1
+ _C92:                FracFlow_8_8 <= 1
+ _C93:                FracFlow_8_9 <= 1
+ _C94:                FracFlow_8_10 <= 1
+ _C95:                FracFlow_8_11 <= 1
+ _C96:                FracFlow_8_12 <= 1
+ _C97:                FracFlow_9_1 <= 1
+ _C98:                FracFlow_9_2 <= 1
+ _C99:                FracFlow_9_3 <= 1
+Bounds
+ 0 <= Build_1 <= 1
+ 0 <= Build_10 <= 1
+ 0 <= Build_11 <= 1
+ 0 <= Build_12 <= 1
+ 0 <= Build_2 <= 1
+ 0 <= Build_3 <= 1
+ 0 <= Build_4 <= 1
+ 0 <= Build_5 <= 1
+ 0 <= Build_6 <= 1
+ 0 <= Build_7 <= 1
+ 0 <= Build_8 <= 1
+ 0 <= Build_9 <= 1
+ All other variables are >= 0.
+Binaries
+ Build_1  Build_10  Build_11  Build_12  Build_2  Build_3  Build_4  Build_5 
+ Build_6  Build_7  Build_8  Build_9 
+Minimize
+ DeliveryandFixedCosts: 3500 Build_1 + 10000 Build_10 + 9000 Build_11
+                        + 3500 Build_12 + 9000 Build_2 + 10000 Build_3
+                        + 4000 Build_4 + 3000 Build_5 + 9000 Build_6
+                        + 9000 Build_7 + 3000 Build_8 + 4000 Build_9
+                        + 160 FracFlow_10_1 + 1000000 FracFlow_10_10
+                        + 1000000 FracFlow_10_11 + 1000000 FracFlow_10_12
+                        + 125 FracFlow_10_2 + 100 FracFlow_10_3
+                        + 100 FracFlow_10_4 + 80 FracFlow_10_5
+                        + 150 FracFlow_10_6 + 190 FracFlow_10_7
+                        + 150 FracFlow_10_8 + 130 FracFlow_10_9
+                        + 190 FracFlow_11_1 + 1000000 FracFlow_11_10
+                        + 1000000 FracFlow_11_11 + 1000000 FracFlow_11_12
+                        + 150 FracFlow_11_2 + 130 FracFlow_11_3
+                        + 1000000 FracFlow_11_4 + 1000000 FracFlow_11_5
+                        + 1000000 FracFlow_11_6 + 200 FracFlow_11_7
+                        + 180 FracFlow_11_8 + 150 FracFlow_11_9
+                        + 200 FracFlow_12_1 + 50 FracFlow_12_10
+                        + 60 FracFlow_12_11 + 100 FracFlow_12_12
+                        + 180 FracFlow_12_2 + 150 FracFlow_12_3
+                        + 1000000 FracFlow_12_4 + 1000000 FracFlow_12_5
+                        + 1000000 FracFlow_12_6 + 100 FracFlow_12_7
+                        + 80 FracFlow_12_8 + 50 FracFlow_12_9
+                        + 100 FracFlow_1_1 + 70 FracFlow_1_10
+                        + 65 FracFlow_1_11 + 110 FracFlow_1_12
+                        + 80 FracFlow_1_2 + 50 FracFlow_1_3 + 50 FracFlow_1_4
+                        + 60 FracFlow_1_5 + 100 FracFlow_1_6 + 120 FracFlow_1_7
+                        + 90 FracFlow_1_8 + 60 FracFlow_1_9 + 120 FracFlow_2_1
+                        + 80 FracFlow_2_10 + 75 FracFlow_2_11
+                        + 130 FracFlow_2_12 + 90 FracFlow_2_2 + 60 FracFlow_2_3
+                        + 70 FracFlow_2_4 + 65 FracFlow_2_5 + 110 FracFlow_2_6
+                        + 140 FracFlow_2_7 + 110 FracFlow_2_8 + 80 FracFlow_2_9
+                        + 140 FracFlow_3_1 + 100 FracFlow_3_10
+                        + 80 FracFlow_3_11 + 150 FracFlow_3_12
+                        + 110 FracFlow_3_2 + 80 FracFlow_3_3 + 80 FracFlow_3_4
+                        + 75 FracFlow_3_5 + 130 FracFlow_3_6 + 160 FracFlow_3_7
+                        + 125 FracFlow_3_8 + 100 FracFlow_3_9
+                        + 160 FracFlow_4_1 + 1000000 FracFlow_4_10
+                        + 1000000 FracFlow_4_11 + 1000000 FracFlow_4_12
+                        + 125 FracFlow_4_2 + 100 FracFlow_4_3
+                        + 100 FracFlow_4_4 + 80 FracFlow_4_5 + 150 FracFlow_4_6
+                        + 190 FracFlow_4_7 + 150 FracFlow_4_8
+                        + 130 FracFlow_4_9 + 190 FracFlow_5_1
+                        + 1000000 FracFlow_5_10 + 1000000 FracFlow_5_11
+                        + 1000000 FracFlow_5_12 + 150 FracFlow_5_2
+                        + 130 FracFlow_5_3 + 1000000 FracFlow_5_4
+                        + 1000000 FracFlow_5_5 + 1000000 FracFlow_5_6
+                        + 200 FracFlow_5_7 + 180 FracFlow_5_8
+                        + 150 FracFlow_5_9 + 200 FracFlow_6_1
+                        + 50 FracFlow_6_10 + 60 FracFlow_6_11
+                        + 100 FracFlow_6_12 + 180 FracFlow_6_2
+                        + 150 FracFlow_6_3 + 1000000 FracFlow_6_4
+                        + 1000000 FracFlow_6_5 + 1000000 FracFlow_6_6
+                        + 100 FracFlow_6_7 + 80 FracFlow_6_8 + 50 FracFlow_6_9
+                        + 100 FracFlow_7_1 + 70 FracFlow_7_10
+                        + 65 FracFlow_7_11 + 110 FracFlow_7_12
+                        + 80 FracFlow_7_2 + 50 FracFlow_7_3 + 50 FracFlow_7_4
+                        + 60 FracFlow_7_5 + 100 FracFlow_7_6 + 120 FracFlow_7_7
+                        + 90 FracFlow_7_8 + 60 FracFlow_7_9 + 120 FracFlow_8_1
+                        + 80 FracFlow_8_10 + 75 FracFlow_8_11
+                        + 130 FracFlow_8_12 + 90 FracFlow_8_2 + 60 FracFlow_8_3
+                        + 70 FracFlow_8_4 + 65 FracFlow_8_5 + 110 FracFlow_8_6
+                        + 140 FracFlow_8_7 + 110 FracFlow_8_8 + 80 FracFlow_8_9
+                        + 140 FracFlow_9_1 + 100 FracFlow_9_10
+                        + 80 FracFlow_9_11 + 150 FracFlow_9_12
+                        + 110 FracFlow_9_2 + 80 FracFlow_9_3 + 80 FracFlow_9_4
+                        + 75 FracFlow_9_5 + 130 FracFlow_9_6 + 160 FracFlow_9_7
+                        + 125 FracFlow_9_8 + 100 FracFlow_9_9
+Subject To
+ CapacityIfBuilt1:    - 300 Build_1 + 120 FracFlow_1_1 + 150 FracFlow_1_10
+                      + 95 FracFlow_1_11 + 120 FracFlow_1_12 + 80 FracFlow_1_2
+                      + 75 FracFlow_1_3 + 100 FracFlow_1_4 + 110 FracFlow_1_5
+                      + 100 FracFlow_1_6 + 90 FracFlow_1_7 + 60 FracFlow_1_8
+                      + 30 FracFlow_1_9 <= 0
+ CapacityIfBuilt10:   - 250 Build_10 + 120 FracFlow_10_1 + 150 FracFlow_10_10
+                      + 95 FracFlow_10_11 + 120 FracFlow_10_12
+                      + 80 FracFlow_10_2 + 75 FracFlow_10_3 + 100 FracFlow_10_4
+                      + 110 FracFlow_10_5 + 100 FracFlow_10_6
+                      + 90 FracFlow_10_7 + 60 FracFlow_10_8 + 30 FracFlow_10_9
+                      <= 0
+ CapacityIfBuilt11:   - 230 Build_11 + 120 FracFlow_11_1 + 150 FracFlow_11_10
+                      + 95 FracFlow_11_11 + 120 FracFlow_11_12
+                      + 80 FracFlow_11_2 + 75 FracFlow_11_3 + 100 FracFlow_11_4
+                      + 110 FracFlow_11_5 + 100 FracFlow_11_6
+                      + 90 FracFlow_11_7 + 60 FracFlow_11_8 + 30 FracFlow_11_9
+                      <= 0
+ CapacityIfBuilt12:   - 180 Build_12 + 120 FracFlow_12_1 + 150 FracFlow_12_10
+                      + 95 FracFlow_12_11 + 120 FracFlow_12_12
+                      + 80 FracFlow_12_2 + 75 FracFlow_12_3 + 100 FracFlow_12_4
+                      + 110 FracFlow_12_5 + 100 FracFlow_12_6
+                      + 90 FracFlow_12_7 + 60 FracFlow_12_8 + 30 FracFlow_12_9
+                      <= 0
+ CapacityIfBuilt2:    - 250 Build_2 + 120 FracFlow_2_1 + 150 FracFlow_2_10
+                      + 95 FracFlow_2_11 + 120 FracFlow_2_12 + 80 FracFlow_2_2
+                      + 75 FracFlow_2_3 + 100 FracFlow_2_4 + 110 FracFlow_2_5
+                      + 100 FracFlow_2_6 + 90 FracFlow_2_7 + 60 FracFlow_2_8
+                      + 30 FracFlow_2_9 <= 0
+ CapacityIfBuilt3:    - 100 Build_3 + 120 FracFlow_3_1 + 150 FracFlow_3_10
+                      + 95 FracFlow_3_11 + 120 FracFlow_3_12 + 80 FracFlow_3_2
+                      + 75 FracFlow_3_3 + 100 FracFlow_3_4 + 110 FracFlow_3_5
+                      + 100 FracFlow_3_6 + 90 FracFlow_3_7 + 60 FracFlow_3_8
+                      + 30 FracFlow_3_9 <= 0
+ CapacityIfBuilt4:    - 180 Build_4 + 120 FracFlow_4_1 + 150 FracFlow_4_10
+                      + 95 FracFlow_4_11 + 120 FracFlow_4_12 + 80 FracFlow_4_2
+                      + 75 FracFlow_4_3 + 100 FracFlow_4_4 + 110 FracFlow_4_5
+                      + 100 FracFlow_4_6 + 90 FracFlow_4_7 + 60 FracFlow_4_8
+                      + 30 FracFlow_4_9 <= 0
+ CapacityIfBuilt5:    - 275 Build_5 + 120 FracFlow_5_1 + 150 FracFlow_5_10
+                      + 95 FracFlow_5_11 + 120 FracFlow_5_12 + 80 FracFlow_5_2
+                      + 75 FracFlow_5_3 + 100 FracFlow_5_4 + 110 FracFlow_5_5
+                      + 100 FracFlow_5_6 + 90 FracFlow_5_7 + 60 FracFlow_5_8
+                      + 30 FracFlow_5_9 <= 0
+ CapacityIfBuilt6:    - 300 Build_6 + 120 FracFlow_6_1 + 150 FracFlow_6_10
+                      + 95 FracFlow_6_11 + 120 FracFlow_6_12 + 80 FracFlow_6_2
+                      + 75 FracFlow_6_3 + 100 FracFlow_6_4 + 110 FracFlow_6_5
+                      + 100 FracFlow_6_6 + 90 FracFlow_6_7 + 60 FracFlow_6_8
+                      + 30 FracFlow_6_9 <= 0
+ CapacityIfBuilt7:    - 200 Build_7 + 120 FracFlow_7_1 + 150 FracFlow_7_10
+                      + 95 FracFlow_7_11 + 120 FracFlow_7_12 + 80 FracFlow_7_2
+                      + 75 FracFlow_7_3 + 100 FracFlow_7_4 + 110 FracFlow_7_5
+                      + 100 FracFlow_7_6 + 90 FracFlow_7_7 + 60 FracFlow_7_8
+                      + 30 FracFlow_7_9 <= 0
+ CapacityIfBuilt8:    - 220 Build_8 + 120 FracFlow_8_1 + 150 FracFlow_8_10
+                      + 95 FracFlow_8_11 + 120 FracFlow_8_12 + 80 FracFlow_8_2
+                      + 75 FracFlow_8_3 + 100 FracFlow_8_4 + 110 FracFlow_8_5
+                      + 100 FracFlow_8_6 + 90 FracFlow_8_7 + 60 FracFlow_8_8
+                      + 30 FracFlow_8_9 <= 0
+ CapacityIfBuilt9:    - 270 Build_9 + 120 FracFlow_9_1 + 150 FracFlow_9_10
+                      + 95 FracFlow_9_11 + 120 FracFlow_9_12 + 80 FracFlow_9_2
+                      + 75 FracFlow_9_3 + 100 FracFlow_9_4 + 110 FracFlow_9_5
+                      + 100 FracFlow_9_6 + 90 FracFlow_9_7 + 60 FracFlow_9_8
+                      + 30 FracFlow_9_9 <= 0
+ CustomerDemandMet1:  FracFlow_10_1 + FracFlow_11_1 + FracFlow_12_1
+                      + FracFlow_1_1 + FracFlow_2_1 + FracFlow_3_1
+                      + FracFlow_4_1 + FracFlow_5_1 + FracFlow_6_1
+                      + FracFlow_7_1 + FracFlow_8_1 + FracFlow_9_1  = 1
+ CustomerDemandMet10: FracFlow_10_10 + FracFlow_11_10 + FracFlow_12_10
+                      + FracFlow_1_10 + FracFlow_2_10 + FracFlow_3_10
+                      + FracFlow_4_10 + FracFlow_5_10 + FracFlow_6_10
+                      + FracFlow_7_10 + FracFlow_8_10 + FracFlow_9_10  = 1
+ CustomerDemandMet11: FracFlow_10_11 + FracFlow_11_11 + FracFlow_12_11
+                      + FracFlow_1_11 + FracFlow_2_11 + FracFlow_3_11
+                      + FracFlow_4_11 + FracFlow_5_11 + FracFlow_6_11
+                      + FracFlow_7_11 + FracFlow_8_11 + FracFlow_9_11  = 1
+ CustomerDemandMet12: FracFlow_10_12 + FracFlow_11_12 + FracFlow_12_12
+                      + FracFlow_1_12 + FracFlow_2_12 + FracFlow_3_12
+                      + FracFlow_4_12 + FracFlow_5_12 + FracFlow_6_12
+                      + FracFlow_7_12 + FracFlow_8_12 + FracFlow_9_12  = 1
+ CustomerDemandMet2:  FracFlow_10_2 + FracFlow_11_2 + FracFlow_12_2
+                      + FracFlow_1_2 + FracFlow_2_2 + FracFlow_3_2
+                      + FracFlow_4_2 + FracFlow_5_2 + FracFlow_6_2
+                      + FracFlow_7_2 + FracFlow_8_2 + FracFlow_9_2  = 1
+ CustomerDemandMet3:  FracFlow_10_3 + FracFlow_11_3 + FracFlow_12_3
+                      + FracFlow_1_3 + FracFlow_2_3 + FracFlow_3_3
+                      + FracFlow_4_3 + FracFlow_5_3 + FracFlow_6_3
+                      + FracFlow_7_3 + FracFlow_8_3 + FracFlow_9_3  = 1
+ CustomerDemandMet4:  FracFlow_10_4 + FracFlow_11_4 + FracFlow_12_4
+                      + FracFlow_1_4 + FracFlow_2_4 + FracFlow_3_4
+                      + FracFlow_4_4 + FracFlow_5_4 + FracFlow_6_4
+                      + FracFlow_7_4 + FracFlow_8_4 + FracFlow_9_4  = 1
+ CustomerDemandMet5:  FracFlow_10_5 + FracFlow_11_5 + FracFlow_12_5
+                      + FracFlow_1_5 + FracFlow_2_5 + FracFlow_3_5
+                      + FracFlow_4_5 + FracFlow_5_5 + FracFlow_6_5
+                      + FracFlow_7_5 + FracFlow_8_5 + FracFlow_9_5  = 1
+ CustomerDemandMet6:  FracFlow_10_6 + FracFlow_11_6 + FracFlow_12_6
+                      + FracFlow_1_6 + FracFlow_2_6 + FracFlow_3_6
+                      + FracFlow_4_6 + FracFlow_5_6 + FracFlow_6_6
+                      + FracFlow_7_6 + FracFlow_8_6 + FracFlow_9_6  = 1
+ CustomerDemandMet7:  FracFlow_10_7 + FracFlow_11_7 + FracFlow_12_7
+                      + FracFlow_1_7 + FracFlow_2_7 + FracFlow_3_7
+                      + FracFlow_4_7 + FracFlow_5_7 + FracFlow_6_7
+                      + FracFlow_7_7 + FracFlow_8_7 + FracFlow_9_7  = 1
+ CustomerDemandMet8:  FracFlow_10_8 + FracFlow_11_8 + FracFlow_12_8
+                      + FracFlow_1_8 + FracFlow_2_8 + FracFlow_3_8
+                      + FracFlow_4_8 + FracFlow_5_8 + FracFlow_6_8
+                      + FracFlow_7_8 + FracFlow_8_8 + FracFlow_9_8  = 1
+ CustomerDemandMet9:  FracFlow_10_9 + FracFlow_11_9 + FracFlow_12_9
+                      + FracFlow_1_9 + FracFlow_2_9 + FracFlow_3_9
+                      + FracFlow_4_9 + FracFlow_5_9 + FracFlow_6_9
+                      + FracFlow_7_9 + FracFlow_8_9 + FracFlow_9_9  = 1
+ _C1:                 FracFlow_1_1 <= 1
+ _C10:                FracFlow_1_10 <= 1
+ _C100:               FracFlow_9_4 <= 1
+ _C101:               FracFlow_9_5 <= 1
+ _C102:               FracFlow_9_6 <= 1
+ _C103:               FracFlow_9_7 <= 1
+ _C104:               FracFlow_9_8 <= 1
+ _C105:               FracFlow_9_9 <= 1
+ _C106:               FracFlow_9_10 <= 1
+ _C107:               FracFlow_9_11 <= 1
+ _C108:               FracFlow_9_12 <= 1
+ _C109:               FracFlow_10_1 <= 1
+ _C11:                FracFlow_1_11 <= 1
+ _C110:               FracFlow_10_2 <= 1
+ _C111:               FracFlow_10_3 <= 1
+ _C112:               FracFlow_10_4 <= 1
+ _C113:               FracFlow_10_5 <= 1
+ _C114:               FracFlow_10_6 <= 1
+ _C115:               FracFlow_10_7 <= 1
+ _C116:               FracFlow_10_8 <= 1
+ _C117:               FracFlow_10_9 <= 1
+ _C118:               FracFlow_10_10 <= 1
+ _C119:               FracFlow_10_11 <= 1
+ _C12:                FracFlow_1_12 <= 1
+ _C120:               FracFlow_10_12 <= 1
+ _C121:               FracFlow_11_1 <= 1
+ _C122:               FracFlow_11_2 <= 1
+ _C123:               FracFlow_11_3 <= 1
+ _C124:               FracFlow_11_4 <= 1
+ _C125:               FracFlow_11_5 <= 1
+ _C126:               FracFlow_11_6 <= 1
+ _C127:               FracFlow_11_7 <= 1
+ _C128:               FracFlow_11_8 <= 1
+ _C129:               FracFlow_11_9 <= 1
+ _C13:                FracFlow_2_1 <= 1
+ _C130:               FracFlow_11_10 <= 1
+ _C131:               FracFlow_11_11 <= 1
+ _C132:               FracFlow_11_12 <= 1
+ _C133:               FracFlow_12_1 <= 1
+ _C134:               FracFlow_12_2 <= 1
+ _C135:               FracFlow_12_3 <= 1
+ _C136:               FracFlow_12_4 <= 1
+ _C137:               FracFlow_12_5 <= 1
+ _C138:               FracFlow_12_6 <= 1
+ _C139:               FracFlow_12_7 <= 1
+ _C14:                FracFlow_2_2 <= 1
+ _C140:               FracFlow_12_8 <= 1
+ _C141:               FracFlow_12_9 <= 1
+ _C142:               FracFlow_12_10 <= 1
+ _C143:               FracFlow_12_11 <= 1
+ _C144:               FracFlow_12_12 <= 1
+ _C15:                FracFlow_2_3 <= 1
+ _C16:                FracFlow_2_4 <= 1
+ _C17:                FracFlow_2_5 <= 1
+ _C18:                FracFlow_2_6 <= 1
+ _C19:                FracFlow_2_7 <= 1
+ _C2:                 FracFlow_1_2 <= 1
+ _C20:                FracFlow_2_8 <= 1
+ _C21:                FracFlow_2_9 <= 1
+ _C22:                FracFlow_2_10 <= 1
+ _C23:                FracFlow_2_11 <= 1
+ _C24:                FracFlow_2_12 <= 1
+ _C25:                FracFlow_3_1 <= 1
+ _C26:                FracFlow_3_2 <= 1
+ _C27:                FracFlow_3_3 <= 1
+ _C28:                FracFlow_3_4 <= 1
+ _C29:                FracFlow_3_5 <= 1
+ _C3:                 FracFlow_1_3 <= 1
+ _C30:                FracFlow_3_6 <= 1
+ _C31:                FracFlow_3_7 <= 1
+ _C32:                FracFlow_3_8 <= 1
+ _C33:                FracFlow_3_9 <= 1
+ _C34:                FracFlow_3_10 <= 1
+ _C35:                FracFlow_3_11 <= 1
+ _C36:                FracFlow_3_12 <= 1
+ _C37:                FracFlow_4_1 <= 1
+ _C38:                FracFlow_4_2 <= 1
+ _C39:                FracFlow_4_3 <= 1
+ _C4:                 FracFlow_1_4 <= 1
+ _C40:                FracFlow_4_4 <= 1
+ _C41:                FracFlow_4_5 <= 1
+ _C42:                FracFlow_4_6 <= 1
+ _C43:                FracFlow_4_7 <= 1
+ _C44:                FracFlow_4_8 <= 1
+ _C45:                FracFlow_4_9 <= 1
+ _C46:                FracFlow_4_10 <= 1
+ _C47:                FracFlow_4_11 <= 1
+ _C48:                FracFlow_4_12 <= 1
+ _C49:                FracFlow_5_1 <= 1
+ _C5:                 FracFlow_1_5 <= 1
+ _C50:                FracFlow_5_2 <= 1
+ _C51:                FracFlow_5_3 <= 1
+ _C52:                FracFlow_5_4 <= 1
+ _C53:                FracFlow_5_5 <= 1
+ _C54:                FracFlow_5_6 <= 1
+ _C55:                FracFlow_5_7 <= 1
+ _C56:                FracFlow_5_8 <= 1
+ _C57:                FracFlow_5_9 <= 1
+ _C58:                FracFlow_5_10 <= 1
+ _C59:                FracFlow_5_11 <= 1
+ _C6:                 FracFlow_1_6 <= 1
+ _C60:                FracFlow_5_12 <= 1
+ _C61:                FracFlow_6_1 <= 1
+ _C62:                FracFlow_6_2 <= 1
+ _C63:                FracFlow_6_3 <= 1
+ _C64:                FracFlow_6_4 <= 1
+ _C65:                FracFlow_6_5 <= 1
+ _C66:                FracFlow_6_6 <= 1
+ _C67:                FracFlow_6_7 <= 1
+ _C68:                FracFlow_6_8 <= 1
+ _C69:                FracFlow_6_9 <= 1
+ _C7:                 FracFlow_1_7 <= 1
+ _C70:                FracFlow_6_10 <= 1
+ _C71:                FracFlow_6_11 <= 1
+ _C72:                FracFlow_6_12 <= 1
+ _C73:                FracFlow_7_1 <= 1
+ _C74:                FracFlow_7_2 <= 1
+ _C75:                FracFlow_7_3 <= 1
+ _C76:                FracFlow_7_4 <= 1
+ _C77:                FracFlow_7_5 <= 1
+ _C78:                FracFlow_7_6 <= 1
+ _C79:                FracFlow_7_7 <= 1
+ _C8:                 FracFlow_1_8 <= 1
+ _C80:                FracFlow_7_8 <= 1
+ _C81:                FracFlow_7_9 <= 1
+ _C82:                FracFlow_7_10 <= 1
+ _C83:                FracFlow_7_11 <= 1
+ _C84:                FracFlow_7_12 <= 1
+ _C85:                FracFlow_8_1 <= 1
+ _C86:                FracFlow_8_2 <= 1
+ _C87:                FracFlow_8_3 <= 1
+ _C88:                FracFlow_8_4 <= 1
+ _C89:                FracFlow_8_5 <= 1
+ _C9:                 FracFlow_1_9 <= 1
+ _C90:                FracFlow_8_6 <= 1
+ _C91:                FracFlow_8_7 <= 1
+ _C92:                FracFlow_8_8 <= 1
+ _C93:                FracFlow_8_9 <= 1
+ _C94:                FracFlow_8_10 <= 1
+ _C95:                FracFlow_8_11 <= 1
+ _C96:                FracFlow_8_12 <= 1
+ _C97:                FracFlow_9_1 <= 1
+ _C98:                FracFlow_9_2 <= 1
+ _C99:                FracFlow_9_3 <= 1
+Bounds
+ 0 <= Build_1 <= 1
+ 0 <= Build_10 <= 1
+ 0 <= Build_11 <= 1
+ 0 <= Build_12 <= 1
+ 0 <= Build_2 <= 1
+ 0 <= Build_3 <= 1
+ 0 <= Build_4 <= 1
+ 0 <= Build_5 <= 1
+ 0 <= Build_6 <= 1
+ 0 <= Build_7 <= 1
+ 0 <= Build_8 <= 1
+ 0 <= Build_9 <= 1
+ All other variables are >= 0.
+Binaries
+ Build_1  Build_10  Build_11  Build_12  Build_2  Build_3  Build_4  Build_5 
+ Build_6  Build_7  Build_8  Build_9 
+Minimize
+ DeliveryandFixedCosts: 3500 Build_1 + 10000 Build_10 + 9000 Build_11
+                        + 3500 Build_12 + 9000 Build_2 + 10000 Build_3
+                        + 4000 Build_4 + 3000 Build_5 + 9000 Build_6
+                        + 9000 Build_7 + 3000 Build_8 + 4000 Build_9
+                        + 160 FracFlow_10_1 + 1000000 FracFlow_10_10
+                        + 1000000 FracFlow_10_11 + 1000000 FracFlow_10_12
+                        + 125 FracFlow_10_2 + 100 FracFlow_10_3
+                        + 100 FracFlow_10_4 + 80 FracFlow_10_5
+                        + 150 FracFlow_10_6 + 190 FracFlow_10_7
+                        + 150 FracFlow_10_8 + 130 FracFlow_10_9
+                        + 190 FracFlow_11_1 + 1000000 FracFlow_11_10
+                        + 1000000 FracFlow_11_11 + 1000000 FracFlow_11_12
+                        + 150 FracFlow_11_2 + 130 FracFlow_11_3
+                        + 1000000 FracFlow_11_4 + 1000000 FracFlow_11_5
+                        + 1000000 FracFlow_11_6 + 200 FracFlow_11_7
+                        + 180 FracFlow_11_8 + 150 FracFlow_11_9
+                        + 200 FracFlow_12_1 + 50 FracFlow_12_10
+                        + 60 FracFlow_12_11 + 100 FracFlow_12_12
+                        + 180 FracFlow_12_2 + 150 FracFlow_12_3
+                        + 1000000 FracFlow_12_4 + 1000000 FracFlow_12_5
+                        + 1000000 FracFlow_12_6 + 100 FracFlow_12_7
+                        + 80 FracFlow_12_8 + 50 FracFlow_12_9
+                        + 100 FracFlow_1_1 + 70 FracFlow_1_10
+                        + 65 FracFlow_1_11 + 110 FracFlow_1_12
+                        + 80 FracFlow_1_2 + 50 FracFlow_1_3 + 50 FracFlow_1_4
+                        + 60 FracFlow_1_5 + 100 FracFlow_1_6 + 120 FracFlow_1_7
+                        + 90 FracFlow_1_8 + 60 FracFlow_1_9 + 120 FracFlow_2_1
+                        + 80 FracFlow_2_10 + 75 FracFlow_2_11
+                        + 130 FracFlow_2_12 + 90 FracFlow_2_2 + 60 FracFlow_2_3
+                        + 70 FracFlow_2_4 + 65 FracFlow_2_5 + 110 FracFlow_2_6
+                        + 140 FracFlow_2_7 + 110 FracFlow_2_8 + 80 FracFlow_2_9
+                        + 140 FracFlow_3_1 + 100 FracFlow_3_10
+                        + 80 FracFlow_3_11 + 150 FracFlow_3_12
+                        + 110 FracFlow_3_2 + 80 FracFlow_3_3 + 80 FracFlow_3_4
+                        + 75 FracFlow_3_5 + 130 FracFlow_3_6 + 160 FracFlow_3_7
+                        + 125 FracFlow_3_8 + 100 FracFlow_3_9
+                        + 160 FracFlow_4_1 + 1000000 FracFlow_4_10
+                        + 1000000 FracFlow_4_11 + 1000000 FracFlow_4_12
+                        + 125 FracFlow_4_2 + 100 FracFlow_4_3
+                        + 100 FracFlow_4_4 + 80 FracFlow_4_5 + 150 FracFlow_4_6
+                        + 190 FracFlow_4_7 + 150 FracFlow_4_8
+                        + 130 FracFlow_4_9 + 190 FracFlow_5_1
+                        + 1000000 FracFlow_5_10 + 1000000 FracFlow_5_11
+                        + 1000000 FracFlow_5_12 + 150 FracFlow_5_2
+                        + 130 FracFlow_5_3 + 1000000 FracFlow_5_4
+                        + 1000000 FracFlow_5_5 + 1000000 FracFlow_5_6
+                        + 200 FracFlow_5_7 + 180 FracFlow_5_8
+                        + 150 FracFlow_5_9 + 200 FracFlow_6_1
+                        + 50 FracFlow_6_10 + 60 FracFlow_6_11
+                        + 100 FracFlow_6_12 + 180 FracFlow_6_2
+                        + 150 FracFlow_6_3 + 1000000 FracFlow_6_4
+                        + 1000000 FracFlow_6_5 + 1000000 FracFlow_6_6
+                        + 100 FracFlow_6_7 + 80 FracFlow_6_8 + 50 FracFlow_6_9
+                        + 100 FracFlow_7_1 + 70 FracFlow_7_10
+                        + 65 FracFlow_7_11 + 110 FracFlow_7_12
+                        + 80 FracFlow_7_2 + 50 FracFlow_7_3 + 50 FracFlow_7_4
+                        + 60 FracFlow_7_5 + 100 FracFlow_7_6 + 120 FracFlow_7_7
+                        + 90 FracFlow_7_8 + 60 FracFlow_7_9 + 120 FracFlow_8_1
+                        + 80 FracFlow_8_10 + 75 FracFlow_8_11
+                        + 130 FracFlow_8_12 + 90 FracFlow_8_2 + 60 FracFlow_8_3
+                        + 70 FracFlow_8_4 + 65 FracFlow_8_5 + 110 FracFlow_8_6
+                        + 140 FracFlow_8_7 + 110 FracFlow_8_8 + 80 FracFlow_8_9
+                        + 140 FracFlow_9_1 + 100 FracFlow_9_10
+                        + 80 FracFlow_9_11 + 150 FracFlow_9_12
+                        + 110 FracFlow_9_2 + 80 FracFlow_9_3 + 80 FracFlow_9_4
+                        + 75 FracFlow_9_5 + 130 FracFlow_9_6 + 160 FracFlow_9_7
+                        + 125 FracFlow_9_8 + 100 FracFlow_9_9
+Subject To
+ CapacityIfBuilt1:    - 300 Build_1 + 120 FracFlow_1_1 + 150 FracFlow_1_10
+                      + 95 FracFlow_1_11 + 120 FracFlow_1_12 + 80 FracFlow_1_2
+                      + 75 FracFlow_1_3 + 100 FracFlow_1_4 + 110 FracFlow_1_5
+                      + 100 FracFlow_1_6 + 90 FracFlow_1_7 + 60 FracFlow_1_8
+                      + 30 FracFlow_1_9 <= 0
+ CapacityIfBuilt10:   - 250 Build_10 + 120 FracFlow_10_1 + 150 FracFlow_10_10
+                      + 95 FracFlow_10_11 + 120 FracFlow_10_12
+                      + 80 FracFlow_10_2 + 75 FracFlow_10_3 + 100 FracFlow_10_4
+                      + 110 FracFlow_10_5 + 100 FracFlow_10_6
+                      + 90 FracFlow_10_7 + 60 FracFlow_10_8 + 30 FracFlow_10_9
+                      <= 0
+ CapacityIfBuilt11:   - 230 Build_11 + 120 FracFlow_11_1 + 150 FracFlow_11_10
+                      + 95 FracFlow_11_11 + 120 FracFlow_11_12
+                      + 80 FracFlow_11_2 + 75 FracFlow_11_3 + 100 FracFlow_11_4
+                      + 110 FracFlow_11_5 + 100 FracFlow_11_6
+                      + 90 FracFlow_11_7 + 60 FracFlow_11_8 + 30 FracFlow_11_9
+                      <= 0
+ CapacityIfBuilt12:   - 180 Build_12 + 120 FracFlow_12_1 + 150 FracFlow_12_10
+                      + 95 FracFlow_12_11 + 120 FracFlow_12_12
+                      + 80 FracFlow_12_2 + 75 FracFlow_12_3 + 100 FracFlow_12_4
+                      + 110 FracFlow_12_5 + 100 FracFlow_12_6
+                      + 90 FracFlow_12_7 + 60 FracFlow_12_8 + 30 FracFlow_12_9
+                      <= 0
+ CapacityIfBuilt2:    - 250 Build_2 + 120 FracFlow_2_1 + 150 FracFlow_2_10
+                      + 95 FracFlow_2_11 + 120 FracFlow_2_12 + 80 FracFlow_2_2
+                      + 75 FracFlow_2_3 + 100 FracFlow_2_4 + 110 FracFlow_2_5
+                      + 100 FracFlow_2_6 + 90 FracFlow_2_7 + 60 FracFlow_2_8
+                      + 30 FracFlow_2_9 <= 0
+ CapacityIfBuilt3:    - 100 Build_3 + 120 FracFlow_3_1 + 150 FracFlow_3_10
+                      + 95 FracFlow_3_11 + 120 FracFlow_3_12 + 80 FracFlow_3_2
+                      + 75 FracFlow_3_3 + 100 FracFlow_3_4 + 110 FracFlow_3_5
+                      + 100 FracFlow_3_6 + 90 FracFlow_3_7 + 60 FracFlow_3_8
+                      + 30 FracFlow_3_9 <= 0
+ CapacityIfBuilt4:    - 180 Build_4 + 120 FracFlow_4_1 + 150 FracFlow_4_10
+                      + 95 FracFlow_4_11 + 120 FracFlow_4_12 + 80 FracFlow_4_2
+                      + 75 FracFlow_4_3 + 100 FracFlow_4_4 + 110 FracFlow_4_5
+                      + 100 FracFlow_4_6 + 90 FracFlow_4_7 + 60 FracFlow_4_8
+                      + 30 FracFlow_4_9 <= 0
+ CapacityIfBuilt5:    - 275 Build_5 + 120 FracFlow_5_1 + 150 FracFlow_5_10
+                      + 95 FracFlow_5_11 + 120 FracFlow_5_12 + 80 FracFlow_5_2
+                      + 75 FracFlow_5_3 + 100 FracFlow_5_4 + 110 FracFlow_5_5
+                      + 100 FracFlow_5_6 + 90 FracFlow_5_7 + 60 FracFlow_5_8
+                      + 30 FracFlow_5_9 <= 0
+ CapacityIfBuilt6:    - 300 Build_6 + 120 FracFlow_6_1 + 150 FracFlow_6_10
+                      + 95 FracFlow_6_11 + 120 FracFlow_6_12 + 80 FracFlow_6_2
+                      + 75 FracFlow_6_3 + 100 FracFlow_6_4 + 110 FracFlow_6_5
+                      + 100 FracFlow_6_6 + 90 FracFlow_6_7 + 60 FracFlow_6_8
+                      + 30 FracFlow_6_9 <= 0
+ CapacityIfBuilt7:    - 200 Build_7 + 120 FracFlow_7_1 + 150 FracFlow_7_10
+                      + 95 FracFlow_7_11 + 120 FracFlow_7_12 + 80 FracFlow_7_2
+                      + 75 FracFlow_7_3 + 100 FracFlow_7_4 + 110 FracFlow_7_5
+                      + 100 FracFlow_7_6 + 90 FracFlow_7_7 + 60 FracFlow_7_8
+                      + 30 FracFlow_7_9 <= 0
+ CapacityIfBuilt8:    - 220 Build_8 + 120 FracFlow_8_1 + 150 FracFlow_8_10
+                      + 95 FracFlow_8_11 + 120 FracFlow_8_12 + 80 FracFlow_8_2
+                      + 75 FracFlow_8_3 + 100 FracFlow_8_4 + 110 FracFlow_8_5
+                      + 100 FracFlow_8_6 + 90 FracFlow_8_7 + 60 FracFlow_8_8
+                      + 30 FracFlow_8_9 <= 0
+ CapacityIfBuilt9:    - 270 Build_9 + 120 FracFlow_9_1 + 150 FracFlow_9_10
+                      + 95 FracFlow_9_11 + 120 FracFlow_9_12 + 80 FracFlow_9_2
+                      + 75 FracFlow_9_3 + 100 FracFlow_9_4 + 110 FracFlow_9_5
+                      + 100 FracFlow_9_6 + 90 FracFlow_9_7 + 60 FracFlow_9_8
+                      + 30 FracFlow_9_9 <= 0
+ CustomerDemandMet1:  FracFlow_10_1 + FracFlow_11_1 + FracFlow_12_1
+                      + FracFlow_1_1 + FracFlow_2_1 + FracFlow_3_1
+                      + FracFlow_4_1 + FracFlow_5_1 + FracFlow_6_1
+                      + FracFlow_7_1 + FracFlow_8_1 + FracFlow_9_1  = 1
+ CustomerDemandMet10: FracFlow_10_10 + FracFlow_11_10 + FracFlow_12_10
+                      + FracFlow_1_10 + FracFlow_2_10 + FracFlow_3_10
+                      + FracFlow_4_10 + FracFlow_5_10 + FracFlow_6_10
+                      + FracFlow_7_10 + FracFlow_8_10 + FracFlow_9_10  = 1
+ CustomerDemandMet11: FracFlow_10_11 + FracFlow_11_11 + FracFlow_12_11
+                      + FracFlow_1_11 + FracFlow_2_11 + FracFlow_3_11
+                      + FracFlow_4_11 + FracFlow_5_11 + FracFlow_6_11
+                      + FracFlow_7_11 + FracFlow_8_11 + FracFlow_9_11  = 1
+ CustomerDemandMet12: FracFlow_10_12 + FracFlow_11_12 + FracFlow_12_12
+                      + FracFlow_1_12 + FracFlow_2_12 + FracFlow_3_12
+                      + FracFlow_4_12 + FracFlow_5_12 + FracFlow_6_12
+                      + FracFlow_7_12 + FracFlow_8_12 + FracFlow_9_12  = 1
+ CustomerDemandMet2:  FracFlow_10_2 + FracFlow_11_2 + FracFlow_12_2
+                      + FracFlow_1_2 + FracFlow_2_2 + FracFlow_3_2
+                      + FracFlow_4_2 + FracFlow_5_2 + FracFlow_6_2
+                      + FracFlow_7_2 + FracFlow_8_2 + FracFlow_9_2  = 1
+ CustomerDemandMet3:  FracFlow_10_3 + FracFlow_11_3 + FracFlow_12_3
+                      + FracFlow_1_3 + FracFlow_2_3 + FracFlow_3_3
+                      + FracFlow_4_3 + FracFlow_5_3 + FracFlow_6_3
+                      + FracFlow_7_3 + FracFlow_8_3 + FracFlow_9_3  = 1
+ CustomerDemandMet4:  FracFlow_10_4 + FracFlow_11_4 + FracFlow_12_4
+                      + FracFlow_1_4 + FracFlow_2_4 + FracFlow_3_4
+                      + FracFlow_4_4 + FracFlow_5_4 + FracFlow_6_4
+                      + FracFlow_7_4 + FracFlow_8_4 + FracFlow_9_4  = 1
+ CustomerDemandMet5:  FracFlow_10_5 + FracFlow_11_5 + FracFlow_12_5
+                      + FracFlow_1_5 + FracFlow_2_5 + FracFlow_3_5
+                      + FracFlow_4_5 + FracFlow_5_5 + FracFlow_6_5
+                      + FracFlow_7_5 + FracFlow_8_5 + FracFlow_9_5  = 1
+ CustomerDemandMet6:  FracFlow_10_6 + FracFlow_11_6 + FracFlow_12_6
+                      + FracFlow_1_6 + FracFlow_2_6 + FracFlow_3_6
+                      + FracFlow_4_6 + FracFlow_5_6 + FracFlow_6_6
+                      + FracFlow_7_6 + FracFlow_8_6 + FracFlow_9_6  = 1
+ CustomerDemandMet7:  FracFlow_10_7 + FracFlow_11_7 + FracFlow_12_7
+                      + FracFlow_1_7 + FracFlow_2_7 + FracFlow_3_7
+                      + FracFlow_4_7 + FracFlow_5_7 + FracFlow_6_7
+                      + FracFlow_7_7 + FracFlow_8_7 + FracFlow_9_7  = 1
+ CustomerDemandMet8:  FracFlow_10_8 + FracFlow_11_8 + FracFlow_12_8
+                      + FracFlow_1_8 + FracFlow_2_8 + FracFlow_3_8
+                      + FracFlow_4_8 + FracFlow_5_8 + FracFlow_6_8
+                      + FracFlow_7_8 + FracFlow_8_8 + FracFlow_9_8  = 1
+ CustomerDemandMet9:  FracFlow_10_9 + FracFlow_11_9 + FracFlow_12_9
+                      + FracFlow_1_9 + FracFlow_2_9 + FracFlow_3_9
+                      + FracFlow_4_9 + FracFlow_5_9 + FracFlow_6_9
+                      + FracFlow_7_9 + FracFlow_8_9 + FracFlow_9_9  = 1
+ _C1:                 FracFlow_1_1 <= 1
+ _C10:                FracFlow_1_10 <= 1
+ _C100:               FracFlow_9_4 <= 1
+ _C101:               FracFlow_9_5 <= 1
+ _C102:               FracFlow_9_6 <= 1
+ _C103:               FracFlow_9_7 <= 1
+ _C104:               FracFlow_9_8 <= 1
+ _C105:               FracFlow_9_9 <= 1
+ _C106:               FracFlow_9_10 <= 1
+ _C107:               FracFlow_9_11 <= 1
+ _C108:               FracFlow_9_12 <= 1
+ _C109:               FracFlow_10_1 <= 1
+ _C11:                FracFlow_1_11 <= 1
+ _C110:               FracFlow_10_2 <= 1
+ _C111:               FracFlow_10_3 <= 1
+ _C112:               FracFlow_10_4 <= 1
+ _C113:               FracFlow_10_5 <= 1
+ _C114:               FracFlow_10_6 <= 1
+ _C115:               FracFlow_10_7 <= 1
+ _C116:               FracFlow_10_8 <= 1
+ _C117:               FracFlow_10_9 <= 1
+ _C118:               FracFlow_10_10 <= 1
+ _C119:               FracFlow_10_11 <= 1
+ _C12:                FracFlow_1_12 <= 1
+ _C120:               FracFlow_10_12 <= 1
+ _C121:               FracFlow_11_1 <= 1
+ _C122:               FracFlow_11_2 <= 1
+ _C123:               FracFlow_11_3 <= 1
+ _C124:               FracFlow_11_4 <= 1
+ _C125:               FracFlow_11_5 <= 1
+ _C126:               FracFlow_11_6 <= 1
+ _C127:               FracFlow_11_7 <= 1
+ _C128:               FracFlow_11_8 <= 1
+ _C129:               FracFlow_11_9 <= 1
+ _C13:                FracFlow_2_1 <= 1
+ _C130:               FracFlow_11_10 <= 1
+ _C131:               FracFlow_11_11 <= 1
+ _C132:               FracFlow_11_12 <= 1
+ _C133:               FracFlow_12_1 <= 1
+ _C134:               FracFlow_12_2 <= 1
+ _C135:               FracFlow_12_3 <= 1
+ _C136:               FracFlow_12_4 <= 1
+ _C137:               FracFlow_12_5 <= 1
+ _C138:               FracFlow_12_6 <= 1
+ _C139:               FracFlow_12_7 <= 1
+ _C14:                FracFlow_2_2 <= 1
+ _C140:               FracFlow_12_8 <= 1
+ _C141:               FracFlow_12_9 <= 1
+ _C142:               FracFlow_12_10 <= 1
+ _C143:               FracFlow_12_11 <= 1
+ _C144:               FracFlow_12_12 <= 1
+ _C15:                FracFlow_2_3 <= 1
+ _C16:                FracFlow_2_4 <= 1
+ _C17:                FracFlow_2_5 <= 1
+ _C18:                FracFlow_2_6 <= 1
+ _C19:                FracFlow_2_7 <= 1
+ _C2:                 FracFlow_1_2 <= 1
+ _C20:                FracFlow_2_8 <= 1
+ _C21:                FracFlow_2_9 <= 1
+ _C22:                FracFlow_2_10 <= 1
+ _C23:                FracFlow_2_11 <= 1
+ _C24:                FracFlow_2_12 <= 1
+ _C25:                FracFlow_3_1 <= 1
+ _C26:                FracFlow_3_2 <= 1
+ _C27:                FracFlow_3_3 <= 1
+ _C28:                FracFlow_3_4 <= 1
+ _C29:                FracFlow_3_5 <= 1
+ _C3:                 FracFlow_1_3 <= 1
+ _C30:                FracFlow_3_6 <= 1
+ _C31:                FracFlow_3_7 <= 1
+ _C32:                FracFlow_3_8 <= 1
+ _C33:                FracFlow_3_9 <= 1
+ _C34:                FracFlow_3_10 <= 1
+ _C35:                FracFlow_3_11 <= 1
+ _C36:                FracFlow_3_12 <= 1
+ _C37:                FracFlow_4_1 <= 1
+ _C38:                FracFlow_4_2 <= 1
+ _C39:                FracFlow_4_3 <= 1
+ _C4:                 FracFlow_1_4 <= 1
+ _C40:                FracFlow_4_4 <= 1
+ _C41:                FracFlow_4_5 <= 1
+ _C42:                FracFlow_4_6 <= 1
+ _C43:                FracFlow_4_7 <= 1
+ _C44:                FracFlow_4_8 <= 1
+ _C45:                FracFlow_4_9 <= 1
+ _C46:                FracFlow_4_10 <= 1
+ _C47:                FracFlow_4_11 <= 1
+ _C48:                FracFlow_4_12 <= 1
+ _C49:                FracFlow_5_1 <= 1
+ _C5:                 FracFlow_1_5 <= 1
+ _C50:                FracFlow_5_2 <= 1
+ _C51:                FracFlow_5_3 <= 1
+ _C52:                FracFlow_5_4 <= 1
+ _C53:                FracFlow_5_5 <= 1
+ _C54:                FracFlow_5_6 <= 1
+ _C55:                FracFlow_5_7 <= 1
+ _C56:                FracFlow_5_8 <= 1
+ _C57:                FracFlow_5_9 <= 1
+ _C58:                FracFlow_5_10 <= 1
+ _C59:                FracFlow_5_11 <= 1
+ _C6:                 FracFlow_1_6 <= 1
+ _C60:                FracFlow_5_12 <= 1
+ _C61:                FracFlow_6_1 <= 1
+ _C62:                FracFlow_6_2 <= 1
+ _C63:                FracFlow_6_3 <= 1
+ _C64:                FracFlow_6_4 <= 1
+ _C65:                FracFlow_6_5 <= 1
+ _C66:                FracFlow_6_6 <= 1
+ _C67:                FracFlow_6_7 <= 1
+ _C68:                FracFlow_6_8 <= 1
+ _C69:                FracFlow_6_9 <= 1
+ _C7:                 FracFlow_1_7 <= 1
+ _C70:                FracFlow_6_10 <= 1
+ _C71:                FracFlow_6_11 <= 1
+ _C72:                FracFlow_6_12 <= 1
+ _C73:                FracFlow_7_1 <= 1
+ _C74:                FracFlow_7_2 <= 1
+ _C75:                FracFlow_7_3 <= 1
+ _C76:                FracFlow_7_4 <= 1
+ _C77:                FracFlow_7_5 <= 1
+ _C78:                FracFlow_7_6 <= 1
+ _C79:                FracFlow_7_7 <= 1
+ _C8:                 FracFlow_1_8 <= 1
+ _C80:                FracFlow_7_8 <= 1
+ _C81:                FracFlow_7_9 <= 1
+ _C82:                FracFlow_7_10 <= 1
+ _C83:                FracFlow_7_11 <= 1
+ _C84:                FracFlow_7_12 <= 1
+ _C85:                FracFlow_8_1 <= 1
+ _C86:                FracFlow_8_2 <= 1
+ _C87:                FracFlow_8_3 <= 1
+ _C88:                FracFlow_8_4 <= 1
+ _C89:                FracFlow_8_5 <= 1
+ _C9:                 FracFlow_1_9 <= 1
+ _C90:                FracFlow_8_6 <= 1
+ _C91:                FracFlow_8_7 <= 1
+ _C92:                FracFlow_8_8 <= 1
+ _C93:                FracFlow_8_9 <= 1
+ _C94:                FracFlow_8_10 <= 1
+ _C95:                FracFlow_8_11 <= 1
+ _C96:                FracFlow_8_12 <= 1
+ _C97:                FracFlow_9_1 <= 1
+ _C98:                FracFlow_9_2 <= 1
+ _C99:                FracFlow_9_3 <= 1
+Bounds
+ 0 <= Build_1 <= 1
+ 0 <= Build_10 <= 1
+ 0 <= Build_11 <= 1
+ 0 <= Build_12 <= 1
+ 0 <= Build_2 <= 1
+ 0 <= Build_3 <= 1
+ 0 <= Build_4 <= 1
+ 0 <= Build_5 <= 1
+ 0 <= Build_6 <= 1
+ 0 <= Build_7 <= 1
+ 0 <= Build_8 <= 1
+ 0 <= Build_9 <= 1
+ All other variables are >= 0.
+Binaries
+ Build_1  Build_10  Build_11  Build_12  Build_2  Build_3  Build_4  Build_5 
+ Build_6  Build_7  Build_8  Build_9 
+
+Log started (V20.1.0.0) Fri Mar 18 18:46:44 2022
+
+
+Problem 'TaxOffice-sb.lp' read.
+Read time = 0.02 sec. (0.01 ticks)
+Version identifier: 20.1.0.0 | 2020-11-10 | 9bedb6d68
+Found incumbent of value 8416.000000 after 0.00 sec. (0.02 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 157 rows, 156 columns, and 444 nonzeros.
+Reduced MIP has 156 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (0.35 ticks)
+Probing time = 0.00 sec. (0.12 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+Reduced MIP has 157 rows, 156 columns, and 444 nonzeros.
+Reduced MIP has 156 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.05 sec. (0.41 ticks)
+Probing time = 0.00 sec. (0.12 ticks)
+Clique table members: 156.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 8 threads.
+Root relaxation solution time = 0.01 sec. (0.40 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                         8416.0000        0.0000           100.00%
+*     0+    0                         3497.0000        0.0000           100.00%
+*     0+    0                         2957.0000        0.0000           100.00%
+*     0+    0                         2457.0000        0.0000           100.00%
+*     0     0      integral     0     2438.0000     2438.0000       50    0.00%
+Elapsed time = 0.17 sec. (1.74 ticks, tree = 0.00 MB, solutions = 5)
+
+Root node processing (before b&c):
+  Real time             =    0.19 sec. (1.75 ticks)
+Parallel b&c, 8 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.19 sec. (1.75 ticks)
+
+Solution pool: 5 solutions saved.
+
+MIP - Integer optimal solution:  Objective =  2.4380000000e+03
+Solution time =    0.23 sec.  Iterations = 50  Nodes = 0
+Deterministic time = 1.75 ticks  (7.49 ticks/sec)
+
+Minimize
+ OBJ: 880 Depends_10_1 + 418 Depends_10_11 + 880 Depends_10_12
+      + 1210 Depends_10_2 + 1276 Depends_10_3 + 1364 Depends_10_4
+      + 1078 Depends_10_5 + 1100 Depends_10_6 + 484 Depends_10_7
+      + 814 Depends_10_8 + 836 Depends_10_9 + 1102 Depends_11_1
+      + 361 Depends_11_10 + 399 Depends_11_12 + 1159 Depends_11_2
+      + 741 Depends_11_3 + 817 Depends_11_4 + 703 Depends_11_5
+      + 589 Depends_11_6 + 760 Depends_11_7 + 475 Depends_11_8
+      + 361 Depends_11_9 + 1340 Depends_12_1 + 800 Depends_12_10
+      + 420 Depends_12_11 + 1220 Depends_12_2 + 780 Depends_12_3
+      + 680 Depends_12_4 + 860 Depends_12_5 + 440 Depends_12_6
+      + 1220 Depends_12_7 + 920 Depends_12_8 + 380 Depends_12_9
+      + 600 Depends_1_10 + 870 Depends_1_11 + 1005 Depends_1_12
+      + 225 Depends_1_2 + 555 Depends_1_3 + 825 Depends_1_4 + 360 Depends_1_5
+      + 900 Depends_1_6 + 270 Depends_1_7 + 495 Depends_1_8 + 720 Depends_1_9
+      + 150 Depends_2_1 + 550 Depends_2_10 + 610 Depends_2_11
+      + 610 Depends_2_12 + 220 Depends_2_3 + 400 Depends_2_4 + 380 Depends_2_5
+      + 520 Depends_2_6 + 330 Depends_2_7 + 480 Depends_2_8 + 420 Depends_2_9
+      + 444 Depends_3_1 + 696 Depends_3_10 + 468 Depends_3_11
+      + 468 Depends_3_12 + 264 Depends_3_2 + 216 Depends_3_4 + 192 Depends_3_5
+      + 360 Depends_3_6 + 516 Depends_3_7 + 336 Depends_3_8 + 240 Depends_3_9
+      + 990 Depends_4_1 + 1116 Depends_4_10 + 774 Depends_4_11
+      + 612 Depends_4_12 + 720 Depends_4_2 + 324 Depends_4_3 + 612 Depends_4_5
+      + 216 Depends_4_6 + 1098 Depends_4_7 + 828 Depends_4_8 + 432 Depends_4_9
+      + 120 Depends_5_1 + 245 Depends_5_10 + 185 Depends_5_11
+      + 215 Depends_5_12 + 190 Depends_5_2 + 80 Depends_5_3 + 170 Depends_5_4
+      + 180 Depends_5_6 + 135 Depends_5_7 + 60 Depends_5_8 + 120 Depends_5_9
+      + 1440 Depends_6_1 + 1200 Depends_6_10 + 744 Depends_6_11
+      + 528 Depends_6_12 + 1248 Depends_6_2 + 720 Depends_6_3 + 288 Depends_6_4
+      + 864 Depends_6_5 + 1368 Depends_6_7 + 1008 Depends_6_8 + 288 Depends_6_9
+      + 198 Depends_7_1 + 242 Depends_7_10 + 440 Depends_7_11
+      + 671 Depends_7_12 + 363 Depends_7_2 + 473 Depends_7_3 + 671 Depends_7_4
+      + 297 Depends_7_5 + 627 Depends_7_6 + 165 Depends_7_8 + 495 Depends_7_9
+      + 528 Depends_8_1 + 592 Depends_8_10 + 400 Depends_8_11
+      + 736 Depends_8_12 + 768 Depends_8_2 + 448 Depends_8_3 + 736 Depends_8_4
+      + 192 Depends_8_5 + 672 Depends_8_6 + 240 Depends_8_7 + 480 Depends_8_9
+      + 624 Depends_9_1 + 494 Depends_9_10 + 247 Depends_9_11
+      + 247 Depends_9_12 + 546 Depends_9_2 + 260 Depends_9_3 + 312 Depends_9_4
+      + 312 Depends_9_5 + 156 Depends_9_6 + 585 Depends_9_7 + 390 Depends_9_8
+Subject To
+ Number_Locations: Build_1 + Build_10 + Build_11 + Build_12 + Build_2 + Build_3
+                   + Build_4 + Build_5 + Build_6 + Build_7 + Build_8 + Build_9
+                    = 3
+ _C1:              Depends_1_10 + Depends_1_11 + Depends_1_12 + Depends_1_2
+                   + Depends_1_3 + Depends_1_4 + Depends_1_5 + Depends_1_6
+                   + Depends_1_7 + Depends_1_8 + Depends_1_9 + Depends_1_1  = 1
+ _C10:             Depends_10_1 + Depends_10_11 + Depends_10_12 + Depends_10_2
+                   + Depends_10_3 + Depends_10_4 + Depends_10_5 + Depends_10_6
+                   + Depends_10_7 + Depends_10_8 + Depends_10_9 + Depends_10_10
+                    = 1
+ _C100:            Depends_8_4 - Build_4 <= 0
+ _C101:            Depends_8_5 - Build_5 <= 0
+ _C102:            Depends_8_6 - Build_6 <= 0
+ _C103:            Depends_8_7 - Build_7 <= 0
+ _C104:            - Build_8 + Depends_8_8 <= 0
+ _C105:            Depends_8_9 - Build_9 <= 0
+ _C106:            Depends_8_10 - Build_10 <= 0
+ _C107:            Depends_8_11 - Build_11 <= 0
+ _C108:            Depends_8_12 - Build_12 <= 0
+ _C109:            Depends_9_1 - Build_1 <= 0
+ _C11:             Depends_11_1 + Depends_11_10 + Depends_11_12 + Depends_11_2
+                   + Depends_11_3 + Depends_11_4 + Depends_11_5 + Depends_11_6
+                   + Depends_11_7 + Depends_11_8 + Depends_11_9 + Depends_11_11
+                    = 1
+ _C110:            Depends_9_2 - Build_2 <= 0
+ _C111:            Depends_9_3 - Build_3 <= 0
+ _C112:            Depends_9_4 - Build_4 <= 0
+ _C113:            Depends_9_5 - Build_5 <= 0
+ _C114:            Depends_9_6 - Build_6 <= 0
+ _C115:            Depends_9_7 - Build_7 <= 0
+ _C116:            Depends_9_8 - Build_8 <= 0
+ _C117:            - Build_9 + Depends_9_9 <= 0
+ _C118:            Depends_9_10 - Build_10 <= 0
+ _C119:            Depends_9_11 - Build_11 <= 0
+ _C12:             Depends_12_1 + Depends_12_10 + Depends_12_11 + Depends_12_2
+                   + Depends_12_3 + Depends_12_4 + Depends_12_5 + Depends_12_6
+                   + Depends_12_7 + Depends_12_8 + Depends_12_9 + Depends_12_12
+                    = 1
+ _C120:            Depends_9_12 - Build_12 <= 0
+ _C121:            Depends_10_1 - Build_1 <= 0
+ _C122:            Depends_10_2 - Build_2 <= 0
+ _C123:            Depends_10_3 - Build_3 <= 0
+ _C124:            Depends_10_4 - Build_4 <= 0
+ _C125:            Depends_10_5 - Build_5 <= 0
+ _C126:            Depends_10_6 - Build_6 <= 0
+ _C127:            Depends_10_7 - Build_7 <= 0
+ _C128:            Depends_10_8 - Build_8 <= 0
+ _C129:            Depends_10_9 - Build_9 <= 0
+ _C13:             - Build_1 + Depends_1_1 <= 0
+ _C130:            - Build_10 + Depends_10_10 <= 0
+ _C131:            Depends_10_11 - Build_11 <= 0
+ _C132:            Depends_10_12 - Build_12 <= 0
+ _C133:            Depends_11_1 - Build_1 <= 0
+ _C134:            Depends_11_2 - Build_2 <= 0
+ _C135:            Depends_11_3 - Build_3 <= 0
+ _C136:            Depends_11_4 - Build_4 <= 0
+ _C137:            Depends_11_5 - Build_5 <= 0
+ _C138:            Depends_11_6 - Build_6 <= 0
+ _C139:            Depends_11_7 - Build_7 <= 0
+ _C14:             Depends_1_2 - Build_2 <= 0
+ _C140:            Depends_11_8 - Build_8 <= 0
+ _C141:            Depends_11_9 - Build_9 <= 0
+ _C142:            Depends_11_10 - Build_10 <= 0
+ _C143:            - Build_11 + Depends_11_11 <= 0
+ _C144:            Depends_11_12 - Build_12 <= 0
+ _C145:            Depends_12_1 - Build_1 <= 0
+ _C146:            Depends_12_2 - Build_2 <= 0
+ _C147:            Depends_12_3 - Build_3 <= 0
+ _C148:            Depends_12_4 - Build_4 <= 0
+ _C149:            Depends_12_5 - Build_5 <= 0
+ _C15:             Depends_1_3 - Build_3 <= 0
+ _C150:            Depends_12_6 - Build_6 <= 0
+ _C151:            Depends_12_7 - Build_7 <= 0
+ _C152:            Depends_12_8 - Build_8 <= 0
+ _C153:            Depends_12_9 - Build_9 <= 0
+ _C154:            Depends_12_10 - Build_10 <= 0
+ _C155:            Depends_12_11 - Build_11 <= 0
+ _C156:            - Build_12 + Depends_12_12 <= 0
+ _C16:             Depends_1_4 - Build_4 <= 0
+ _C17:             Depends_1_5 - Build_5 <= 0
+ _C18:             Depends_1_6 - Build_6 <= 0
+ _C19:             Depends_1_7 - Build_7 <= 0
+ _C2:              Depends_2_1 + Depends_2_10 + Depends_2_11 + Depends_2_12
+                   + Depends_2_3 + Depends_2_4 + Depends_2_5 + Depends_2_6
+                   + Depends_2_7 + Depends_2_8 + Depends_2_9 + Depends_2_2  = 1
+ _C20:             Depends_1_8 - Build_8 <= 0
+ _C21:             Depends_1_9 - Build_9 <= 0
+ _C22:             Depends_1_10 - Build_10 <= 0
+ _C23:             Depends_1_11 - Build_11 <= 0
+ _C24:             Depends_1_12 - Build_12 <= 0
+ _C25:             Depends_2_1 - Build_1 <= 0
+ _C26:             - Build_2 + Depends_2_2 <= 0
+ _C27:             Depends_2_3 - Build_3 <= 0
+ _C28:             Depends_2_4 - Build_4 <= 0
+ _C29:             Depends_2_5 - Build_5 <= 0
+ _C3:              Depends_3_1 + Depends_3_10 + Depends_3_11 + Depends_3_12
+                   + Depends_3_2 + Depends_3_4 + Depends_3_5 + Depends_3_6
+                   + Depends_3_7 + Depends_3_8 + Depends_3_9 + Depends_3_3  = 1
+ _C30:             Depends_2_6 - Build_6 <= 0
+ _C31:             Depends_2_7 - Build_7 <= 0
+ _C32:             Depends_2_8 - Build_8 <= 0
+ _C33:             Depends_2_9 - Build_9 <= 0
+ _C34:             Depends_2_10 - Build_10 <= 0
+ _C35:             Depends_2_11 - Build_11 <= 0
+ _C36:             Depends_2_12 - Build_12 <= 0
+ _C37:             Depends_3_1 - Build_1 <= 0
+ _C38:             Depends_3_2 - Build_2 <= 0
+ _C39:             - Build_3 + Depends_3_3 <= 0
+ _C4:              Depends_4_1 + Depends_4_10 + Depends_4_11 + Depends_4_12
+                   + Depends_4_2 + Depends_4_3 + Depends_4_5 + Depends_4_6
+                   + Depends_4_7 + Depends_4_8 + Depends_4_9 + Depends_4_4  = 1
+ _C40:             Depends_3_4 - Build_4 <= 0
+ _C41:             Depends_3_5 - Build_5 <= 0
+ _C42:             Depends_3_6 - Build_6 <= 0
+ _C43:             Depends_3_7 - Build_7 <= 0
+ _C44:             Depends_3_8 - Build_8 <= 0
+ _C45:             Depends_3_9 - Build_9 <= 0
+ _C46:             Depends_3_10 - Build_10 <= 0
+ _C47:             Depends_3_11 - Build_11 <= 0
+ _C48:             Depends_3_12 - Build_12 <= 0
+ _C49:             Depends_4_1 - Build_1 <= 0
+ _C5:              Depends_5_1 + Depends_5_10 + Depends_5_11 + Depends_5_12
+                   + Depends_5_2 + Depends_5_3 + Depends_5_4 + Depends_5_6
+                   + Depends_5_7 + Depends_5_8 + Depends_5_9 + Depends_5_5  = 1
+ _C50:             Depends_4_2 - Build_2 <= 0
+ _C51:             Depends_4_3 - Build_3 <= 0
+ _C52:             - Build_4 + Depends_4_4 <= 0
+ _C53:             Depends_4_5 - Build_5 <= 0
+ _C54:             Depends_4_6 - Build_6 <= 0
+ _C55:             Depends_4_7 - Build_7 <= 0
+ _C56:             Depends_4_8 - Build_8 <= 0
+ _C57:             Depends_4_9 - Build_9 <= 0
+ _C58:             Depends_4_10 - Build_10 <= 0
+ _C59:             Depends_4_11 - Build_11 <= 0
+ _C6:              Depends_6_1 + Depends_6_10 + Depends_6_11 + Depends_6_12
+                   + Depends_6_2 + Depends_6_3 + Depends_6_4 + Depends_6_5
+                   + Depends_6_7 + Depends_6_8 + Depends_6_9 + Depends_6_6  = 1
+ _C60:             Depends_4_12 - Build_12 <= 0
+ _C61:             Depends_5_1 - Build_1 <= 0
+ _C62:             Depends_5_2 - Build_2 <= 0
+ _C63:             Depends_5_3 - Build_3 <= 0
+ _C64:             Depends_5_4 - Build_4 <= 0
+ _C65:             - Build_5 + Depends_5_5 <= 0
+ _C66:             Depends_5_6 - Build_6 <= 0
+ _C67:             Depends_5_7 - Build_7 <= 0
+ _C68:             Depends_5_8 - Build_8 <= 0
+ _C69:             Depends_5_9 - Build_9 <= 0
+ _C7:              Depends_7_1 + Depends_7_10 + Depends_7_11 + Depends_7_12
+                   + Depends_7_2 + Depends_7_3 + Depends_7_4 + Depends_7_5
+                   + Depends_7_6 + Depends_7_8 + Depends_7_9 + Depends_7_7  = 1
+ _C70:             Depends_5_10 - Build_10 <= 0
+ _C71:             Depends_5_11 - Build_11 <= 0
+ _C72:             Depends_5_12 - Build_12 <= 0
+ _C73:             Depends_6_1 - Build_1 <= 0
+ _C74:             Depends_6_2 - Build_2 <= 0
+ _C75:             Depends_6_3 - Build_3 <= 0
+ _C76:             Depends_6_4 - Build_4 <= 0
+ _C77:             Depends_6_5 - Build_5 <= 0
+ _C78:             - Build_6 + Depends_6_6 <= 0
+ _C79:             Depends_6_7 - Build_7 <= 0
+ _C8:              Depends_8_1 + Depends_8_10 + Depends_8_11 + Depends_8_12
+                   + Depends_8_2 + Depends_8_3 + Depends_8_4 + Depends_8_5
+                   + Depends_8_6 + Depends_8_7 + Depends_8_9 + Depends_8_8  = 1
+ _C80:             Depends_6_8 - Build_8 <= 0
+ _C81:             Depends_6_9 - Build_9 <= 0
+ _C82:             Depends_6_10 - Build_10 <= 0
+ _C83:             Depends_6_11 - Build_11 <= 0
+ _C84:             Depends_6_12 - Build_12 <= 0
+ _C85:             Depends_7_1 - Build_1 <= 0
+ _C86:             Depends_7_2 - Build_2 <= 0
+ _C87:             Depends_7_3 - Build_3 <= 0
+ _C88:             Depends_7_4 - Build_4 <= 0
+ _C89:             Depends_7_5 - Build_5 <= 0
+ _C9:              Depends_9_1 + Depends_9_10 + Depends_9_11 + Depends_9_12
+                   + Depends_9_2 + Depends_9_3 + Depends_9_4 + Depends_9_5
+                   + Depends_9_6 + Depends_9_7 + Depends_9_8 + Depends_9_9  = 1
+ _C90:             Depends_7_6 - Build_6 <= 0
+ _C91:             - Build_7 + Depends_7_7 <= 0
+ _C92:             Depends_7_8 - Build_8 <= 0
+ _C93:             Depends_7_9 - Build_9 <= 0
+ _C94:             Depends_7_10 - Build_10 <= 0
+ _C95:             Depends_7_11 - Build_11 <= 0
+ _C96:             Depends_7_12 - Build_12 <= 0
+ _C97:             Depends_8_1 - Build_1 <= 0
+ _C98:             Depends_8_2 - Build_2 <= 0
+ _C99:             Depends_8_3 - Build_3 <= 0
+Bounds
+ 0 <= Depends_10_1 <= 1
+ 0 <= Depends_10_11 <= 1
+ 0 <= Depends_10_12 <= 1
+ 0 <= Depends_10_2 <= 1
+ 0 <= Depends_10_3 <= 1
+ 0 <= Depends_10_4 <= 1
+ 0 <= Depends_10_5 <= 1
+ 0 <= Depends_10_6 <= 1
+ 0 <= Depends_10_7 <= 1
+ 0 <= Depends_10_8 <= 1
+ 0 <= Depends_10_9 <= 1
+ 0 <= Depends_11_1 <= 1
+ 0 <= Depends_11_10 <= 1
+ 0 <= Depends_11_12 <= 1
+ 0 <= Depends_11_2 <= 1
+ 0 <= Depends_11_3 <= 1
+ 0 <= Depends_11_4 <= 1
+ 0 <= Depends_11_5 <= 1
+ 0 <= Depends_11_6 <= 1
+ 0 <= Depends_11_7 <= 1
+ 0 <= Depends_11_8 <= 1
+ 0 <= Depends_11_9 <= 1
+ 0 <= Depends_12_1 <= 1
+ 0 <= Depends_12_10 <= 1
+ 0 <= Depends_12_11 <= 1
+ 0 <= Depends_12_2 <= 1
+ 0 <= Depends_12_3 <= 1
+ 0 <= Depends_12_4 <= 1
+ 0 <= Depends_12_5 <= 1
+ 0 <= Depends_12_6 <= 1
+ 0 <= Depends_12_7 <= 1
+ 0 <= Depends_12_8 <= 1
+ 0 <= Depends_12_9 <= 1
+ 0 <= Depends_1_10 <= 1
+ 0 <= Depends_1_11 <= 1
+ 0 <= Depends_1_12 <= 1
+ 0 <= Depends_1_2 <= 1
+ 0 <= Depends_1_3 <= 1
+ 0 <= Depends_1_4 <= 1
+ 0 <= Depends_1_5 <= 1
+ 0 <= Depends_1_6 <= 1
+ 0 <= Depends_1_7 <= 1
+ 0 <= Depends_1_8 <= 1
+ 0 <= Depends_1_9 <= 1
+ 0 <= Depends_2_1 <= 1
+ 0 <= Depends_2_10 <= 1
+ 0 <= Depends_2_11 <= 1
+ 0 <= Depends_2_12 <= 1
+ 0 <= Depends_2_3 <= 1
+ 0 <= Depends_2_4 <= 1
+ 0 <= Depends_2_5 <= 1
+ 0 <= Depends_2_6 <= 1
+ 0 <= Depends_2_7 <= 1
+ 0 <= Depends_2_8 <= 1
+ 0 <= Depends_2_9 <= 1
+ 0 <= Depends_3_1 <= 1
+ 0 <= Depends_3_10 <= 1
+ 0 <= Depends_3_11 <= 1
+ 0 <= Depends_3_12 <= 1
+ 0 <= Depends_3_2 <= 1
+ 0 <= Depends_3_4 <= 1
+ 0 <= Depends_3_5 <= 1
+ 0 <= Depends_3_6 <= 1
+ 0 <= Depends_3_7 <= 1
+ 0 <= Depends_3_8 <= 1
+ 0 <= Depends_3_9 <= 1
+ 0 <= Depends_4_1 <= 1
+ 0 <= Depends_4_10 <= 1
+ 0 <= Depends_4_11 <= 1
+ 0 <= Depends_4_12 <= 1
+ 0 <= Depends_4_2 <= 1
+ 0 <= Depends_4_3 <= 1
+ 0 <= Depends_4_5 <= 1
+ 0 <= Depends_4_6 <= 1
+ 0 <= Depends_4_7 <= 1
+ 0 <= Depends_4_8 <= 1
+ 0 <= Depends_4_9 <= 1
+ 0 <= Depends_5_1 <= 1
+ 0 <= Depends_5_10 <= 1
+ 0 <= Depends_5_11 <= 1
+ 0 <= Depends_5_12 <= 1
+ 0 <= Depends_5_2 <= 1
+ 0 <= Depends_5_3 <= 1
+ 0 <= Depends_5_4 <= 1
+ 0 <= Depends_5_6 <= 1
+ 0 <= Depends_5_7 <= 1
+ 0 <= Depends_5_8 <= 1
+ 0 <= Depends_5_9 <= 1
+ 0 <= Depends_6_1 <= 1
+ 0 <= Depends_6_10 <= 1
+ 0 <= Depends_6_11 <= 1
+ 0 <= Depends_6_12 <= 1
+ 0 <= Depends_6_2 <= 1
+ 0 <= Depends_6_3 <= 1
+ 0 <= Depends_6_4 <= 1
+ 0 <= Depends_6_5 <= 1
+ 0 <= Depends_6_7 <= 1
+ 0 <= Depends_6_8 <= 1
+ 0 <= Depends_6_9 <= 1
+ 0 <= Depends_7_1 <= 1
+ 0 <= Depends_7_10 <= 1
+ 0 <= Depends_7_11 <= 1
+ 0 <= Depends_7_12 <= 1
+ 0 <= Depends_7_2 <= 1
+ 0 <= Depends_7_3 <= 1
+ 0 <= Depends_7_4 <= 1
+ 0 <= Depends_7_5 <= 1
+ 0 <= Depends_7_6 <= 1
+ 0 <= Depends_7_8 <= 1
+ 0 <= Depends_7_9 <= 1
+ 0 <= Depends_8_1 <= 1
+ 0 <= Depends_8_10 <= 1
+ 0 <= Depends_8_11 <= 1
+ 0 <= Depends_8_12 <= 1
+ 0 <= Depends_8_2 <= 1
+ 0 <= Depends_8_3 <= 1
+ 0 <= Depends_8_4 <= 1
+ 0 <= Depends_8_5 <= 1
+ 0 <= Depends_8_6 <= 1
+ 0 <= Depends_8_7 <= 1
+ 0 <= Depends_8_9 <= 1
+ 0 <= Depends_9_1 <= 1
+ 0 <= Depends_9_10 <= 1
+ 0 <= Depends_9_11 <= 1
+ 0 <= Depends_9_12 <= 1
+ 0 <= Depends_9_2 <= 1
+ 0 <= Depends_9_3 <= 1
+ 0 <= Depends_9_4 <= 1
+ 0 <= Depends_9_5 <= 1
+ 0 <= Depends_9_6 <= 1
+ 0 <= Depends_9_7 <= 1
+ 0 <= Depends_9_8 <= 1
+ 0 <= Build_1 <= 1
+ 0 <= Build_10 <= 1
+ 0 <= Build_11 <= 1
+ 0 <= Build_12 <= 1
+ 0 <= Build_2 <= 1
+ 0 <= Build_3 <= 1
+ 0 <= Build_4 <= 1
+ 0 <= Build_5 <= 1
+ 0 <= Build_6 <= 1
+ 0 <= Build_7 <= 1
+ 0 <= Build_8 <= 1
+ 0 <= Build_9 <= 1
+ 0 <= Depends_1_1 <= 1
+ 0 <= Depends_10_10 <= 1
+ 0 <= Depends_8_8 <= 1
+ 0 <= Depends_11_11 <= 1
+ 0 <= Depends_9_9 <= 1
+ 0 <= Depends_12_12 <= 1
+ 0 <= Depends_2_2 <= 1
+ 0 <= Depends_3_3 <= 1
+ 0 <= Depends_4_4 <= 1
+ 0 <= Depends_5_5 <= 1
+ 0 <= Depends_6_6 <= 1
+ 0 <= Depends_7_7 <= 1
+Binaries
+ Depends_10_1  Depends_10_11  Depends_10_12  Depends_10_2  Depends_10_3 
+ Depends_10_4  Depends_10_5  Depends_10_6  Depends_10_7  Depends_10_8 
+ Depends_10_9  Depends_11_1  Depends_11_10  Depends_11_12  Depends_11_2 
+ Depends_11_3  Depends_11_4  Depends_11_5  Depends_11_6  Depends_11_7 
+ Depends_11_8  Depends_11_9  Depends_12_1  Depends_12_10  Depends_12_11 
+ Depends_12_2  Depends_12_3  Depends_12_4  Depends_12_5  Depends_12_6 
+ Depends_12_7  Depends_12_8  Depends_12_9  Depends_1_10  Depends_1_11 
+ Depends_1_12  Depends_1_2  Depends_1_3  Depends_1_4  Depends_1_5  Depends_1_6 
+ Depends_1_7  Depends_1_8  Depends_1_9  Depends_2_1  Depends_2_10 
+ Depends_2_11  Depends_2_12  Depends_2_3  Depends_2_4  Depends_2_5 
+ Depends_2_6  Depends_2_7  Depends_2_8  Depends_2_9  Depends_3_1  Depends_3_10 
+ Depends_3_11  Depends_3_12  Depends_3_2  Depends_3_4  Depends_3_5 
+ Depends_3_6  Depends_3_7  Depends_3_8  Depends_3_9  Depends_4_1  Depends_4_10 
+ Depends_4_11  Depends_4_12  Depends_4_2  Depends_4_3  Depends_4_5 
+ Depends_4_6  Depends_4_7  Depends_4_8  Depends_4_9  Depends_5_1  Depends_5_10 
+ Depends_5_11  Depends_5_12  Depends_5_2  Depends_5_3  Depends_5_4 
+ Depends_5_6  Depends_5_7  Depends_5_8  Depends_5_9  Depends_6_1  Depends_6_10 
+ Depends_6_11  Depends_6_12  Depends_6_2  Depends_6_3  Depends_6_4 
+ Depends_6_5  Depends_6_7  Depends_6_8  Depends_6_9  Depends_7_1  Depends_7_10 
+ Depends_7_11  Depends_7_12  Depends_7_2  Depends_7_3  Depends_7_4 
+ Depends_7_5  Depends_7_6  Depends_7_8  Depends_7_9  Depends_8_1  Depends_8_10 
+ Depends_8_11  Depends_8_12  Depends_8_2  Depends_8_3  Depends_8_4 
+ Depends_8_5  Depends_8_6  Depends_8_7  Depends_8_9  Depends_9_1  Depends_9_10 
+ Depends_9_11  Depends_9_12  Depends_9_2  Depends_9_3  Depends_9_4 
+ Depends_9_5  Depends_9_6  Depends_9_7  Depends_9_8  Build_1  Build_10 
+ Build_11  Build_12  Build_2  Build_3  Build_4  Build_5  Build_6  Build_7 
+ Build_8  Build_9  Depends_1_1  Depends_10_10  Depends_8_8  Depends_11_11 
+ Depends_9_9  Depends_12_12  Depends_2_2  Depends_3_3  Depends_4_4 
+ Depends_5_5  Depends_6_6  Depends_7_7 

@@ -1,0 +1,48 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file k4even.mos
+   ```````````````
+   Placing a given number of chips on a 4x4 grid 
+   such that every row and every column contains
+   an even number of chips.
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "K-4 Even"
+ uses "mmxprs"
+
+ declarations
+  POS = 1..4                          ! Positions in a row/column
+  NCHIP = 10                          ! Number of chips
+    
+  place: array(POS,POS) of mpvar      ! 1 if chip at the position, 0 otherwise
+  row, column: array(POS) of mpvar    ! Chips per row/column divided by 2
+ end-declarations
+
+! Total number of chips
+ sum(r,c in POS) place(r,c) = NCHIP
+
+! Even number of chips in all rows and columns
+ forall(r in POS) sum(c in POS) place(r,c) = 2*row(r)
+ forall(c in POS) sum(r in POS) place(r,c) = 2*column(c)
+ 
+ forall(r,c in POS) place(r,c) is_binary
+ forall(r in POS) do
+  row(r) is_integer; row(r) <= 2
+  column(r) is_integer; column(r) <= 2
+ end-do   
+ 
+! Solve the problem: no objective
+ minimize(0)
+
+! Solution printing
+ forall(r in POS) do
+  forall(c in POS) write( if(getsol(place(r,c))>0, "X ", ". ") )
+  writeln
+ end-do
+ 
+end-model

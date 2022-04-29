@@ -1,0 +1,63 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file g1rely.mos
+   ```````````````
+   Reliability of a telecommunications network
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "G-1 Network reliability"
+ uses "mmxprs"
+
+ declarations
+  NODES: range                        ! Set of nodes
+  SOURCE = 10; SINK = 11              ! Source and sink nodes 
+
+  ARC: array(NODES,NODES) of integer  ! 1 if arc defined, 0 otherwise
+  
+  flow: array(NODES,NODES) of mpvar   ! 1 if flow on arc, 0 otherwise
+ end-declarations
+
+ initializations from 'g1rely.dat'
+  ARC
+ end-initializations
+
+ forall(n,m in NODES | exists(ARC(n,m)) and n<m ) ARC(m,n):= ARC(n,m)
+ forall(n,m in NODES | exists(ARC(n,m)) )  create(flow(n,m))
+
+! Objective: number of disjunctive paths
+ Paths:= sum(n in NODES) flow(SOURCE,n)
+
+! Flow conservation and capacities
+ forall(n in NODES | n<>SOURCE and n<>SINK) do
+  sum(m in NODES) flow(m,n) = sum(m in NODES) flow(n,m)
+  sum(m in NODES) flow(n,m) <= 1
+ end-do 
+
+! No return to SOURCE node
+ sum(n in NODES) flow(n,SOURCE) = 0
+
+ forall(n,m in NODES | exists(ARC(n,m)) )  flow(n,m) is_binary
+
+! Solve the problem
+ maximize(Paths)
+ 
+! Solution printing
+ writeln("Total number of paths: ", getobjval)
+
+ forall(n in NODES | n<>SOURCE and n<>SINK) 
+  if(getsol(flow(SOURCE,n))>0) then
+   write(SOURCE, " - ",n)
+   nnext:=n
+   while (nnext<>SINK) do
+    nnext:=round(getsol(sum(m in NODES) m*flow(nnext,m)))
+    write(" - ", nnext)
+   end-do
+   writeln
+  end-if
+
+end-model

@@ -1,0 +1,62 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file e2minflow.mos
+   ``````````````````
+   Choosing the mode of transport (Minimum cost flow)
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "E-2 Minimum cost flow"
+ uses "mmxprs"
+
+ declarations
+  NODES: set of string                  ! Set of nodes
+  MINQ : integer                        ! Total quantity to transport
+  A: array(ARCS:range,1..2) of string   ! Arcs
+  COST: array(ARCS) of integer          ! Transport cost on arcs
+  MINCAP,MAXCAP: array(ARCS) of integer ! Minimum and maximum arc capacities
+ end-declarations
+
+ initializations from 'e2minflow.dat'
+  A MINQ MINCAP MAXCAP COST
+ end-initializations
+
+ finalize(ARCS)
+
+! Calculate the set of nodes
+ NODES:=union(a in ARCS) {A(a,1),A(a,2)}
+
+ declarations
+  flow: array(ARCS) of mpvar            ! Flow on arcs
+ end-declarations
+
+! Objective: total transport cost
+ Cost:= sum(a in ARCS) COST(a)*flow(a)
+
+! Flow balance: inflow equals outflow
+ forall(n in NODES | n<>"SOURCE" and n<>"SINK")
+  sum(a in ARCS | A(a,2)=n) flow(a) = sum(a in ARCS | A(a,1)=n) flow(a)
+   
+! Min and max flow capacities
+ forall(a in ARCS | MAXCAP(a) > 0) do
+  flow(a) >= MINCAP(a)
+  flow(a) <= MAXCAP(a)
+ end-do
+  
+! Minimum total quantity to transport
+ sum(a in ARCS | A(a,1)="SOURCE" ) flow(a) >= MINQ
+
+! Solve the problem
+ minimize(Cost)
+ 
+! Solution printing
+ writeln("Total cost: ", getobjval)
+ forall(a in ARCS)
+  write( if(getsol(flow(a))>0, 
+         A(a,1) + " -> "+ A(a,2) + ": "+ getsol(flow(a))+"\n", ""))
+
+end-model

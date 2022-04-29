@@ -1,0 +1,80 @@
+(!******************************************************
+   Mosel Example Problems
+   ======================
+
+   file e1carrent.mos
+   ``````````````````
+   Fleet management in car rental
+   
+   (c) 2008 Fair Isaac Corporation
+       author: S. Heipcke, Mar. 2002
+*******************************************************!)
+
+model "E-1 Car rental"
+ uses "mmxprs"
+
+ declarations
+  AGENTS = 1..10                     ! Car rental agencies
+
+  REQ: array(AGENTS) of integer      ! Required number of cars
+  STOCK: array(AGENTS) of integer    ! Number of cars in stock
+  X,Y: array(AGENTS) of integer      ! Coordinates of rental agencies
+  COST: real                         ! Cost per km of moving a car
+  NEED: set of integer               ! Agencies needing more cars
+  EXCESS: set of integer             ! Agencies with too many cars
+ end-declarations
+
+ initializations from 'e1carrent.dat'
+  REQ STOCK X Y COST
+ end-initializations
+
+ if sum(a in AGENTS) (STOCK(a)-REQ(a)) <> 0 then
+  writeln("Problem is infeasible")
+  exit(0)
+ end-if 
+
+! Calculate sets of agencies with excess or deficit of cars
+ forall(a in AGENTS)
+  if STOCK(a) - REQ(a) < 0 then
+   NEED += {a}
+  elif STOCK(a) - REQ(a) > 0 then
+   EXCESS += {a}
+  end-if
+
+ finalize(NEED); finalize(EXCESS)
+
+ declarations
+  DIST: array(EXCESS,NEED) of real   ! Distance between agencies
+  move: array(EXCESS,NEED) of mpvar  ! Cars exchanged between agencies
+ end-declarations
+
+! Calculate distances between agencies
+ forall(a in EXCESS,b in NEED) 
+  DIST(a,b):= 1.3*sqrt((X(a)-X(b))^2 + (Y(a)-Y(b))^2)
+
+! Objective: total transport cost
+ Cost:= sum(a in EXCESS,b in NEED) COST*DIST(a,b)*move(a,b)
+
+! Agencies with excess availability
+ forall(a in EXCESS) sum(b in NEED) move(a,b) = STOCK(a) - REQ(a)
+
+! Agencies in need of cars
+ forall(b in NEED) sum(a in EXCESS) move(a,b) = REQ(b) - STOCK(b)
+
+ forall(a in EXCESS,b in NEED) move(a,b) is_integer
+
+! Solve the problem
+ minimize(Cost)
+ 
+! Solution printing
+ writeln("Total cost: ", getobjval)
+ write(" ->")
+ forall(b in NEED) write(strfmt(b,3))
+ writeln
+ forall(a in EXCESS) do
+  write(a,"  ")
+  forall(b in NEED) write(strfmt(getsol(move(a,b)),3))
+  writeln
+ end-do 
+
+end-model
